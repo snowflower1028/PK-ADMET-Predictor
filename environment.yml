@@ -1,0 +1,24 @@
+# conda/mamba 사용 시:  conda env create -f environment.yml
+#
+# pandas와 rdkit의 상한은 PyTDC 1.1.15가 요구하는 값이다.
+# (pandas>=2.1.4,<3.0.0 / rdkit>=2023.9.5,<2024.3.1)
+# 최신 버전을 넣으면 PyTDC 설치가 거부되거나 내부에서 깨진다.
+name: pk-admet
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas>=2.1.4,<3
+  - rdkit>=2023.09.5,<2024.03.1
+  - scipy
+  - scikit-learn
+  - lightgbm
+  - matplotlib
+  - seaborn
+  - tqdm
+  - jupyter
+  - pip
+  - pip:
+      - PyTDC
+      # PyTorch는 CUDA 빌드로 따로 설치한다 (docs/00_setup_wsl2_cuda.md 4번)

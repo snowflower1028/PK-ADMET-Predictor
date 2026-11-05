@@ -1,0 +1,17 @@
+# pip만 쓸 때. PyTorch는 아래 주석을 보고 따로 받는다.
+#
+# pandas와 rdkit의 상한은 PyTDC 1.1.15의 요구사항이다.
+numpy
+pandas>=2.1.4,<3.0.0
+rdkit>=2023.9.5,<2024.3.1
+scipy
+scikit-learn
+lightgbm
+matplotlib
+seaborn
+tqdm
+jupyter
+PyTDC
+
+# PyTorch (RTX 3070, CUDA 12.x) — 이 파일로는 설치되지 않는다. 따로 실행:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu124

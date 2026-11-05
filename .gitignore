@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# TDC가 내려받는 원본 데이터는 저장소에 넣지 않는다 (코드로 재현 가능)
+data/*
+!data/.gitkeep
+
+# 결과는 요약 csv와 그림만 올린다
+results/*
+!results/.gitkeep
+!results/*.csv
+!results/*.png
