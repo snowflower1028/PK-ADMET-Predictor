@@ -23,24 +23,44 @@ TDC ADMET Benchmark Group의 22개 과제 중, **내가 벤치에서 직접 측�
 분자가 들어가므로 무작위 분할보다 어렵고, 처음 보는 골격을 예측해야 하는
 실제 신약개발 상황에 가깝다.
 
-## 지금 상태 (2026-11-05)
+## 지금 상태 (2026-11-06)
 
-1주차 코드까지 준비된 상태다.
+1주차 완료. 세 과제 베이스라인 숫자가 나왔다.
 
 | 항목 | 상태 |
 | --- | --- |
 | 저장소 구조, 환경 파일, 문서 | 준비 완료 |
 | RDKit 특징 추출 (`src/features.py`) | 작성·동작 확인 |
-| 베이스라인 (RandomForest, LightGBM) | 작성·동작 확인 |
-| TDC 데이터 로드 (`src/data.py`) | 작성, **아직 실행 미확인** |
-| RDKit 입문 노트북 | 작성, **아직 실행 미확인** |
-| 2주차 PyTorch 모델 | 미작성 |
+| 베이스라인 (RandomForest, LightGBM) | **실행 완료** → `results/baseline.csv` |
+| TDC 데이터 로드 (`src/data.py`) | **실행 확인** |
+| RDKit 입문 노트북 | **전체 실행 확인** (에러 셀 0개) |
+| 2주차 PyTorch 모델 | 작성 중 |
 | 3주차 PBPK 연계 (`pbpk/`) | 미작성 |
 
-`src/features.py`와 베이스라인은 `scripts/smoke_test.py`로 실제 분자에
-돌려서 확인했다. TDC 데이터 로드는 데이터 서버 접근이 막힌 환경에서
-작성했기 때문에 실행으로 확인하지 못했다. **WSL에서 처음 돌릴 때 여기서
-막힐 수 있다.**
+환경은 **WSL2 Ubuntu-24.04(권장)와 Windows 네이티브 두 가지**를 다
+만들어 돌렸다. 둘 다 `cuda available : True`. 막혔던 지점과 해결은
+[`docs/02_week1_issues.md`](docs/02_week1_issues.md)에 남겼다.
+
+### 1주차 베이스라인 결과
+
+세 과제 모두 RandomForest에 descriptor+fingerprint를 넣은 것이 가장 좋았다.
+2주차 모델은 이 숫자를 기준으로 판단한다.
+
+| 과제 | 지표 | 최고 | 2위 |
+| --- | --- | --- | --- |
+| `Caco2_Wang` | MAE ↓ | **0.279 ± 0.003** | lgbm desc+fp 0.281 ± 0.002 |
+| `PPBR_AZ` | MAE ↓ | **8.657 ± 0.020** | lgbm desc+fp 8.747 ± 0.051 |
+| `Clearance_Microsome_AZ` | Spearman ↑ | **0.506 ± 0.002** | lgbm fp 0.492 ± 0.014 |
+
+세 환경(클라우드 Linux, WSL2, Windows)에서 독립적으로 돌려 위 세 숫자가
+소수점 3자리까지 같았다. 전체 18조합 중 Windows만 LightGBM 2개가
+표준편차 안쪽에서 달랐다(`docs/02_week1_issues.md` 7번).
+
+특징 하나. fingerprint만 쓴 쪽이 descriptor만 쓴 쪽보다 좋은 과제는
+Clearance 뿐이다(0.445 vs 0.425). 투과도·단백결합은 분자 전체의
+물리화학적 성질이 지배하는데, 대사 청소율은 특정 대사 취약부위가
+결정하기 때문으로 읽는다. 2주차 GNN이 구조를 직접 보는 모델이므로
+Clearance에서 가장 많이 오를 것이라는 가설을 여기서 세웠다.
 
 ## 빠른 시작
 

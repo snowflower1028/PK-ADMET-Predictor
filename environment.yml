@@ -19,6 +19,10 @@ dependencies:
   - tqdm
   - jupyter
   - pip
+  # setuptools 81부터 pkg_resources가 제거됐는데 PyTDC 1.1.15는 아직 쓴다.
+  # 상한을 안 걸면 import tdc가 ModuleNotFoundError로 죽는다.
+  # Windows와 WSL2 양쪽에서 똑같이 발생한다. docs/02_week1_issues.md 4번.
+  - setuptools<81
   - pip:
       - PyTDC
       # PyTorch는 CUDA 빌드로 따로 설치한다 (docs/00_setup_wsl2_cuda.md 4번)
