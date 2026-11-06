@@ -71,9 +71,10 @@ def run_task(group, task_name: str, model_kind: str, feat_kind: str, seeds=None)
         predictions_list.append({name: y_pred})
 
     if len(predictions_list) >= 5:
-        # {과제명: {지표명: [평균, 표준편차]}}
+        # evaluate_many는 {과제명: [평균, 표준편차]}를 준다. evaluate()와 달리
+        # 지표 이름이 키에 들어가지 않는다(지표는 TDC가 과제별로 고정해 둔다).
         scores = group.evaluate_many(predictions_list)
-        mean, std = scores[key][metric]
+        mean, std = scores[key]
         return float(mean), float(std)
 
     # {과제명: {지표명: 값}}

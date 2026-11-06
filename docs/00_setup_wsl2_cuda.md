@@ -92,7 +92,10 @@ GitHub에 올릴 때는 공개 저장소로 만든다. 지원서에 링크를 �
 
 | 증상 | 확인할 것 |
 | --- | --- |
+| WSL2가 안 올라감 (`HCS_E_HYPERV_NOT_INSTALLED`) | BIOS에서 가상화가 꺼져 있다. `systeminfo`의 `Virtualization Enabled In Firmware`를 보고, AMD면 SVM Mode / Intel이면 VT-x를 켠다 |
 | `nvidia-smi` 없음 | Windows 드라이버 설치, `wsl --update`, `wsl --shutdown` |
+| Clearance 과제만 traceback 없이 죽음 | Windows 네이티브 환경의 MKL 문제. `conda install "libblas=*=*openblas"`. WSL에서는 안 난다. `docs/02_week1_issues.md` 5번 |
+| Windows에서 `conda env create`가 `tiledbsoma`에서 실패 | Windows 휠이 없다. WSL을 쓰는 게 정답이고, 꼭 Windows여야 하면 `docs/02_week1_issues.md` 3번의 우회를 따른다 |
 | `cuda available : False` | PyTorch를 cu124 index로 받았는지 (`torch.__version__`에 `+cu`가 있어야 한다) |
 | RDKit import 실패 | conda-forge 채널로 설치했는지 |
 | TDC 다운로드 실패 | 네트워크·방화벽. `data/` 지우고 재시도 |

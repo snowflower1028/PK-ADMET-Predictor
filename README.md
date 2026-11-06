@@ -23,24 +23,74 @@ TDC ADMET Benchmark Group의 22개 과제 중, **내가 벤치에서 직접 측�
 분자가 들어가므로 무작위 분할보다 어렵고, 처음 보는 골격을 예측해야 하는
 실제 신약개발 상황에 가깝다.
 
-## 지금 상태 (2026-11-05)
+## 지금 상태 (2026-11-06)
 
-1주차 코드까지 준비된 상태다.
+1주차 완료. 세 과제 베이스라인 숫자가 나왔다.
 
 | 항목 | 상태 |
 | --- | --- |
 | 저장소 구조, 환경 파일, 문서 | 준비 완료 |
 | RDKit 특징 추출 (`src/features.py`) | 작성·동작 확인 |
-| 베이스라인 (RandomForest, LightGBM) | 작성·동작 확인 |
-| TDC 데이터 로드 (`src/data.py`) | 작성, **아직 실행 미확인** |
-| RDKit 입문 노트북 | 작성, **아직 실행 미확인** |
-| 2주차 PyTorch 모델 | 미작성 |
+| 베이스라인 (RandomForest, LightGBM) | **실행 완료** → `results/baseline.csv` |
+| TDC 데이터 로드 (`src/data.py`) | **실행 확인** |
+| RDKit 입문 노트북 | **전체 실행 확인** (에러 셀 0개) |
+| 2주차 PyTorch 모델 (MLP, GIN) | **실행 완료** → `results/models.csv` |
+| 2주차 DDP (`scripts/train_ddp.py`) | 작성 완료, **GPU 1장이라 미검증** |
 | 3주차 PBPK 연계 (`pbpk/`) | 미작성 |
 
-`src/features.py`와 베이스라인은 `scripts/smoke_test.py`로 실제 분자에
-돌려서 확인했다. TDC 데이터 로드는 데이터 서버 접근이 막힌 환경에서
-작성했기 때문에 실행으로 확인하지 못했다. **WSL에서 처음 돌릴 때 여기서
-막힐 수 있다.**
+환경은 **WSL2 Ubuntu-24.04(권장)와 Windows 네이티브 두 가지**를 다
+만들어 돌렸다. 둘 다 `cuda available : True`. 막혔던 지점과 해결은
+[`docs/02_week1_issues.md`](docs/02_week1_issues.md)에 남겼다.
+
+### 1주차 베이스라인 결과
+
+세 과제 모두 RandomForest에 descriptor+fingerprint를 넣은 것이 가장 좋았다.
+2주차 모델은 이 숫자를 기준으로 판단한다.
+
+| 과제 | 지표 | 최고 | 2위 |
+| --- | --- | --- | --- |
+| `Caco2_Wang` | MAE ↓ | **0.279 ± 0.003** | lgbm desc+fp 0.281 ± 0.002 |
+| `PPBR_AZ` | MAE ↓ | **8.657 ± 0.020** | lgbm desc+fp 8.747 ± 0.051 |
+| `Clearance_Microsome_AZ` | Spearman ↑ | **0.506 ± 0.002** | lgbm fp 0.492 ± 0.014 |
+
+세 환경(클라우드 Linux, WSL2, Windows)에서 독립적으로 돌려 위 세 숫자가
+소수점 3자리까지 같았다. 전체 18조합 중 Windows만 LightGBM 2개가
+표준편차 안쪽에서 달랐다(`docs/02_week1_issues.md` 7번).
+
+특징 하나. fingerprint만 쓴 쪽이 descriptor만 쓴 쪽보다 좋은 과제는
+Clearance 뿐이다(0.445 vs 0.425). 투과도·단백결합은 분자 전체의
+물리화학적 성질이 지배하는데, 대사 청소율은 특정 대사 취약부위가
+결정하기 때문으로 읽는다. 2주차 GNN이 구조를 직접 보는 모델이므로
+Clearance에서 가장 많이 오를 것이라는 가설을 여기서 세웠다.
+
+### 2주차 모델 결과
+
+위 가설대로 됐다. GIN은 Clearance에서만 분명히 이긴다.
+
+| 과제 | 지표 | 1주차 rf desc+fp | MLP | GIN |
+| --- | --- | --- | --- | --- |
+| `Caco2_Wang` | MAE ↓ | **0.279 ± 0.003** | 0.285 ± 0.008 | 0.422 ± 0.068 |
+| `PPBR_AZ` | MAE ↓ | 8.657 ± 0.020 | 8.370 ± 0.199 | **8.157 ± 0.422** |
+| `Clearance_Microsome_AZ` | Spearman ↑ | 0.506 ± 0.002 | 0.440 ± 0.061 | **0.567 ± 0.026** |
+
+- **Clearance**: GIN이 +0.061, 표준편차 0.026이므로 2 SD 이상. 분명한 개선이다.
+- **PPBR**: GIN이 더 좋지만 표준편차 0.422로 1.2 SD 수준. 개선이라 부르기엔 약하다.
+- **Caco2**: 아무것도 RandomForest를 못 이겼다. MLP는 자기 표준편차 안쪽이라
+  동등, GIN은 확실히 나쁘다.
+
+GIN은 descriptor를 받지 않고 그래프만 본다. 그래서 구조가 지배하는
+Clearance에서 가장 세고, 분자 전체의 물성이 지배하는 Caco2에서 가장 약하다.
+**입력이 과제의 물리에 맞을 때만 이긴다**는 것이 세 과제에서 일관됐다.
+
+같이 적어 둘 것: 트리 모델의 seed 간 표준편차(0.002~0.02)가
+GIN(0.026~0.42)보다 한 자릿수 작다. GNN은 seed에 민감하고 PPBR의 한
+seed는 epoch 5에서 멈췄다. "GNN이 이겼다"만 쓰면 이 안정성 차이를
+빠뜨리는 것이 된다.
+
+하이퍼파라미터는 test를 보고 고르지 않았다. 데이터 크기만 보고 미리
+정했고(batch 64, AdamW lr 1e-3, Huber loss, patience 40), epoch 선택은
+전부 valid로 했다. `results/models.csv`에 seed별 valid 점수와 멈춘
+epoch을 남겨 그 근거를 볼 수 있게 했다.
 
 ## 빠른 시작
 
@@ -63,8 +113,12 @@ src/config.py      대상 과제, 지표, seed 정의
 src/data.py        TDC 로드와 train/valid/test 분할
 src/features.py    RDKit descriptor(27개) + Morgan fingerprint(2048비트)
 src/baseline.py    RandomForest / LightGBM, TDC 공식 평가 호출
+src/graph.py       SMILES -> 원자/결합 그래프 (GNN 입력)
+src/torch_data.py  Dataset 2종 + collate_fn 직접 작성, 타깃 정규화
+src/models.py      MLP, GIN (torch_geometric 없이 직접 구현)
+src/train.py       학습 루프, valid 기반 early stopping
 src/utils.py       난수 고정, 결과 저장
-scripts/           check_env, smoke_test, run_baseline
+scripts/           check_env, smoke_test, run_baseline, run_models, train_ddp
 notebooks/         01_rdkit_intro — RDKit 기초 + 데이터 탐색
 docs/              환경 구성, 주차별 체크리스트
 pbpk/              3주차 PBPK 연계 (예정)
