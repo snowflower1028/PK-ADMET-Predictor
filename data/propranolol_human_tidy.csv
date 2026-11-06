@@ -1,0 +1,840 @@
+﻿sheet,author,year,journal,strain,n_subjects,route,dosing_raw,amount_raw,dose_mg,group,time_h,conc_ug_L,conc_unit_raw
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,0.0,0.0,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,0.0833,6.92,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,0.1667,5.56,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,0.25,3.28,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,0.5,2.51999999999999,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,0.75,2.16,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,1.0,1.92,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,1.5,1.8,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,2.0,1.83999999999999,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,3.0,1.64,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,5.0,1.35999999999999,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,8.0,1.0,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,14.0,0.719999999999998,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,24.0,0.32,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,48.0,0.119999999999999,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,0.0,0.0,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,0.0833,1.62447257383966,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,0.25,8.86075949367089,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,0.5,21.5611814345991,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,1.0,40.6118143459915,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,1.5,45.042194092827,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,2.0,40.759493670886,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,3.0,56.1181434599156,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,5.0,39.1350210970464,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,8.0,31.1603375527426,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,11.0,25.253164556962,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,24.0,11.2236286919831,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,0,48.0,4.43037974683544,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,0.0,0.0400000000000009,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,0.128,6.92,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,0.128,5.56,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,0.256,3.28,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,0.512,2.51999999999999,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,0.895999999999999,2.16,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,1.40799999999999,1.92,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,2.04799999999999,1.8,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,2.30399999999999,1.83999999999999,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,2.944,1.64,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,4.99199999999999,1.35999999999999,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,7.936,1.0,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,11.008,0.719999999999998,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,23.936,0.32,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,48.0,0.119999999999999,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,0.0,0.0,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,0.0813559322033903,1.62447257383966,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,0.244067796610169,8.86075949367089,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,0.406779661016949,21.5611814345991,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,0.976271186440678,40.6118143459915,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,1.38305084745762,45.042194092827,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,1.95254237288135,40.759493670886,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,2.92881355932203,56.1181434599156,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,4.88135593220339,39.1350210970464,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,7.9728813559322,31.1603375527426,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,10.9016949152542,25.253164556962,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,24.0,11.2236286919831,Patients
+23,Taegtmeyer AB,2014,PLoS One,Liver Cirrohosis & Control,5,PO,GROUP1,GROUP1,,1,48.0813559322033,4.43037974683544,Patients
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,0.0,0.0355004505679303,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,0.08333333333333333,1.62392351237145,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,0.16666666666666666,7.94171259123323,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,0.2833333333333333,8.97291369541899,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,0.5,8.68928072535258,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,0.75,9.94236518437545,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,1.0,12.4897295809606,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,1.5,12.7575651762261,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,2.0,12.8804140069726,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,2.5,12.3696480358544,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,3.0,10.4094039968276,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,4.0,10.1713019177975,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,5.0,7.91630465972318,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,6.0,5.73350573493258,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,8.0,3.97809679838482,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,10.0,2.64508851432881,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,0.0,0.0,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,0.08333333333333333,0.0,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,0.16666666666666666,0.0,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,0.2833333333333333,0.179642839859461,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,0.5,1.2624661260293,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,0.75,3.32003577118107,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,1.0,5.26448977361018,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,1.5,7.22311397704588,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,2.0,7.97112732226621,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,2.5,6.57766814441867,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,3.0,5.44777209124746,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,4.0,4.1777574737423,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,5.0,3.20257710671666,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,6.0,2.43317167427138,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,8.0,1.42027085443772,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,0,10.0,0.701595244328306,Concentration (ng/mL)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,0.0028516147464066168,0.0355004505679303,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,0.0736118710003795,1.62392351237145,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,0.13314182028212615,0.0149092815499685,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,0.2631787423615067,0.179642839859461,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,0.49955494826151337,1.2624661260293,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,0.7478656776826568,3.32003577118107,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,0.9917895970684183,5.26448977361018,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,1.5003220088418767,7.22311397704588,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,1.9939813683069165,7.97112732226621,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,2.4995582057812835,6.57766814441867,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,2.9882320692527666,5.44777209124746,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,3.9886988708334665,4.1777574737423,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,4.98929356394575,3.20257710671666,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,5.997151477136767,2.43317167427138,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,7.99157354922145,1.42027085443772,Concentration (ug/L)
+25,Wang Y,2013,AAPS J,Healthy,18,PO,GROUP1,GROUP1,,1,9.993297208844366,0.701595244328306,Concentration (ug/L)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,0,0.5,19.6493184058291,Serum concentration (ng/mL)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,0,1.0,63.5131914681181,Serum concentration (ng/mL)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,0,1.5,81.1879695502795,Serum concentration (ng/mL)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,0,2.0,79.154316981274,Serum concentration (ng/mL)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,0,3.0,70.3089898512036,Serum concentration (ng/mL)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,0,4.0,60.763512070537,Serum concentration (ng/mL)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,0,6.0,42.6342283819508,Serum concentration (ng/mL)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,0,8.0,29.074287096554,Serum concentration (ng/mL)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,0,12.0,13.8034179619666,Serum concentration (ng/mL)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,0,24.0,4.35557027147139,Serum concentration (ng/mL)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,1,0.519576866981966,19.6493184058291,Concentration (ug/L)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,1,1.00816025060431,63.5131914681181,Concentration (ug/L)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,1,1.50918784426471,81.1879695502795,Concentration (ug/L)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,1,1.9769246918509,79.154316981274,Concentration (ug/L)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,1,2.99028846758185,70.3089898512036,Concentration (ug/L)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,1,3.98722127015787,60.763512070537,Concentration (ug/L)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,1,6.00180282138954,42.6342283819508,Concentration (ug/L)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,1,7.98226680124381,29.074287096554,Concentration (ug/L)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,1,11.9776841436361,13.8034179619666,Concentration (ug/L)
+36,Wójcicki J,2003,Biopharm Drug Dispos,"Healthy, obese",18,PO,PO,80mg,80.0,1,23.9656189572556,4.35557027147139,Concentration (ug/L)
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,0,0.5,19.5727973616198,nan
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,0,1.0,63.282922421504,nan
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,0,1.5,81.2236383572763,nan
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,0,2.0,78.8229230996129,nan
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,0,3.0,69.858585120519,nan
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,0,4.0,60.1675354922455,nan
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,0,6.0,42.7741002877388,nan
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,0,8.0,28.8168443008834,nan
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,0,12.0,13.3961403790873,nan
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,0,24.0,3.44450919149638,nan
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,1,0.484305440084498,19.5727973616198,Concentration (ug/L)
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,1,0.965632850184789,63.282922421504,Concentration (ug/L)
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,1,1.48677898941875,81.2236383572763,Concentration (ug/L)
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,1,1.96974974853946,78.8229230996129,Concentration (ug/L)
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,1,2.98119272018289,69.858585120519,Concentration (ug/L)
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,1,3.97465119962013,60.1675354922455,Concentration (ug/L)
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,1,5.9541483516673,42.7741002877388,Concentration (ug/L)
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,1,7.97921594844324,28.8168443008834,Concentration (ug/L)
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,1,11.9867779592403,13.3961403790873,Concentration (ug/L)
+46,Wójcicki J,2000,Eur J Clin Pharmacol,"Healthy, Partial gastrectomy",18,PO,PO,80mg,80.0,1,23.9735079161992,3.44450919149638,Concentration (ug/L)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,0,0.5,18.7120384601068,Concentration (ng/mL)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,0,1.0,45.1959915867224,Concentration (ng/mL)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,0,1.5,58.8908218326186,Concentration (ng/mL)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,0,2.0,62.346605908018,Concentration (ng/mL)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,0,3.0,63.3908944574722,Concentration (ng/mL)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,0,4.0,54.2887786429991,Concentration (ng/mL)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,0,6.0,35.0857373435869,Concentration (ng/mL)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,0,8.0,23.8150988473758,Concentration (ng/mL)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,0,12.0,12.3464050080753,Concentration (ng/mL)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,0,24.0,5.19492581975197,Concentration (ng/mL)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,1,0.420876348764727,18.7120384601068,Concentration (ug/L)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,1,0.951044455789656,45.1959915867224,Concentration (ug/L)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,1,1.45691532469953,58.8908218326186,Concentration (ug/L)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,1,2.00215006432618,62.346605908018,Concentration (ug/L)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,1,2.9855815982414,63.3908944574722,Concentration (ug/L)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,1,3.95312388370952,54.2887786429991,Concentration (ug/L)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,1,6.01062613992633,35.0857373435869,Concentration (ug/L)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,1,7.96911323093619,23.8150988473758,Concentration (ug/L)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,1,11.9184974600062,12.3464050080753,Concentration (ug/L)
+49,Wójcicki J,1999,J Clin Pharmacol,"Healthy, hyperlipidemia",11,PO,PO,80mg,80.0,1,23.9846635301698,5.19492581975197,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,0.5,28.5863298103542,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,1.0,65.3370749631723,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,2.0,107.645856060173,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,3.0,105.076101773596,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,5.0,51.6588150987925,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,8.0,36.7167673289879,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,12.0,22.9684401533401,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,24.0,6.60580996375866,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,0.5,44.1553670380013,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,1.0,156.369089283032,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,2.0,203.839970276959,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,3.0,181.417821785521,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,5.0,121.072555553069,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,8.0,47.0155132497363,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,12.0,26.1351474052666,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,0,24.0,7.91704714044429,Plasmaconcentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,0.524936203880296,28.5863298103542,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,1.00729686013871,65.3370749631723,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,2.00091321111067,107.645856060173,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,2.99958623269592,105.076101773596,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,4.97963861237341,51.6588150987925,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,7.94330787037865,36.7167673289879,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,12.0319312891616,22.9684401533401,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,24.0051995723142,6.60580996375866,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,0.49459932545509,44.1553670380013,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,0.994283905319982,156.369089283032,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,2.0058849598521,203.839970276959,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,3.02224734214238,181.417821785521,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,4.96684961004499,121.072555553069,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,7.96712378939843,47.0155132497363,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,12.027160612048,26.1351474052666,Concentration (ug/L)
+63,Xie HG,1995,Zhongguo Yao Li Xue Bao,Healthy Chinese,12,PO,PO,80mg,80.0,1,24.0364019833056,7.91704714044429,Concentration (ug/L)
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.0,0.0,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.25,4.460600928412582,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.5,15.732185041008591,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.75,29.24721200562639,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,1.0,37.38072032166879,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,1.25,37.63450808854039,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,1.5,38.88884430724519,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,1.75,32.216478786088295,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,2.0,31.662275524819393,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,2.5,27.738714860082393,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,3.0,27.436043946907393,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,4.0,21.130079759451093,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,6.0,14.807848509088691,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,8.0,10.565753652718591,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,10.0,6.639907416907162,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,12.0,4.844922642229462,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.0,0.0,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.25,2.650435585333282,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.5,27.407878194107543,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.75,57.61666137792614,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,1.0,73.09379596561445,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,1.25,79.97866623994165,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,1.5,69.11662525928624,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,1.75,71.76869028282964,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,2.0,64.53353834896444,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,2.5,60.26899608577014,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,3.0,55.214489280955945,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,4.0,47.930787494966744,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,6.0,30.10542772118324,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,8.0,24.36849032512764,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,10.0,16.819902703424443,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,12.0,11.500734552479042,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.0,0.0,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.083,23.5235745964475,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.18,52.6502256475832,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.22,41.7013697538782,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.25,26.5487025447877,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.33,23.5029353503612,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.5,18.5724472413188,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.6,14.1886617000602,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,0.83,13.1370573726356,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,1.0,12.604450388184,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,1.5,11.2821765846486,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,2.0,10.1105183265333,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,2.5,8.83678530514011,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,3.0,8.2371048578873,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,4.0,7.39587902235744,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,6.0,4.06538382376811,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,8.0,2.80885317123173,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,10.0,1.84825920015849,S-PPL
+64,Bleske BE,1995,J Clin Pharmacol,Healthy,12,PO,GROUP1,GROUP1,,0,12.0,1.6062498034844,S-PPL
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,0,0.25,0.0139431727640584,Concentration (ng/mL)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,0,0.5,0.0192214927718907,Concentration (ng/mL)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,0,0.75,0.238488158081494,Concentration (ng/mL)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,0,1.0,2.8888052998876,Concentration (ng/mL)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,0,1.25,7.99954121934635,Concentration (ng/mL)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,0,1.5,10.7246415122748,Concentration (ng/mL)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,0,2.0,17.1848545677944,Concentration (ng/mL)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,0,3.0,21.1718129690114,Concentration (ng/mL)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,0,4.0,23.7279024089678,Concentration (ng/mL)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,0,5.0,17.7181986510985,Concentration (ng/mL)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,0,7.0,10.3412027320408,Concentration (ng/mL)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,0,24.0,1.06261904454158,Concentration (ng/mL)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,1,-0.00449029427325609,0.00894511753540427,Concentration (ug/L)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,1,0.244584664262308,0.0139431727640584,Concentration (ug/L)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,1,0.507626442902674,0.0192214927718907,Concentration (ug/L)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,1,0.747143666940648,0.238488158081494,Concentration (ug/L)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,1,1.01154198063501,2.8888052998876,Concentration (ug/L)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,1,1.26437231691177,7.99954121934635,Concentration (ug/L)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,1,1.50554222731946,10.7246415122748,Concentration (ug/L)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,1,2.0087222159777,17.1848545677944,Concentration (ug/L)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,1,3.00880229162889,21.1718129690114,Concentration (ug/L)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,1,4.01492197595719,23.7279024089678,Concentration (ug/L)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,1,5.02509126738774,17.7181986510985,Concentration (ug/L)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,1,7.02211026359476,10.3412027320408,Concentration (ug/L)
+66,Vanakoski J,1995,Eur J Clin Pharmacol,Healthy & Sauna,8,PO,PO,40mg,40.0,1,24.0,1.06261904454158,Concentration (ug/L)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,0,0.5,2.01084254707464,Concentration (ng/ml)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,0,1.0,15.3727916275643,Concentration (ng/ml)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,0,1.5,20.4230763939375,Concentration (ng/ml)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,0,2.0,23.9007625223286,Concentration (ng/ml)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,0,2.5,21.0047251118781,Concentration (ng/ml)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,0,3.0,18.7208025855486,Concentration (ng/ml)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,0,4.0,16.4867574560405,Concentration (ng/ml)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,0,6.0,11.2025619506967,Concentration (ng/ml)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,0,8.0,7.15516023940937,Concentration (ng/ml)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,1,0.502251025559615,2.01084254707464,Concentration (ug/L)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,1,0.981544662586274,15.3727916275643,Concentration (ug/L)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,1,1.46528487600139,20.4230763939375,Concentration (ug/L)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,1,1.99166302450178,23.9007625223286,Concentration (ug/L)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,1,2.49699675989831,21.0047251118781,Concentration (ug/L)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,1,2.98451046776583,18.7208025855486,Concentration (ug/L)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,1,3.97470305214692,16.4867574560405,Concentration (ug/L)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,1,5.96629602616886,11.2025619506967,Concentration (ug/L)
+71,Greenblatt DJ,1993,Clin Pharmacol Ther,Healthy,55 splited into 4 groups,PO,PO,40mg,40.0,1,7.99208031358106,7.15516023940937,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,0.333,33.5473743402629,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,0.5,12.924311401311,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,1.0,9.93242148365122,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,1.5,9.03960643347799,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,2.0,7.11549791163079,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,2.5,6.71643471657208,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,3.0,5.75361242123998,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,4.0,4.7659784287289,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,6.0,2.72778920883583,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,8.0,1.58005994781979,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,10.0,1.08394109535898,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,12.0,0.598389869380599,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,0.5,1.66497190316264,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,1.0,2.51537783928406,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,1.5,3.17497395812396,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,2.0,4.41654349285868,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,2.5,4.15599351968647,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,3.0,3.82168741077969,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,4.0,3.06094394167182,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,5.0,2.36278208543155,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,6.0,2.24614707328847,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,8.0,1.87368697071508,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,10.0,1.54515898519808,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,12.0,1.42878748243152,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,0.5,0.242682578537107,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,1.0,0.82683326679173,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,1.5,2.37389051875662,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,2.0,5.39276047991706,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,2.5,9.5890742266999,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,3.0,9.12510287558723,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,4.0,7.12302453707296,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,5.0,5.64225750054353,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,6.0,4.50628956446624,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,8.0,3.22234012165901,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,10.0,2.05548411637049,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,12.0,1.02611081659397,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,0.5,0.815900905668329,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,1.0,11.8449035771544,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,1.5,26.836486900651,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,2.0,29.3716529057519,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,2.5,21.0711250821114,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,3.0,19.3764051062595,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,4.0,17.3990045720639,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,5.0,11.3832319982222,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,6.0,8.27512128531693,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,8.0,4.8053150835176,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,10.0,3.22659424182089,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,0,12.0,2.00075314996498,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,0.331041247330724,33.5473743402629,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,0.535428565590101,12.924311401311,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,1.05356942159737,9.93242148365122,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,1.55152084844645,9.03960643347799,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,2.02822024460269,7.11549791163079,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,2.56781747775178,6.71643471657208,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,3.04480295893658,5.75361242123998,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,4.05108661224239,4.7659784287289,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,6.05266007989946,2.72778920883583,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,8.03351281763101,1.58005994781979,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,10.004556925812,1.08394109535898,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,12.0371501844226,0.598389869380599,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,0.540213461923022,1.66497190316264,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,1.02935852630248,2.51537783928406,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,1.52336507666787,3.17497395812396,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,2.0651824559622,4.41654349285868,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,2.61640368154987,4.15599351968647,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,3.10384536081406,3.82168741077969,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,4.06814369358961,3.06094394167182,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,5.0822339211946,2.36278208543155,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,6.0884081741763,2.24614707328847,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,8.05311991976268,1.87368697071508,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,10.0009926051949,1.54515898519808,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,12.0470192314666,1.42878748243152,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,0.746727649171238,0.213494851616408,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,1.10049246101837,3.45022147872291,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,1.64079589186912,4.78215335806983,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,2.12077577232158,5.77718044122263,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,2.59900104106961,4.93122307352415,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,3.10990887716548,3.61859263699082,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,4.12040145515797,2.93299676485371,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,5.12150101182608,2.25401961191472,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,6.09927593023663,2.14305265797976,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,8.08692346383745,1.915825787226,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,10.0394436711155,1.66055956171605,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,12.0335364783773,1.47209499385229,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,0.608768201564237,1.66241881796909,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,1.1426181422665,3.20118362647947,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,1.6760487398959,4.646415494003,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,2.10666165784662,5.35858066805069,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,2.64961920591273,4.78489012230825,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,3.15146802836681,3.94561533412424,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,4.13527308625581,4.02759172369576,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,5.15954475067651,2.88785377326959,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,6.16362242524445,2.53696472513461,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,8.11043574550243,2.15731684306283,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,10.0778886076281,2.02180525724641,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,1,12.0859522254667,1.46677481294776,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,0.339201482192909,48.4068117474459,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,0.550659187586633,19.4947835042247,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,1.05784707392914,12.6488596419552,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,1.55909529015492,10.9687109220816,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,2.05671976268565,9.06263537661611,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,2.575705250682,8.94109111916244,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,3.05611012911289,7.56746570582826,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,4.0624618979017,6.39603727286782,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,5.05788794321893,4.60104374328846,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,6.06041162186371,3.48790316664379,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,8.04219073016392,2.65713934297199,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,10.0190110313024,1.29950350093087,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,12.0276412629972,0.77437163405391,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,0.580833601861704,0.242682578537107,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,1.08493612823878,0.82683326679173,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,1.59733177776833,2.37389051875662,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,2.05717944706295,5.39276047991706,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,2.63493783784063,9.5890742266999,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,3.12941685998982,9.12510287558723,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,4.08007567837519,7.12302453707296,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,5.13790684638553,5.64225750054353,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,6.10552077062634,4.50628956446624,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,8.07535510502654,3.22234012165901,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,10.0172721592893,2.05548411637049,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,12.0269308916765,1.02611081659397,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,0.520838938342944,0.663457843436011,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,1.0921054170712,2.57098501268049,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,1.6376843804466,4.67613837204787,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,2.1125173998994,8.99331898044705,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,2.61556457555942,9.34000399939199,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,3.11689223174911,6.79627304245341,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,4.13642690872509,6.31923364298531,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,5.10865725414965,4.88324471609539,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,6.10910175578144,4.39015970332151,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,8.08100457368784,3.66933409938544,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,10.0442045175402,2.464864762287,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,12.0735533226496,2.18533169609124,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,0.589190121849739,3.08501734322752,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,1.1234725100959,7.9510918232436,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,1.68751515204462,10.5659900999355,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,2.16944517853749,12.8506606493867,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,2.67139883675978,11.372577361749,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,3.16303927628374,9.62936326012201,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,4.15648922484869,6.54741716784157,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,5.17064423763647,5.12802349649025,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,6.16439558903505,4.27226446000436,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,8.11078956622016,2.73838778765876,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,10.077390637729,1.44530209950567,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,2,12.0747610072096,0.776487196404886,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,0.377836584144759,159.560813247232,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,0.609088648895337,134.335701297326,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,1.0795895360995,16.9076473549689,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,1.59121855193294,14.6625701770531,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,2.06876258007826,14.8167912846343,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,2.61183370285982,14.0425198029315,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,3.04754120135277,12.9316109171792,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,4.07841454401792,11.9443350144385,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,5.08087010717971,8.87403173800094,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,6.0597713363236,8.0309651855399,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,10.0411349401775,5.41063722384417,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,12.0575848293196,4.2065210432888,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,0.553028222936225,0.815900905668329,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,1.07186855337636,11.8449035771544,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,1.58520085749484,26.836486900651,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,2.09447985104705,29.3716529057519,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,2.57270833052716,21.0711250821114,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,3.06349461268192,19.3764051062595,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,4.0824670487195,17.3990045720639,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,5.12497603967105,11.3832319982222,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,6.11504480711028,8.27512128531693,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,8.11955193925836,4.8053150835176,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,10.045268184724,3.22659424182089,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,12.0504425796544,2.00075314996498,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,0.545087672098164,0.199500974842522,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,1.08806981015101,0.675775845653206,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,1.59634572869024,9.31337599843618,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,2.0746528793178,16.7943605003404,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,2.59257916223139,22.952502761231,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,3.09359098831428,18.0135842748134,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,4.09589537835277,10.3739361748019,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,5.07721461240627,9.09375459524413,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,6.08734457064651,8.03947285445345,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,8.05970358759606,6.0240672346776,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,10.042134075729,4.04686805284199,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,12.0240381803506,3.08384231912583,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,0.60997381289873,3.74699543912943,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,1.12419325600239,12.9248387355207,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,1.61669859061414,19.6047740203479,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,2.17066389434301,29.2216346967079,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,2.6416254785862,21.8629264863045,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,3.13320039575502,17.7119058768067,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,4.09616934471092,14.3689522806106,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,5.14117228229651,12.0791140168978,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,6.14510580768314,9.62885479714437,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,8.14243686375062,5.03780439976407,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,10.0992751043443,3.68668672525949,Concentration (ug/L)
+76,Gomeni R,1977,J Pharmacokinet Biopharm,Healthy,3,IV,IV infusion 20min,0.1,,3,12.1070897372335,2.26136160156039,Concentration (ug/L)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,0,0.25,23.1221403544268,Conc. (ng/mL)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,0,0.5,27.7889090076081,Conc. (ng/mL)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,0,1.0,33.0438338645505,Conc. (ng/mL)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,0,1.5,36.3814965884338,Conc. (ng/mL)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,0,2.0,44.85830449522,Conc. (ng/mL)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,0,3.0,29.1200664839498,Conc. (ng/mL)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,0,4.0,25.3101466704279,Conc. (ng/mL)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,0,6.0,22.1073788401151,Conc. (ng/mL)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,0,8.0,16.945072302606,Conc. (ng/mL)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,0,12.0,13.4284781082152,Conc. (ng/mL)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,1,0.200252030676133,23.1221403544268,Concentration (ug/L)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,1,1.48589407569569,27.7889090076081,Concentration (ug/L)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,1,2.80225523959553,33.0438338645505,Concentration (ug/L)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,1,4.10939602981334,36.3814965884338,Concentration (ug/L)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,1,5.43700824225028,44.85830449522,Concentration (ug/L)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,1,6.74579679047828,29.1200664839498,Concentration (ug/L)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,1,8.07373874075891,25.3101466704279,Concentration (ug/L)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,1,9.41549490535296,22.1073788401151,Concentration (ug/L)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,1,10.6772365089089,16.945072302606,Concentration (ug/L)
+83,Bano G,1991,Eur J Clin Pharmacol,Healthy,6,PO,PO,40mg,40.0,1,11.9660659997249,13.4284781082152,Concentration (ug/L)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,0,1.0,1.57201985664787,Plasma conc (ng/mL)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,0,2.0,4.26124127615421,Plasma conc (ng/mL)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,0,3.0,3.6164044689934,Plasma conc (ng/mL)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,0,4.0,2.70354918173116,Plasma conc (ng/mL)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,0,6.0,1.69946823442323,Plasma conc (ng/mL)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,0,8.0,1.02150004747907,Plasma conc (ng/mL)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,0,1.0,5.26284289706304,Plasma conc (ng/mL)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,0,2.0,7.0891722367261,Plasma conc (ng/mL)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,0,3.0,6.68982981597398,Plasma conc (ng/mL)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,0,4.0,5.2092660518413,Plasma conc (ng/mL)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,0,6.0,2.82949934079438,Plasma conc (ng/mL)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,0,8.0,1.8400762436071,Plasma conc (ng/mL)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,1,0.981003819377524,1.57201985664787,Concentration (ug/L)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,1,1.99593673757512,4.26124127615421,Concentration (ug/L)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,1,3.01190567393701,3.6164044689934,Concentration (ug/L)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,1,3.97564835431511,2.70354918173116,Concentration (ug/L)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,1,5.97095042034028,1.69946823442323,Concentration (ug/L)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,1,8.00294507495951,1.02150004747907,Concentration (ug/L)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,1,0.994786411596468,5.26284289706304,Concentration (ug/L)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,1,1.9328684146533,7.0891722367261,Concentration (ug/L)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,1,2.93163667767267,6.68982981597398,Concentration (ug/L)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,1,3.94134127686375,5.2092660518413,Concentration (ug/L)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,1,5.9583726574587,2.82949934079438,Concentration (ug/L)
+84,Yasuhara M,1990,J Pharmacobiodyn,Healthy,GROUP1,PO,PO,GROUP1,,1,7.99267462337808,1.8400762436071,Concentration (ug/L)
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,0.0,20.3461603411891,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,0.3333333333333333,21.4131020099798,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,0.6666666666666666,23.5371946069085,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,1.0,32.3514009693901,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,1.5,39.9925954089245,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,2.0,44.6796784991196,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,2.5,43.3808704867658,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,3.0,43.5783702956438,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,4.0,39.7262581228876,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,6.0,26.9931144654901,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,8.0,18.8969484286121,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,0.0,30.5173970324189,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,0.3333333333333333,31.2668052726551,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,0.6666666666666666,33.8271250249987,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,1.0,47.7362009456062,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,1.5,57.7288729265178,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,2.0,61.7907552289974,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,2.5,61.4584879644725,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,3.0,60.5935769636569,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,4.0,55.7828561787044,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,6.0,39.2431762075518,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,8.0,28.6473152576445,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,0.0,20.3461603411891,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,0.3333333333333333,21.4131020099798,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,0.6666666666666666,23.5371946069085,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,1.0,32.3514009693901,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,1.5,39.9925954089245,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,2.0,44.6796784991196,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,2.5,43.3808704867658,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,3.0,43.5783702956438,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,4.0,39.7262581228876,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,6.0,26.9931144654901,Control
+86,Hunt BA,1990,Clin Pharmacol Ther,Healthy,12,PO,PO,80mg,80.0,0,8.0,18.8969484286121,Control
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,-0.0135364230666965,20.2402698708906,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,0.532130999968726,27.7770360632312,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,1.03659411841084,41.2225451796088,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,2.04134011891719,52.7826471912818,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,3.06956584015121,49.2270086025276,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,4.0407559318131,41.2413390979462,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,6.0335112166737,27.2677739044563,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,8.05149097645543,18.3514439773827,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,10.0457106109129,12.9778839217536,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,12.0340975065298,9.35500312374771,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,-0.0143701034428245,25.5837662905429,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,0.52978589267844,30.4952533578846,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,1.04230473253876,51.486968582057,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,2.03131624761971,71.7751405871349,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,3.06207611529378,68.0600602658559,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,4.03923392162608,55.0917308198024,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,6.03582684198958,38.9628249371036,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,8.06036421660156,25.9245109283946,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,10.0532751746285,18.9129843347492,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,12.044780408134,14.1802662544267,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,-0.0205861047105626,15.6055343246847,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,0.498106835478529,19.8170909266592,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,0.987334947365098,28.2655350301611,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,2.01059363001382,37.1926478698606,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,2.98514542334628,34.7418811300985,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,4.01649493664463,30.2002839556485,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,5.97651832864842,19.4472999065465,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,7.96230019266988,13.1857917112747,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,9.9880151605481,9.90596531694698,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,11.9735357313644,6.92425222832033,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,-0.0244200274609776,19.2906626081035,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,0.50977699878346,22.7352068789424,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,0.989212629369602,37.41357492927,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,2.00756014032782,52.9714111930686,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,2.98189232294265,50.764087367094,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,4.01550302274732,42.8817818505238,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,5.99877736859406,29.9004457396507,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,7.96527254316149,20.0102409394719,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,9.98064969910959,14.1895629673658,Concentration (ug/L)
+87,Johnson JA,1992,Clin Pharmacol Ther,"Healthy, Black and White",GROUP1,PO,PO,80mg,80.0,0,11.974961096777,9.94948707214375,Concentration (ug/L)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,0,1.0,3.32291737432989,Concentration (ng/mL)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,0,1.5,7.04374732149664,Concentration (ng/mL)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,0,2.0,6.98839598372561,Concentration (ng/mL)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,0,2.5,6.59280691210785,Concentration (ng/mL)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,0,3.0,6.15526147167651,Concentration (ng/mL)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,0,4.0,6.26122267185685,Concentration (ng/mL)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,0,6.0,4.2494386787417,Concentration (ng/mL)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,0,8.0,2.58053774471199,Concentration (ng/mL)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,0,12.0,0.574861738582953,Concentration (ng/mL)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,1,0.930457729244373,3.32291737432989,Concentration (ug/L)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,1,1.44789128891002,7.04374732149664,Concentration (ug/L)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,1,1.91165507617506,6.98839598372561,Concentration (ug/L)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,1,2.40845454806067,6.59280691210785,Concentration (ug/L)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,1,2.94148107701525,6.15526147167651,Concentration (ug/L)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,1,3.91726676960046,6.26122267185685,Concentration (ug/L)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,1,5.90199593265693,4.2494386787417,Concentration (ug/L)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,1,7.91677775342415,2.58053774471199,Concentration (ug/L)
+105,Tateishi T,1989,Eur J Clin Pharmacol,Healthy,6,PO,PO,20mg,20.0,1,11.898992645029,0.574861738582953,Concentration (ug/L)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,0.0,31.8059497435305,Concentration (ng/mL)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,0.5,35.5180406760514,Concentration (ng/mL)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,1.0,74.4364150151953,Concentration (ng/mL)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,1.5,93.6930607555058,Concentration (ng/mL)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,2.0,102.975825481629,Concentration (ng/mL)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,3.0,95.3285135420694,Concentration (ng/mL)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,4.0,96.9831025169901,Concentration (ng/mL)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,6.0,82.0711993269705,Concentration (ng/mL)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,8.0,61.4285493761031,Concentration (ng/mL)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,12.0,27.6670965503969,Concentration (ng/mL)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,1,-0.00212908085256646,31.8059497435305,Concentration (ug/L)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,1,0.511228119992118,35.5180406760514,Concentration (ug/L)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,1,1.0274076792071,74.4364150151953,Concentration (ug/L)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,1,1.4994046353058,93.6930607555058,Concentration (ug/L)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,1,2.00150981255117,102.975825481629,Concentration (ug/L)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,1,2.99982937775237,95.3285135420694,Concentration (ug/L)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,1,3.99994764627818,96.9831025169901,Concentration (ug/L)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,1,5.97021416152748,82.0711993269705,Concentration (ug/L)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,1,7.95604953525728,61.4285493761031,Concentration (ug/L)
+112,McCourty JC,1988,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,1,12.0135956923615,27.6670965503969,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,1.0,7.08315971235831,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,2.0,11.8583417916151,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,4.0,11.2275092115762,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,6.0,6.06801094061298,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,8.0,4.73386209924452,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,12.0,2.07741810830874,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,24.0,0.634703547893767,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,32.0,0.159674725304606,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,0.0,0.61070433900119,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,1.0,7.93890012436995,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,2.0,15.2012125129445,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,4.0,11.9053289605767,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,6.0,8.4910155140489,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,8.0,5.960596294757,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,12.0,2.77553344320136,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,24.0,0.448676449508784,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,0,32.0,0.173276606152194,Concentration (ng/mL)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,0.925587933158858,7.08315971235831,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,1.93333923459946,11.8583417916151,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,3.9675418855921,11.2275092115762,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,6.05935433350813,6.06801094061298,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,8.0899785230137,4.73386209924452,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,12.0900858966854,2.07741810830874,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,24.1817134814286,0.634703547893767,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,32.2416876328161,0.159674725304606,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,0.0163002913542946,0.61070433900119,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,1.04310720661577,7.93890012436995,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,2.03392023003975,15.2012125129445,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,4.08252484346207,11.9053289605767,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,6.17737117049014,8.4910155140489,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,8.17315043021986,5.960596294757,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,12.2291063909522,2.77553344320136,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,24.2298263316943,0.448676449508784,Concentration (ug/L)
+118,Straka RJ,1987,J Pharm Sci,Healthy,9,PO,"PO, IR&SR",160mg,160.0,1,32.2275143074733,0.173276606152194,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,1.0,77.3322404171353,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,2.0,127.865054999411,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,4.0,108.22365459499,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,6.0,62.2137817759909,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,8.0,42.41186209143,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,12.0,18.7838224505051,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,24.0,3.46180198784076,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,32.0,1.09244939821335,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,0.0,6.87602314657217,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,1.0,85.4638872409447,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,2.0,173.400516512368,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,4.0,145.022958808941,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,6.0,84.4789184389144,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,8.0,68.280937040724,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,12.0,30.9842276708994,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,24.0,4.70715948335388,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,0,32.0,1.04351036254,Concentration (ng/mL)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,1.07116706057669,77.3322404171353,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,2.12252691821231,127.865054999411,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,4.09837047271182,108.22365459499,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,6.07636430773453,62.2137817759909,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,8.07593154181066,42.41186209143,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,12.0822630993884,18.7838224505051,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,24.0970773088788,3.46180198784076,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,32.1070973892887,1.09244939821335,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,-0.0149268795140411,6.87602314657217,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,0.947719823636983,85.4638872409447,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,1.94048107798647,173.400516512368,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,3.97800512012706,145.022958808941,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,5.95435989004998,84.4789184389144,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,7.94092672265606,68.280937040724,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,12.0374136141729,30.9842276708994,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,24.0237424976625,4.70715948335388,Concentration (ug/L)
+124,Lalonde RL,1987,Eur J Clin Pharmacol,Healthy,9,PO,PO,80mg,80.0,1,32.0888242781831,1.04351036254,Concentration (ug/L)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,0.0,29.9819431623666,Concentration (ng/mL)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,0.5,65.3197966626573,Concentration (ng/mL)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,1.0,103.832535259038,Concentration (ng/mL)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,1.5,126.719749777587,Concentration (ng/mL)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,2.0,140.332276487712,Concentration (ng/mL)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,3.0,118.347451283269,Concentration (ng/mL)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,4.0,102.160712783589,Concentration (ng/mL)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,6.0,65.7048949567848,Concentration (ng/mL)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,8.0,42.346450925567,Concentration (ng/mL)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,10.0,30.6428022242413,Concentration (ng/mL)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,12.0,19.7457506124266,Concentration (ng/mL)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,0.046171616356661,29.9819431623666,Concentration (ug/L)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,0.5421101696168233,65.3197966626573,Concentration (ug/L)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,1.0257856726149734,103.832535259038,Concentration (ug/L)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,1.5294737723685967,126.719749777587,Concentration (ug/L)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,2.039633561739017,140.332276487712,Concentration (ug/L)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,3.0768716186331497,118.347451283269,Concentration (ug/L)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,4.0412278960949335,102.160712783589,Concentration (ug/L)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,6.025435032049,65.7048949567848,Concentration (ug/L)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,7.999383885936367,42.346450925567,Concentration (ug/L)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,10.007385371137767,30.6428022242413,Concentration (ug/L)
+126,Henry D,1987,Eur J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,11.963179344505683,19.7457506124266,Concentration (ug/L)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,0,0.5,31.4767172815219,Concentration (ng/mL)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,0,1.0,62.9224523235566,Concentration (ng/mL)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,0,1.5,70.9297620598748,Concentration (ng/mL)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,0,2.0,71.1429797931814,Concentration (ng/mL)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,0,2.5,68.9681224613777,Concentration (ng/mL)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,0,3.0,59.9624534388142,Concentration (ng/mL)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,0,4.0,51.6036309111781,Concentration (ng/mL)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,0,5.0,43.4645818199877,Concentration (ng/mL)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,0,6.0,31.1240823349048,Concentration (ng/mL)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,0,7.0,25.8770441333041,Concentration (ng/mL)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,0,8.0,21.6233501821205,Concentration (ng/mL)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,0,10.0,15.3829591841513,Concentration (ng/mL)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,0,10.0,15.3829591841513,Concentration (ng/mL)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,1,0.564639785708554,31.4767172815219,Concentration (ug/L)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,1,1.07125073015828,62.9224523235566,Concentration (ug/L)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,1,1.56074949002117,70.9297620598748,Concentration (ug/L)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,1,2.05211590289858,71.1429797931814,Concentration (ug/L)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,1,2.58361912312205,68.9681224613777,Concentration (ug/L)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,1,3.07824680109804,59.9624534388142,Concentration (ug/L)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,1,4.06442104025171,51.6036309111781,Concentration (ug/L)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,1,5.03111489091772,43.4645818199877,Concentration (ug/L)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,1,6.03974502311377,31.1240823349048,Concentration (ug/L)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,1,6.97842462715523,25.8770441333041,Concentration (ug/L)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,1,8.00261122258644,21.6233501821205,Concentration (ug/L)
+128,Abdu-Aguye I,1986,Postgrad Med J,Women during Menstrual cycle,9,PO,PO,80mg,80.0,1,10.0107973049539,15.3829591841513,Concentration (ug/L)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,0.5,74.8591881805151,Concentration (ng/mL)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,1.0,96.0472799779843,Concentration (ng/mL)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,1.5,96.7447708855653,Concentration (ng/mL)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,2.0,94.8929952601845,Concentration (ng/mL)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,3.0,89.9623874327223,Concentration (ng/mL)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,4.0,88.2243689796736,Concentration (ng/mL)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,6.0,82.8381887450758,Concentration (ng/mL)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,8.0,75.2419347880528,Concentration (ng/mL)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,10.0,63.9439616848928,Concentration (ng/mL)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,24.0,40.2517954896074,Concentration (ng/mL)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,0,32.0,31.988002081424,Concentration (ng/mL)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,0.710936982926313,74.8591881805151,Concentration (ug/L)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,1.15932001690717,96.0472799779843,Concentration (ug/L)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,1.65630194769695,96.7447708855653,Concentration (ug/L)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,2.19049979428968,94.8929952601845,Concentration (ug/L)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,3.16953838820317,89.9623874327223,Concentration (ug/L)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,4.12971497136902,88.2243689796736,Concentration (ug/L)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,5.99727302711277,82.8381887450758,Concentration (ug/L)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,7.96089832916691,75.2419347880528,Concentration (ug/L)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,10.0334559548934,63.9439616848928,Concentration (ug/L)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,24.0323330266314,40.2517954896074,Concentration (ug/L)
+129,Williams FM,1986,Br J Clin Pharmacol,Healthy,8,PO,PO,80mg,80.0,1,31.7366361724388,31.988002081424,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,0,0.08333333333333333,45.2156299671735,Control
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,0,0.25,98.4492632146604,Control
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,0,0.5,41.7076319199707,Control
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,0,1.0,33.2864773577575,Control
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,0,2.0,26.3154055092079,Control
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,0,4.0,22.3115499386275,Control
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,0,6.0,16.200699978916,Control
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,0,8.0,10.9659881894364,Control
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,0.135629396123748,45.2156299671735,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,0.336259805913198,98.4492632146604,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,0.55498333062071,41.7076319199707,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,1.04906874443273,33.2864773577575,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,2.04616408843715,26.3154055092079,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,3.0250203963145,22.3115499386275,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,4.0320824899736,16.200699978916,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,5.99551790611574,10.9659881894364,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,0.13107136260412,22.2440979701043,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,0.327759984414778,48.7103693781573,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,0.545589929830433,32.4369570033388,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,1.03809398102597,21.6596369972765,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,2.03171808027892,20.3563668914658,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,3.02071137352105,17.707110575908,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,4.03535993696712,15.0596068967991,Concentration (ug/L)
+131,Bowman SL,1986,Br J Clin Pharmacol,Healthy & Obese,6,IV,IV infusion,10mg,10.0,1,5.99724669142752,11.7069042634024,Concentration (ug/L)
+144,Schoors DF,1990,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,0.313004179342471,10.6198166321988,Concentration (ug/L)
+144,Schoors DF,1990,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,0.640835529116562,34.7438079182341,Concentration (ug/L)
+144,Schoors DF,1990,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,1.00186487289797,30.1927822772342,Concentration (ug/L)
+144,Schoors DF,1990,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,1.50835739854274,39.2406384764131,Concentration (ug/L)
+144,Schoors DF,1990,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,2.0188606236618,38.8131371702118,Concentration (ug/L)
+144,Schoors DF,1990,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,3.01371742426997,34.9036669846293,Concentration (ug/L)
+144,Schoors DF,1990,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,4.01577232563317,28.9558402216362,Concentration (ug/L)
+144,Schoors DF,1990,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,5.98137763832823,15.7643948794465,Concentration (ug/L)
+144,Schoors DF,1990,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,7.98962814387818,16.807017598543,Concentration (ug/L)
+144,Schoors DF,1990,Br J Clin Pharmacol,Healthy,6,PO,PO,80mg,80.0,0,8.99991444228538,13.6470137628947,Concentration (ug/L)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,0,0.0,12.1934333251356,Concentration (ng/mL)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,0,1.0,37.0047439441936,Concentration (ng/mL)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,0,2.0,68.305837261459,Concentration (ng/mL)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,0,3.0,54.1678738359418,Concentration (ng/mL)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,0,4.0,46.7300779387931,Concentration (ng/mL)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,0,6.0,27.608208056295,Concentration (ng/mL)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,0,12.0,7.63706370944996,Concentration (ng/mL)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,0,24.0,3.4604299871389,Concentration (ng/mL)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,1,0.0255746427361596,12.1934333251356,Concentration (ug/L)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,1,0.988047729287173,37.0047439441936,Concentration (ug/L)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,1,2.02331306141629,68.305837261459,Concentration (ug/L)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,1,2.99649444056683,54.1678738359418,Concentration (ug/L)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,1,3.99719101871071,46.7300779387931,Concentration (ug/L)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,1,5.97308254914484,27.608208056295,Concentration (ug/L)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,1,11.9524379933385,7.63706370944996,Concentration (ug/L)
+151,Gangji D,1984,Br J Clin Pharmacol,Healthy male,8,PO,PO,80 mg,80.0,1,24.0099841953481,3.4604299871389,Concentration (ug/L)
+172,Lalonde RL,1987,Eur J Clin Pharmacol,,,PO,,,,0,0.33333,24.6105466227588,120mg po
+172,Lalonde RL,1987,Eur J Clin Pharmacol,,,PO,,,,0,0.66667,128.794635680813,120mg po
+172,Lalonde RL,1987,Eur J Clin Pharmacol,,,PO,,,,0,1.0,218.541283402881,120mg po
+172,Lalonde RL,1987,Eur J Clin Pharmacol,,,PO,,,,0,2.0,305.984712734763,120mg po
+172,Lalonde RL,1987,Eur J Clin Pharmacol,,,PO,,,,0,2.5,347.563852071472,120mg po
+172,Lalonde RL,1987,Eur J Clin Pharmacol,,,PO,,,,0,3.0,306.680498642059,120mg po
+172,Lalonde RL,1987,Eur J Clin Pharmacol,,,PO,,,,0,4.0,260.74306327423,120mg po
+172,Lalonde RL,1987,Eur J Clin Pharmacol,,,PO,,,,0,5.0,183.338758184193,120mg po
+172,Lalonde RL,1987,Eur J Clin Pharmacol,,,PO,,,,0,6.0,152.235645688725,120mg po
+172,Lalonde RL,1987,Eur J Clin Pharmacol,,,PO,,,,0,8.0,107.813096702266,120mg po
+172,Lalonde RL,1987,Eur J Clin Pharmacol,,,PO,,,,0,10.0,71.028103762956,120mg po
+172,Lalonde RL,1987,Eur J Clin Pharmacol,,,PO,,,,0,12.0,46.7252553578643,120mg po
+172,Lalonde RL,1987,Eur J Clin Pharmacol,,,PO,,,,0,14.0,27.7593897172174,120mg po
+172,Lalonde RL,1987,Eur J Clin Pharmacol,,,PO,,,,0,24.0,13.8984624152137,120mg po
