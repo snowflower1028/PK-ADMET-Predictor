@@ -36,7 +36,7 @@ TDC ADMET Benchmark Group의 22개 과제 중, **내가 벤치에서 직접 측�
 | RDKit 입문 노트북 | **전체 실행 확인** (에러 셀 0개) |
 | 2주차 PyTorch 모델 (MLP, GIN, GIN+desc) | **실행 완료** → `results/models.csv` |
 | 2주차 DDP (`scripts/train_ddp.py`) | 작성 완료, **GPU 1장이라 미검증** |
-| 3주차 PBPK 연계 (`pbpk/`) | 미작성 |
+| 3주차 PBPK 연계 (`pbpk/`) | **실행 완료** → `results/pk_comparison.csv` |
 
 환경은 **WSL2 Ubuntu-24.04(권장)와 Windows 네이티브 두 가지**를 다
 만들어 돌렸다. 둘 다 `cuda available : True`. 막혔던 지점과 해결은
@@ -104,6 +104,36 @@ epoch이 모두 같은 것을 확인했다. 위 표는 그 결정적 실행의 �
 전부 valid로 했다. `results/models.csv`에 seed별 valid 점수와 멈춘
 epoch을 남겨 그 근거를 볼 수 있게 했다.
 
+### 3주차: 예측값을 PBPK에 넣어 혈중 농도까지
+
+세 ADMET 예측값을 간·장 포함 축소 PBPK에 넣고, 출판된 프로프라놀롤
+human PK(건강 성인 경구 80 mg, 12개 연구 288점)와 비교했다.
+
+| | Cmax 기하평균 배수오차 | 2배 안쪽 | AUC 배수오차 | 2배 안쪽 |
+| --- | --- | --- | --- | --- |
+| a priori (ADMET 예측값만) | 4.97 | **0%** | 2.26 | 42% |
+| 파라미터 1개 보정 (검증 11개 연구) | 1.48 | 82% | 1.51 | 91% |
+
+**a priori로는 Cmax를 하나도 맞히지 못했다.** 보정은 Caco-2 → Peff
+상관식의 절편 하나만 연구 1개에 맞추고 나머지 11개로 검증한 것이다.
+
+관측 데이터에 IV가 있어 **흡수와 소실을 분리**할 수 있었다. IV는
+a priori 그대로 배수오차 1.21로 들어온다. 즉 소실 쪽(fu, CLint)은
+대체로 맞고 **틀린 것은 흡수 쪽**이다. 보정할 파라미터로 Caco-2 절편을
+고른 것은 이 진단의 결과다.
+
+아직 못 맞추는 것은 Tmax다(관측 1.5~3.0 h, a priori 4.0, 보정 후 0.75).
+Cmax를 맞추면 Tmax가 어긋난다. 흡수를 1차 속도상수 하나로만 써서
+봉우리 모양을 만들 자유도가 없는 구조적 한계다.
+
+누출 검사도 했다. 프로프라놀롤은 `PPBR_AZ` train에만 4건 있었고(R체·S체),
+Morgan fingerprint가 `includeChirality=False`라 **모델에게 거울상은 같은
+입력**이다. 그래서 PPBR만 해당 분자를 빼고 재학습해 예측했다.
+
+자세한 내용은 [`docs/04_week3_pbpk.md`](docs/04_week3_pbpk.md).
+
+![프로프라놀롤 경구 80mg](results/pk_propranolol_po.png)
+
 ## 빠른 시작
 
 환경 구성은 [`docs/00_setup_wsl2_cuda.md`](docs/00_setup_wsl2_cuda.md)를 따른다.
@@ -129,8 +159,12 @@ src/graph.py       SMILES -> 원자/결합 그래프 (GNN 입력)
 src/torch_data.py  Dataset 2종 + collate_fn 직접 작성, 타깃 정규화
 src/models.py      MLP, GIN (torch_geometric 없이 직접 구현)
 src/train.py       학습 루프, valid 기반 early stopping
-src/utils.py       난수 고정, 결과 저장
-scripts/           check_env, smoke_test, run_baseline, run_models, train_ddp
+src/utils.py       난수 고정, 결정적 실행, 결과 저장
+pbpk/model.py      간·장 축소 PBPK (ODE 4개), ADMET -> 파라미터 변환
+pbpk/predict_admet.py  대상 분자 물성 예측 (누출 분자는 제외 재학습)
+pbpk/observed.py   출판된 human PK 엑셀 파싱
+scripts/           check_env, smoke_test, run_baseline, run_models,
+                   train_ddp, run_pbpk
 notebooks/         01_rdkit_intro — RDKit 기초 + 데이터 탐색
 docs/              환경 구성, 주차별 체크리스트
 pbpk/              3주차 PBPK 연계 (예정)
