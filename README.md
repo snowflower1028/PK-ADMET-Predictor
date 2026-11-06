@@ -34,7 +34,8 @@ TDC ADMET Benchmark Group의 22개 과제 중, **내가 벤치에서 직접 측�
 | 베이스라인 (RandomForest, LightGBM) | **실행 완료** → `results/baseline.csv` |
 | TDC 데이터 로드 (`src/data.py`) | **실행 확인** |
 | RDKit 입문 노트북 | **전체 실행 확인** (에러 셀 0개) |
-| 2주차 PyTorch 모델 | 작성 중 |
+| 2주차 PyTorch 모델 (MLP, GIN) | **실행 완료** → `results/models.csv` |
+| 2주차 DDP (`scripts/train_ddp.py`) | 작성 완료, **GPU 1장이라 미검증** |
 | 3주차 PBPK 연계 (`pbpk/`) | 미작성 |
 
 환경은 **WSL2 Ubuntu-24.04(권장)와 Windows 네이티브 두 가지**를 다
@@ -62,6 +63,35 @@ Clearance 뿐이다(0.445 vs 0.425). 투과도·단백결합은 분자 전체의
 결정하기 때문으로 읽는다. 2주차 GNN이 구조를 직접 보는 모델이므로
 Clearance에서 가장 많이 오를 것이라는 가설을 여기서 세웠다.
 
+### 2주차 모델 결과
+
+위 가설대로 됐다. GIN은 Clearance에서만 분명히 이긴다.
+
+| 과제 | 지표 | 1주차 rf desc+fp | MLP | GIN |
+| --- | --- | --- | --- | --- |
+| `Caco2_Wang` | MAE ↓ | **0.279 ± 0.003** | 0.285 ± 0.008 | 0.422 ± 0.068 |
+| `PPBR_AZ` | MAE ↓ | 8.657 ± 0.020 | 8.370 ± 0.199 | **8.157 ± 0.422** |
+| `Clearance_Microsome_AZ` | Spearman ↑ | 0.506 ± 0.002 | 0.440 ± 0.061 | **0.567 ± 0.026** |
+
+- **Clearance**: GIN이 +0.061, 표준편차 0.026이므로 2 SD 이상. 분명한 개선이다.
+- **PPBR**: GIN이 더 좋지만 표준편차 0.422로 1.2 SD 수준. 개선이라 부르기엔 약하다.
+- **Caco2**: 아무것도 RandomForest를 못 이겼다. MLP는 자기 표준편차 안쪽이라
+  동등, GIN은 확실히 나쁘다.
+
+GIN은 descriptor를 받지 않고 그래프만 본다. 그래서 구조가 지배하는
+Clearance에서 가장 세고, 분자 전체의 물성이 지배하는 Caco2에서 가장 약하다.
+**입력이 과제의 물리에 맞을 때만 이긴다**는 것이 세 과제에서 일관됐다.
+
+같이 적어 둘 것: 트리 모델의 seed 간 표준편차(0.002~0.02)가
+GIN(0.026~0.42)보다 한 자릿수 작다. GNN은 seed에 민감하고 PPBR의 한
+seed는 epoch 5에서 멈췄다. "GNN이 이겼다"만 쓰면 이 안정성 차이를
+빠뜨리는 것이 된다.
+
+하이퍼파라미터는 test를 보고 고르지 않았다. 데이터 크기만 보고 미리
+정했고(batch 64, AdamW lr 1e-3, Huber loss, patience 40), epoch 선택은
+전부 valid로 했다. `results/models.csv`에 seed별 valid 점수와 멈춘
+epoch을 남겨 그 근거를 볼 수 있게 했다.
+
 ## 빠른 시작
 
 환경 구성은 [`docs/00_setup_wsl2_cuda.md`](docs/00_setup_wsl2_cuda.md)를 따른다.
@@ -83,8 +113,12 @@ src/config.py      대상 과제, 지표, seed 정의
 src/data.py        TDC 로드와 train/valid/test 분할
 src/features.py    RDKit descriptor(27개) + Morgan fingerprint(2048비트)
 src/baseline.py    RandomForest / LightGBM, TDC 공식 평가 호출
+src/graph.py       SMILES -> 원자/결합 그래프 (GNN 입력)
+src/torch_data.py  Dataset 2종 + collate_fn 직접 작성, 타깃 정규화
+src/models.py      MLP, GIN (torch_geometric 없이 직접 구현)
+src/train.py       학습 루프, valid 기반 early stopping
 src/utils.py       난수 고정, 결과 저장
-scripts/           check_env, smoke_test, run_baseline
+scripts/           check_env, smoke_test, run_baseline, run_models, train_ddp
 notebooks/         01_rdkit_intro — RDKit 기초 + 데이터 탐색
 docs/              환경 구성, 주차별 체크리스트
 pbpk/              3주차 PBPK 연계 (예정)

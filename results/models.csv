@@ -1,0 +1,7 @@
+task,model,metric,mean,std,n_seeds,valid_mean,best_epochs,seconds
+Caco2_Wang,mlp,mae,0.285,0.008,5,-0.3328,59|37|92|48|41,22.9
+Caco2_Wang,gin,mae,0.422,0.068,5,-0.3838,19|48|107|19|88,31.1
+PPBR_AZ,mlp,mae,8.37,0.199,5,-9.4395,25|88|45|77|54,66.9
+PPBR_AZ,gin,mae,8.157,0.422,5,-9.2777,5|70|43|32|52,86.1
+Clearance_Microsome_AZ,mlp,spearman,0.44,0.061,5,0.5516,37|30|10|31|70,24.4
+Clearance_Microsome_AZ,gin,spearman,0.567,0.026,5,0.5254,42|36|44|33|90,38.1
