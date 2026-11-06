@@ -25,12 +25,13 @@ from .config import TASKS
 from .data import load_task, xy
 from .models import make_model
 from .torch_data import (
+    FeatureScaler,
     GraphDataset,
     TargetScaler,
     VectorDataset,
     collate_graphs,
 )
-from .utils import set_seed
+from .utils import seeded_generator, set_seed
 
 
 @dataclass
@@ -86,7 +87,7 @@ def _make_loaders(task_name, model_kind, seed, group, cfg):
         test_ds = VectorDataset(te_smiles, np.zeros(len(te_smiles)))
         collate = None
         n_features = train_ds.n_features
-    elif model_kind == "gin":
+    elif model_kind in ("gin", "gin+desc"):
         train_ds = GraphDataset(tr_smiles, scaler.transform(tr_y))
         valid_ds = GraphDataset(va_smiles, scaler.transform(va_y))
         test_ds = GraphDataset(te_smiles, np.zeros(len(te_smiles)))
@@ -97,8 +98,14 @@ def _make_loaders(task_name, model_kind, seed, group, cfg):
                     f"{task_name} {name}에서 SMILES {ds.n_failed}개가 파싱되지 "
                     "않았다. test 예측 개수가 어긋나므로 그냥 넘기지 않는다."
                 )
+        # descriptor 정규화 통계도 train에서만 구해 세 split에 같이 적용한다
+        desc_scaler = (
+            FeatureScaler(train_ds.desc_raw) if model_kind == "gin+desc" else None
+        )
+        for ds in (train_ds, valid_ds, test_ds):
+            ds.set_desc_scaler(desc_scaler)
         collate = collate_graphs
-        n_features = None
+        n_features = train_ds.n_desc if model_kind == "gin+desc" else None
     else:
         raise ValueError(f"알 수 없는 모델: {model_kind}")
 
@@ -106,6 +113,8 @@ def _make_loaders(task_name, model_kind, seed, group, cfg):
         "train": DataLoader(
             train_ds, batch_size=cfg.batch_size, shuffle=True,
             collate_fn=collate, drop_last=len(train_ds) > cfg.batch_size,
+            # 전역 RNG가 아니라 seed에서 만든 생성기로 섞는다
+            generator=seeded_generator(seed),
         ),
         # valid/test는 순서를 섞지 않는다. test는 순서가 곧 제출 순서다.
         "valid": DataLoader(
@@ -123,10 +132,11 @@ def _forward(model, batch, model_kind, device):
     if model_kind == "mlp":
         x, y = batch
         return model(x.to(device)), y.to(device)
-    atom_x, edge_index, edge_attr, batch_idx, y = batch
+    atom_x, edge_index, edge_attr, batch_idx, y, desc = batch
     pred = model(
         atom_x.to(device), edge_index.to(device),
         edge_attr.to(device), batch_idx.to(device),
+        desc.to(device) if desc.shape[1] > 0 else None,
     )
     return pred, y.to(device)
 
@@ -167,7 +177,9 @@ def train_one_seed(
         model = make_model("mlp", n_features=n_features,
                            hidden=cfg.hidden, dropout=cfg.dropout)
     else:
-        model = make_model("gin", dim=cfg.dim, n_layers=cfg.n_layers,
+        # gin과 gin+desc는 n_features(descriptor 개수)로만 갈린다
+        model = make_model(model_kind, n_features=n_features,
+                           dim=cfg.dim, n_layers=cfg.n_layers,
                            dropout=min(cfg.dropout, 0.2))
     model = model.to(device)
 

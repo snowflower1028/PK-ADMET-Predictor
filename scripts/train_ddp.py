@@ -24,6 +24,9 @@ import os
 import sys
 from pathlib import Path
 
+# torch import 전에 세워야 cuBLAS가 결정적으로 동작한다 (scripts/run_models.py 참고)
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
+
 import numpy as np
 import torch
 import torch.distributed as dist
@@ -38,6 +41,7 @@ from src.config import TASKS  # noqa: E402
 from src.data import get_group, load_task, xy  # noqa: E402
 from src.models import make_model  # noqa: E402
 from src.torch_data import (  # noqa: E402
+    FeatureScaler,
     GraphDataset,
     TargetScaler,
     VectorDataset,
@@ -82,7 +86,8 @@ def all_mean(value: float, world_size: int, device) -> float:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--task", default="Caco2_Wang", choices=list(TASKS))
-    parser.add_argument("--model", default="gin", choices=["mlp", "gin"])
+    parser.add_argument("--model", default="gin",
+                        choices=["mlp", "gin", "gin+desc"])
     parser.add_argument("--seed", type=int, default=1)
     parser.add_argument("--epochs", type=int, default=TrainConfig.epochs)
     parser.add_argument("--batch-size", type=int, default=TrainConfig.batch_size)
@@ -115,8 +120,14 @@ def main() -> None:
     else:
         train_ds = GraphDataset(tr_smiles, scaler.transform(tr_y))
         valid_ds = GraphDataset(va_smiles, scaler.transform(va_y))
+        # descriptor 통계도 train에서만 구한다
+        desc_scaler = (
+            FeatureScaler(train_ds.desc_raw) if args.model == "gin+desc" else None
+        )
+        train_ds.set_desc_scaler(desc_scaler)
+        valid_ds.set_desc_scaler(desc_scaler)
         collate = collate_graphs
-        model = make_model("gin")
+        model = make_model(args.model, n_features=train_ds.n_desc)
 
     # 각 프로세스는 데이터의 서로 다른 조각만 본다.
     sampler = DistributedSampler(

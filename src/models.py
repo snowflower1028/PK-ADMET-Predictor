@@ -100,6 +100,7 @@ class GIN(nn.Module):
         n_layers: int = 3,
         dropout: float = 0.1,
         readout: str = "sum",
+        n_desc: int = 0,
     ):
         super().__init__()
         self.embed = nn.Linear(ATOM_DIM, dim)
@@ -107,14 +108,25 @@ class GIN(nn.Module):
             [GINLayer(dim, dropout) for _ in range(n_layers)]
         )
         self.readout = readout
+        self.n_desc = n_desc
+
+        # n_desc > 0이면 분자 단위 descriptor를 그래프 임베딩에 이어 붙인다.
+        # 2주차 결과의 동기: 그래프만 보는 GIN은 구조가 지배하는 Clearance에서
+        # 가장 셌지만, 분자 전체의 물리화학적 성질이 지배하는 Caco2에서
+        # RandomForest보다 확실히 나빴다. 그 성질을 직접 넣어 준다.
+        # descriptor는 분자 하나당 한 벡터라서 원자 단위가 아니라 readout
+        # 뒤에 붙이는 것이 자연스럽다.
+        if n_desc > 0:
+            self.desc_norm = nn.BatchNorm1d(n_desc)
+        head_in = dim + n_desc
         self.head = nn.Sequential(
-            nn.Linear(dim, dim),
+            nn.Linear(head_in, dim),
             nn.ReLU(),
             nn.Dropout(dropout),
             nn.Linear(dim, 1),
         )
 
-    def forward(self, atom_x, edge_index, edge_attr, batch_idx):
+    def forward(self, atom_x, edge_index, edge_attr, batch_idx, desc=None):
         h = self.embed(atom_x)
         for layer in self.layers:
             h = layer(h, edge_index, edge_attr)
@@ -129,6 +141,14 @@ class GIN(nn.Module):
             counts.index_add_(0, batch_idx, torch.ones_like(batch_idx, dtype=h.dtype))
             pooled = pooled / counts.clamp(min=1).unsqueeze(-1)
 
+        if self.n_desc > 0:
+            if desc is None or desc.shape[1] != self.n_desc:
+                raise ValueError(
+                    f"descriptor {self.n_desc}열을 기대했는데 "
+                    f"{None if desc is None else desc.shape[1]}열이 들어왔다"
+                )
+            pooled = torch.cat([pooled, self.desc_norm(desc)], dim=1)
+
         return self.head(pooled).squeeze(-1)
 
 
@@ -138,5 +158,10 @@ def make_model(kind: str, n_features: int | None = None, **kwargs) -> nn.Module:
             raise ValueError("MLP에는 n_features가 필요하다")
         return MLP(n_features, **kwargs)
     if kind == "gin":
-        return GIN(**kwargs)
+        # 그래프만 본다
+        return GIN(n_desc=0, **kwargs)
+    if kind == "gin+desc":
+        if not n_features:
+            raise ValueError("gin+desc에는 descriptor 개수(n_features)가 필요하다")
+        return GIN(n_desc=n_features, **kwargs)
     raise ValueError(f"알 수 없는 모델: {kind}")

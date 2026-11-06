@@ -17,7 +17,7 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
-from .features import featurize
+from .features import descriptors, featurize
 from .graph import BOND_DIM, MolGraph, smiles_to_graph
 
 
@@ -45,12 +45,22 @@ class VectorDataset(Dataset):
 
 
 class GraphDataset(Dataset):
-    """SMILES를 MolGraph로 바꿔 들고 있는다."""
+    """SMILES를 MolGraph로 바꿔 들고 있는다.
+
+    descriptor도 같이 계산해 둔다(`desc_raw`). 그래프만 보는 GIN은
+    이걸 쓰지 않고, descriptor를 함께 받는 변형(gin+desc)만 쓴다.
+    27차원이라 계산·메모리 부담이 없어서 항상 만들어 둔다.
+
+    descriptor를 쓸 때는 반드시 `set_desc_scaler()`로 정규화한다.
+    MolWt는 수백, qed는 0~1이라 스케일을 안 맞추면 큰 값이 gradient를
+    독차지한다.
+    """
 
     def __init__(self, smiles: list[str], y: np.ndarray):
         y = np.asarray(y, dtype=np.float32)
         graphs: list[MolGraph] = []
         targets: list[float] = []
+        kept_smiles: list[str] = []
         self.n_failed = 0
         for smi, target in zip(smiles, y):
             g = smiles_to_graph(smi)
@@ -60,14 +70,33 @@ class GraphDataset(Dataset):
                 continue
             graphs.append(g)
             targets.append(float(target))
+            kept_smiles.append(smi)
         self.graphs = graphs
         self.y = np.asarray(targets, dtype=np.float32)
+        # 파싱에 성공한 분자만 가지고 계산해야 그래프와 행이 어긋나지 않는다
+        self.desc_raw = descriptors(kept_smiles).astype(np.float32)
+        self.desc = np.zeros((len(graphs), 0), dtype=np.float32)
+
+    def set_desc_scaler(self, scaler: "FeatureScaler | None") -> None:
+        """descriptor를 정규화해 모델에 넘길 형태로 만든다.
+
+        scaler는 **train에서만** 만든 것을 세 split에 모두 적용한다.
+        split별로 따로 만들면 그 자체가 정보 누출이다.
+        """
+        if scaler is None:
+            self.desc = np.zeros((len(self.graphs), 0), dtype=np.float32)
+        else:
+            self.desc = scaler.transform(self.desc_raw).astype(np.float32)
+
+    @property
+    def n_desc(self) -> int:
+        return int(self.desc.shape[1])
 
     def __len__(self) -> int:
         return len(self.graphs)
 
     def __getitem__(self, i: int):
-        return self.graphs[i], self.y[i]
+        return self.graphs[i], self.y[i], self.desc[i]
 
 
 def collate_graphs(batch):
@@ -79,11 +108,12 @@ def collate_graphs(batch):
       edge_attr  : (배치 전체 엣지 수, BOND_DIM)
       batch_idx  : (배치 전체 원자 수,)     — 각 원자가 몇 번째 분자인지
       y          : (분자 수,)
+      desc       : (분자 수, descriptor 수) — 안 쓰면 열이 0개
 
     batch_idx가 핵심이다. 마지막에 원자별 벡터를 분자별로 모을 때
     이 인덱스로 scatter 합을 하면 분자 단위 표현이 나온다.
     """
-    graphs, ys = zip(*batch)
+    graphs, ys, descs = zip(*batch)
 
     atom_x = np.concatenate([g.atom_x for g in graphs], axis=0)
 
@@ -110,7 +140,35 @@ def collate_graphs(batch):
         torch.from_numpy(edge_attr),
         torch.from_numpy(batch_idx),
         torch.tensor(ys, dtype=torch.float32),
+        torch.from_numpy(np.stack(descs).astype(np.float32)),
     )
+
+
+class FeatureScaler:
+    """descriptor 열마다 평균 0, 표준편차 1로 맞춘다.
+
+    descriptor는 열끼리 스케일이 전혀 다르다. MolWt는 수백, qed는 0~1,
+    BertzCT는 수천까지 간다. 정규화 없이 신경망에 넣으면 큰 열이
+    gradient를 독차지해서 작은 열은 사실상 무시된다. (트리 모델은
+    분할 기준만 보기 때문에 1주차에는 이 문제가 없었다.)
+
+    통계는 **train에서만** 구한다.
+    """
+
+    def __init__(self, x_train: np.ndarray):
+        x_train = np.asarray(x_train, dtype=np.float64)
+        self.mean = x_train.mean(axis=0)
+        std = x_train.std(axis=0)
+        # 상수 열(모든 분자가 같은 값)은 나누기 0이 된다. 1로 두면
+        # 정규화 후 전부 0이 되어 모델이 무시한다. 그게 맞는 동작이다.
+        self.std = np.where(std < 1e-8, 1.0, std)
+
+    def transform(self, x) -> np.ndarray:
+        x = np.asarray(x, dtype=np.float64)
+        out = (x - self.mean) / self.std
+        # descriptor 계산에서 간혹 극단값이 나온다. 꼬리를 잘라 학습이
+        # 한 분자 때문에 흔들리지 않게 한다.
+        return np.clip(out, -10.0, 10.0)
 
 
 class TargetScaler:

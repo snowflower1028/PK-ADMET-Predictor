@@ -10,9 +10,15 @@
 from __future__ import annotations
 
 import argparse
+import os
 import sys
 import time
 from pathlib import Path
+
+# cuBLAS는 핸들을 만들 때 이 설정을 읽는다. torch를 import하기 전에
+# 세워 두어야 결정적 GEMM이 보장된다. src.utils.set_seed도 같은 값을
+# 넣지만, 그쪽은 CUDA가 이미 초기화된 뒤일 수 있다.
+os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
 
 import pandas as pd
 
@@ -26,7 +32,8 @@ from src.train import TrainConfig, train_task  # noqa: E402
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--tasks", nargs="+", default=list(TASKS))
-    parser.add_argument("--models", nargs="+", default=["mlp", "gin"])
+    parser.add_argument("--models", nargs="+",
+                        default=["mlp", "gin", "gin+desc"])
     parser.add_argument("--seeds", nargs="+", type=int, default=SEEDS)
     parser.add_argument("--epochs", type=int, default=TrainConfig.epochs)
     parser.add_argument("--batch-size", type=int, default=TrainConfig.batch_size)
