@@ -1,0 +1,37 @@
+# conda/mamba 사용 시:  conda env create -f environment.yml
+#
+# pandas와 rdkit의 상한은 PyTDC 1.1.15가 요구하는 값이다.
+# (pandas>=2.1.4,<3.0.0 / rdkit>=2023.9.5,<2024.3.1)
+# 최신 버전을 넣으면 PyTDC 설치가 거부되거나 내부에서 깨진다.
+#
+# 모델에 직접 들어가는 패키지(scikit-learn, lightgbm)는 결과를 만든 버전으로
+# 고정했다. 상한만 걸면 플랫폼마다 다른 버전이 깔려 같은 코드가 다른 숫자를
+# 낸다. 실제로 그 일이 있었다 (docs/02_week1_issues.md 7번).
+name: pk-admet
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas>=2.1.4,<3
+  - rdkit>=2023.09.5,<2024.03.1
+  - scipy
+  # 결과를 만든 버전으로 고정한다. scikit-learn은 세 환경(클라우드 Linux,
+  # WSL2, Windows)에서 같은 버전이 깔려 RandomForest 결과가 소수점 3자리까지
+  # 똑같이 재현됐다. lightgbm은 고정하지 않았을 때 4.6.0(Windows)과
+  # 4.7.0(Linux)으로 갈려 Clearance 두 조합이 달라졌다.
+  # docs/02_week1_issues.md 7번.
+  - scikit-learn=1.9.1
+  - lightgbm=4.7.0
+  - matplotlib
+  - seaborn
+  - tqdm
+  - jupyter
+  - pip
+  # setuptools 81부터 pkg_resources가 제거됐는데 PyTDC 1.1.15는 아직 쓴다.
+  # 상한을 안 걸면 import tdc가 ModuleNotFoundError로 죽는다.
+  # Windows와 WSL2 양쪽에서 똑같이 발생한다. docs/02_week1_issues.md 4번.
+  - setuptools<81
+  - pip:
+      - PyTDC
+      # PyTorch는 CUDA 빌드로 따로 설치한다 (docs/00_setup_wsl2_cuda.md 4번)

@@ -1,0 +1,3 @@
+mode,n_studies,cmax_gmfe,cmax_within_2fold_pct,auc_gmfe,auc_within_2fold_pct,tmax_median_obs,tmax_sim
+a_priori,12,4.969,0.0,2.257,41.7,2.0,4.02
+calibrated_holdout,11,1.479,81.8,1.513,90.9,2.0,0.75

@@ -1,0 +1,19 @@
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+.venv/
+venv/
+
+# TDC가 내려받는 원본 데이터는 저장소에 넣지 않는다 (코드로 재현 가능)
+data/*
+!data/.gitkeep
+# 관측 human PK는 코드로 재현할 수 없다. 출판 논문에서 디지타이즈한
+# 것이라 원본과 정리본을 함께 넣는다. 시트마다 저자·연도·저널이 있다.
+!data/propranolol_human.xlsx
+!data/propranolol_human_tidy.csv
+
+# 결과는 요약 csv와 그림만 올린다
+results/*
+!results/.gitkeep
+!results/*.csv
+!results/*.png

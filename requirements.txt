@@ -1,0 +1,22 @@
+# pip만 쓸 때. PyTorch는 아래 주석을 보고 따로 받는다.
+#
+# pandas와 rdkit의 상한은 PyTDC 1.1.15의 요구사항이다.
+numpy
+pandas>=2.1.4,<3.0.0
+rdkit>=2023.9.5,<2024.3.1
+scipy
+# 모델에 직접 들어가는 두 패키지는 결과를 만든 버전으로 고정한다.
+# 상한만 걸면 플랫폼마다 다른 버전이 깔려 같은 코드가 다른 숫자를 낸다.
+# lightgbm이 Windows 4.6.0 / Linux 4.7.0으로 갈려 Clearance 두 조합이
+# 달라진 적이 있다. environment.yml과 같은 값이다.
+# docs/02_week1_issues.md 7번.
+scikit-learn==1.9.1
+lightgbm==4.7.0
+matplotlib
+seaborn
+tqdm
+jupyter
+PyTDC
+
+# PyTorch (RTX 3070, CUDA 12.x) — 이 파일로는 설치되지 않는다. 따로 실행:
+#   pip install torch --index-url https://download.pytorch.org/whl/cu124
