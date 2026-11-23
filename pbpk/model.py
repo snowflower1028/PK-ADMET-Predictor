@@ -100,7 +100,18 @@ def clint_liver_L_h(clint_microsome_uL_min_mg: float, phys: Physiology = PHYS) -
     return uL_min * 60.0 / 1e6  # uL/min -> L/h
 
 
-def peff_from_caco2(log_papp_cm_s: float, intercept: float | None = None) -> float:
+# Caco-2 -> Peff 상관식 상수. **둘 다 검증이 필요한 가정이다.**
+# 민감도 분석(`scripts/run_sensitivity.py`)이 흔드는 대상이므로 모듈 상수로
+# 빼 두고, 기본값을 쓰는 경로가 한 군데만 있게 한다.
+PEFF_SLOPE = 0.6
+PEFF_INTERCEPT = -1.9
+
+
+def peff_from_caco2(
+    log_papp_cm_s: float,
+    intercept: float | None = None,
+    slope: float | None = None,
+) -> float:
     """Caco-2 투과도(log Papp, cm/s) -> 사람 장벽 유효투과도 Peff(cm/s).
 
     **여기가 이 모델에서 가장 가정이 많은 지점이다.** Caco-2는 세포주
@@ -113,11 +124,17 @@ def peff_from_caco2(log_papp_cm_s: float, intercept: float | None = None) -> flo
     과소평가해서, 투과도가 낮은 약물일수록 사람 쪽이 상대적으로 높게 나온다.
 
     아래 두 상수는 **검증이 필요한 가정**이다. 출처 상관식을 확인해
-    바꿀 수 있도록 상수로 빼 두었고, `run_pbpk.py`에서 민감도를 본다.
+    바꿀 수 있도록 모듈 상수(PEFF_SLOPE, PEFF_INTERCEPT)로 빼 두었고,
+    `scripts/run_sensitivity.py`에서 민감도를 본다.
+
+    기울기가 특히 민감한 이유는 구조적이다. log Papp가 -4.5 근처이므로
+    기울기는 **큰 음수에 곱해지는 지수**로 들어간다. 기울기를 0.1만
+    바꿔도 Peff가 10^0.45 ≈ 2.8배 움직인다. 선형으로 들어가는 파라미터와
+    같은 눈으로 보면 안 된다.
     """
-    SLOPE = 0.6
-    INTERCEPT = -1.9 if intercept is None else float(intercept)
-    return float(10.0 ** (SLOPE * float(log_papp_cm_s) + INTERCEPT))
+    s = PEFF_SLOPE if slope is None else float(slope)
+    b = PEFF_INTERCEPT if intercept is None else float(intercept)
+    return float(10.0 ** (s * float(log_papp_cm_s) + b))
 
 
 def ka_from_peff(peff_cm_s: float, phys: Physiology = PHYS) -> float:
@@ -223,18 +240,25 @@ def params_from_admet(
     logp: float,
     phys: Physiology = PHYS,
     peff_intercept: float | None = None,
+    peff_slope: float | None = None,
 ) -> DrugParams:
     """세 ADMET 예측값을 모델 파라미터로 바꾼다.
 
     logp는 RDKit이 구조에서 계산한 MolLogP다. 조직 분배계수를 구하는 데만
     쓰인다(세 ADMET 과제는 조직 분포를 말해 주지 않는다).
 
-    peff_intercept를 주면 Caco-2 -> Peff 상관식의 절편을 그 값으로 바꾼다.
-    보정 실험용이고, 기본값(None)이면 a priori 상수를 쓴다.
+    peff_intercept / peff_slope를 주면 Caco-2 -> Peff 상관식의 절편·기울기를
+    그 값으로 바꾼다. 절편은 보정 실험(`run_pbpk.py`), 기울기는 민감도
+    분석(`run_sensitivity.py`)에서 쓴다. 기본값(None)이면 a priori 상수다.
+
+    MPPGL은 `phys`에 들어 있다. 흔들려면 `dataclasses.replace(PHYS,
+    mppgl_mg_g=...)`로 만든 Physiology를 넘긴다.
     """
     fu = fu_from_ppbr(ppbr_percent)
     clint = clint_liver_L_h(clearance_microsome, phys)
-    peff = peff_from_caco2(caco2_log_papp, intercept=peff_intercept)
+    peff = peff_from_caco2(
+        caco2_log_papp, intercept=peff_intercept, slope=peff_slope
+    )
     ka = ka_from_peff(peff, phys)
     fa = fa_from_ka(ka)
     kp = kp_from_logp(logp, fu)
@@ -245,8 +269,11 @@ def params_from_admet(
             "kp": f"MolLogP {logp:.2f}, fu {fu:.4f} -> Kp={kp:.2f} (RDKit 계산 logP)",
             "fu": f"PPBR_AZ {ppbr_percent:.2f}% -> fu={fu:.4f}",
             "clint_L_h": (f"Clearance_Microsome_AZ {clearance_microsome:.2f} uL/min/mg"
+                          f" x MPPGL {phys.mppgl_mg_g:.0f} mg/g"
                           f" -> {clint:.1f} L/h"),
             "ka_h": (f"Caco2_Wang logPapp {caco2_log_papp:.3f}"
+                     f" (slope {PEFF_SLOPE if peff_slope is None else peff_slope:.2f},"
+                     f" intercept {PEFF_INTERCEPT if peff_intercept is None else peff_intercept:.2f})"
                      f" -> Peff {peff:.2e} cm/s -> ka {ka:.3f} 1/h"),
             "fa": f"ka {ka:.3f} 1/h, 통과시간 3h -> Fa={fa:.3f}",
         },

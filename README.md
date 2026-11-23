@@ -134,6 +134,30 @@ Morgan fingerprint가 `includeChirality=False`라 **모델에게 거울상은 �
 
 ![프로프라놀롤 경구 80mg](results/pk_propranolol_po.png)
 
+## 4주차: 두 가지 확인 실험
+
+3주차가 남긴 두 질문을 각각 실험 하나로 닫았다. 둘 다 기능 추가가 아니라
+**이미 내린 결론의 근거를 확인하는** 작업이다.
+자세한 내용은 [`docs/05_week4_experiments.md`](docs/05_week4_experiments.md).
+
+**1. 카이랄 fingerprint** (`scripts/run_chirality.py`) — `includeChirality`를
+켜면 6개 조합 중 5개가 나빠졌다. 유일한 개선(PPBR_AZ `desc+fp`,
+8.657 → 8.578 MAE)도 입체 학습의 증거로 보지 않는다. TDC는 scaffold
+split이고 거울상은 골격이 같아, **입체이성질체 짝이 train과 test로 갈라지는
+경우가 세 과제 모두 0건**이기 때문이다. 배울 경로 자체가 없다.
+→ 결론은 "입체화학이 중요하지 않다"가 아니라 **"이 벤치마크로는 그 질문에
+답할 수 없다"**이다.
+
+**2. 민감도 분석** (`scripts/run_sensitivity.py`) — a priori Cmax가 5배
+틀린 원인이 어느 가정인지 찾았다. **Caco-2 → Peff 상관식의 기울기가
+지배한다.** 문헌 범위에서 MPPGL은 AUC를 2.0배 움직이는 데 그치지만
+기울기는 25.3배 움직인다(창 무관 기준). 기울기는 `10^(기울기 × logPapp)`의
+**지수**로 들어가고 MPPGL은 CLint에 **선형**으로 들어가기 때문이다.
+관측 Cmax 중앙값에 닿는 데 필요한 4.3배는 기울기 범위 안에서는 도달
+가능하고 MPPGL 범위 안에서는 불가능하다.
+
+![민감도 분석](results/sensitivity.png)
+
 ## 빠른 시작
 
 환경 구성은 [`docs/00_setup_wsl2_cuda.md`](docs/00_setup_wsl2_cuda.md)를 따른다.
@@ -154,6 +178,7 @@ python scripts/run_baseline.py  # 전체: 3과제 x 2모델 x 3특징 x 5seed
 src/config.py      대상 과제, 지표, seed 정의
 src/data.py        TDC 로드와 train/valid/test 분할
 src/features.py    RDKit descriptor(27개) + Morgan fingerprint(2048비트)
+src/stereo.py      입체 무시 골격 식별, 입체이성질체 그룹 세기
 src/baseline.py    RandomForest / LightGBM, TDC 공식 평가 호출
 src/graph.py       SMILES -> 원자/결합 그래프 (GNN 입력)
 src/torch_data.py  Dataset 2종 + collate_fn 직접 작성, 타깃 정규화
@@ -164,7 +189,7 @@ pbpk/model.py      간·장 축소 PBPK (ODE 4개), ADMET -> 파라미터 변환
 pbpk/predict_admet.py  대상 분자 물성 예측 (누출 분자는 제외 재학습)
 pbpk/observed.py   출판된 human PK 엑셀 파싱
 scripts/           check_env, smoke_test, run_baseline, run_models,
-                   train_ddp, run_pbpk
+                   train_ddp, run_pbpk, run_chirality, run_sensitivity
 notebooks/         01_rdkit_intro — RDKit 기초 + 데이터 탐색
 docs/              환경 구성, 주차별 체크리스트
 pbpk/              3주차 PBPK 연계 (예정)
@@ -178,6 +203,7 @@ data/ results/     TDC 캐시와 결과 (저장소에는 요약만 올린다)
 | 1주차 11/5~11/11 | 환경, RDKit 학습, 베이스라인 | `results/baseline.csv` |
 | 2주차 11/12~11/18 | PyTorch Dataset/DataLoader, MLP·GNN, DDP | `results/models.csv` |
 | 3주차 11/19~11/23 | 예측값을 PBPK에 입력, 관측 PK와 비교 | `results/pk_comparison.csv` |
+| 11/23 | 카이랄 재실험, PBPK 민감도 분석 | `results/chirality*.csv`, `results/sensitivity*` |
 | 11/24~11/25 | README 정리, 이력서·자기소개서 | 지원 서류 |
 | 11/26 | 지원 (마감 11/27) | — |
 

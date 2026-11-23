@@ -28,7 +28,9 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from rdkit import Chem  # noqa: E402
 from rdkit.Chem import Descriptors  # noqa: E402
 
-from pbpk.model import PHYS, params_from_admet, simulate  # noqa: E402
+from pbpk.model import (  # noqa: E402
+    PEFF_INTERCEPT, PHYS, params_from_admet, simulate,
+)
 from pbpk.observed import healthy_oral, load_studies, tidy  # noqa: E402
 from pbpk.predict_admet import predict_all  # noqa: E402
 from src.config import DATA_DIR, RESULTS_DIR  # noqa: E402
@@ -264,7 +266,7 @@ def main() -> None:
 
     # 절편을 바꾸면 ka가 바뀐다. 보정용 연구의 Cmax를 맞추는 절편을 찾는다.
     target = observed_metrics(calib)
-    grid = np.linspace(-1.9, 1.5, 120)
+    grid = np.linspace(PEFF_INTERCEPT, 1.5, 120)
     best, best_err = None, np.inf
     for inter in grid:
         p2 = params_from_admet(
@@ -281,7 +283,8 @@ def main() -> None:
         preds["Clearance_Microsome_AZ"].value, logp=logp,
         peff_intercept=best,
     )
-    print(f"  절편 {-1.9} -> {best:.3f}  (ka {par.ka_h:.3f} -> {par_cal.ka_h:.3f} 1/h, "
+    print(f"  절편 {PEFF_INTERCEPT} -> {best:.3f}  "
+          f"(ka {par.ka_h:.3f} -> {par_cal.ka_h:.3f} 1/h, "
           f"Fa {par.fa:.3f} -> {par_cal.fa:.3f})")
     print(f"  생체이용률 F {par.bioavailability():.3f} -> {par_cal.bioavailability():.3f}")
 
