@@ -30,8 +30,19 @@ def make_model(kind: str, seed: int):
     raise ValueError(f"알 수 없는 모델: {kind}")
 
 
-def run_one_seed(group, task_name: str, model_kind: str, feat_kind: str, seed: int):
-    """한 seed에 대해 학습하고 test 예측을 돌려준다."""
+def run_one_seed(
+    group,
+    task_name: str,
+    model_kind: str,
+    feat_kind: str,
+    seed: int,
+    include_chirality: bool | None = None,
+):
+    """한 seed에 대해 학습하고 test 예측을 돌려준다.
+
+    include_chirality=None이면 config 기본값(False)을 쓴다. 카이랄 재실험
+    에서만 True를 넘긴다.
+    """
     set_seed(seed)
     split = load_task(group, task_name, seed)
 
@@ -44,15 +55,22 @@ def run_one_seed(group, task_name: str, model_kind: str, feat_kind: str, seed: i
 
     test_smiles, _ = xy(split["test"])
 
-    x_fit = featurize(fit_smiles, feat_kind)
-    x_test = featurize(test_smiles, feat_kind)
+    x_fit = featurize(fit_smiles, feat_kind, include_chirality)
+    x_test = featurize(test_smiles, feat_kind, include_chirality)
 
     model = make_model(model_kind, seed)
     model.fit(x_fit, fit_y)
     return split["name"], model.predict(x_test)
 
 
-def run_task(group, task_name: str, model_kind: str, feat_kind: str, seeds=None):
+def run_task(
+    group,
+    task_name: str,
+    model_kind: str,
+    feat_kind: str,
+    seeds=None,
+    include_chirality: bool | None = None,
+):
     """seed를 돌려가며 예측을 모으고 TDC 공식 평가를 받는다.
 
     반환: (평균, 표준편차)
@@ -67,7 +85,9 @@ def run_task(group, task_name: str, model_kind: str, feat_kind: str, seeds=None)
 
     predictions_list = []
     for seed in seeds:
-        name, y_pred = run_one_seed(group, task_name, model_kind, feat_kind, seed)
+        name, y_pred = run_one_seed(
+            group, task_name, model_kind, feat_kind, seed, include_chirality
+        )
         predictions_list.append({name: y_pred})
 
     if len(predictions_list) >= 5:

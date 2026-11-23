@@ -6,11 +6,13 @@
 """
 from __future__ import annotations
 
+from functools import lru_cache
+
 import numpy as np
 from rdkit import Chem, RDLogger
 from rdkit.Chem import Descriptors, rdFingerprintGenerator
 
-from .config import MORGAN_BITS, MORGAN_RADIUS
+from .config import MORGAN_BITS, MORGAN_CHIRALITY, MORGAN_RADIUS
 
 RDLogger.DisableLog("rdApp.*")  # 파싱 경고가 로그를 덮지 않게 한다
 
@@ -26,9 +28,19 @@ DESCRIPTOR_NAMES = [
 ]
 
 _DESCRIPTOR_FUNCS = [(n, getattr(Descriptors, n)) for n in DESCRIPTOR_NAMES]
-_MORGAN_GEN = rdFingerprintGenerator.GetMorganGenerator(
-    radius=MORGAN_RADIUS, fpSize=MORGAN_BITS
-)
+
+
+@lru_cache(maxsize=4)
+def _morgan_gen(include_chirality: bool):
+    """생성기는 비싸므로 설정별로 한 번만 만든다.
+
+    `includeChirality=True`면 원자 불변량에 R/S 태그가 섞여, 같은 연결을
+    가진 R체와 S체가 **다른 비트**로 간다. descriptor 쪽은 전부 비카이랄
+    이므로 이 스위치가 바꾸는 것은 fingerprint 블록뿐이다.
+    """
+    return rdFingerprintGenerator.GetMorganGenerator(
+        radius=MORGAN_RADIUS, fpSize=MORGAN_BITS, includeChirality=include_chirality
+    )
 
 
 def to_mol(smiles: str):
@@ -56,26 +68,42 @@ def descriptors(smiles_list: list[str]) -> np.ndarray:
     return np.nan_to_num(arr, nan=0.0, posinf=0.0, neginf=0.0)
 
 
-def morgan(smiles_list: list[str]) -> np.ndarray:
-    """(분자 수, MORGAN_BITS) 이진 행렬."""
+def morgan(smiles_list: list[str], include_chirality: bool | None = None) -> np.ndarray:
+    """(분자 수, MORGAN_BITS) 이진 행렬.
+
+    include_chirality가 None이면 config의 MORGAN_CHIRALITY를 쓴다.
+    """
+    gen = _morgan_gen(
+        MORGAN_CHIRALITY if include_chirality is None else bool(include_chirality)
+    )
     rows = []
     for smi in smiles_list:
         mol = to_mol(smi)
         if mol is None:
             rows.append(np.zeros(MORGAN_BITS, dtype=np.uint8))
             continue
-        rows.append(_MORGAN_GEN.GetFingerprintAsNumPy(mol).astype(np.uint8))
+        rows.append(gen.GetFingerprintAsNumPy(mol).astype(np.uint8))
     return np.vstack(rows)
 
 
-def featurize(smiles_list: list[str], kind: str = "desc+fp") -> np.ndarray:
-    """kind: 'desc' | 'fp' | 'desc+fp'."""
+def featurize(
+    smiles_list: list[str],
+    kind: str = "desc+fp",
+    include_chirality: bool | None = None,
+) -> np.ndarray:
+    """kind: 'desc' | 'fp' | 'desc+fp'.
+
+    include_chirality는 fingerprint 블록에만 영향을 준다. 'desc'에서는
+    아무 효과가 없다(descriptor는 전부 비카이랄이다).
+    """
     if kind == "desc":
         return descriptors(smiles_list)
     if kind == "fp":
-        return morgan(smiles_list).astype(np.float64)
+        return morgan(smiles_list, include_chirality).astype(np.float64)
     if kind == "desc+fp":
-        return np.hstack([descriptors(smiles_list), morgan(smiles_list)])
+        return np.hstack(
+            [descriptors(smiles_list), morgan(smiles_list, include_chirality)]
+        )
     raise ValueError(f"알 수 없는 특징 종류: {kind}")
 
 

@@ -33,3 +33,11 @@ SEEDS = [1, 2, 3, 4, 5]
 
 MORGAN_RADIUS = 2
 MORGAN_BITS = 2048
+
+# Morgan fingerprint에 입체화학을 넣을지. **기본값은 False로 둔다.**
+#
+# results/baseline.csv와 results/models.csv는 이 값이 False인 상태에서 나온
+# 공식 split 결과이고, 리더보드 비교 표의 기준선이다. 기본값을 True로
+# 바꾸면 그 숫자들이 조용히 달라진다. 그래서 전역 기본은 건드리지 않고,
+# 카이랄 재실험은 scripts/run_chirality.py에서 이 값을 덮어써서 돌린다.
+MORGAN_CHIRALITY = False

@@ -1,0 +1,7 @@
+task,model,features,metric,chirality_off,off_std,chirality_on,on_std,delta,delta_in_sd,improved
+Caco2_Wang,rf,fp,mae,0.408,0.006,0.432,0.005,0.024,4.35,False
+Caco2_Wang,rf,desc+fp,mae,0.279,0.003,0.282,0.002,0.003,1.18,False
+PPBR_AZ,rf,fp,mae,9.729,0.014,10.06,0.025,0.331,16.34,False
+PPBR_AZ,rf,desc+fp,mae,8.657,0.02,8.578,0.033,-0.079,2.9,True
+Clearance_Microsome_AZ,rf,fp,spearman,0.445,0.003,0.389,0.007,-0.056,10.4,False
+Clearance_Microsome_AZ,rf,desc+fp,spearman,0.506,0.002,0.476,0.008,-0.03,5.14,False

@@ -1,0 +1,4 @@
+task,n_total,n_with_stereo,pct_with_stereo,n_skeletons,n_skeletons_multi_isomer,pct_skeletons_multi_isomer,n_test,n_test_in_multi_isomer_skeleton,pct_test_in_multi_isomer_skeleton,n_test_with_stereo_partner_in_train,pct_test_with_stereo_partner_in_train,median_Y_spread_within_skeleton,max_Y_spread_within_skeleton
+Caco2_Wang,910,492,54.1,816,63,7.7,182,62,34.1,0,0.0,0.16,1.12
+PPBR_AZ,2790,1060,38.0,1755,38,2.2,559,21,3.8,0,0.0,6.745,57.81
+Clearance_Microsome_AZ,1102,377,34.2,1088,13,1.2,221,8,3.6,0,0.0,3.0,18.0

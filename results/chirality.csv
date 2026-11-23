@@ -1,0 +1,13 @@
+task,model,features,include_chirality,metric,mean,std,n_seeds,seconds
+Caco2_Wang,rf,fp,False,mae,0.408,0.006,5,17.1
+Caco2_Wang,rf,fp,True,mae,0.432,0.005,5,13.6
+Caco2_Wang,rf,desc+fp,False,mae,0.279,0.003,5,19.5
+Caco2_Wang,rf,desc+fp,True,mae,0.282,0.002,5,18.2
+PPBR_AZ,rf,fp,False,mae,9.729,0.014,5,90.5
+PPBR_AZ,rf,fp,True,mae,10.06,0.025,5,112.6
+PPBR_AZ,rf,desc+fp,False,mae,8.657,0.02,5,106.8
+PPBR_AZ,rf,desc+fp,True,mae,8.578,0.033,5,75.0
+Clearance_Microsome_AZ,rf,fp,False,spearman,0.445,0.003,5,34.0
+Clearance_Microsome_AZ,rf,fp,True,spearman,0.389,0.007,5,32.9
+Clearance_Microsome_AZ,rf,desc+fp,False,spearman,0.506,0.002,5,32.9
+Clearance_Microsome_AZ,rf,desc+fp,True,spearman,0.476,0.008,5,32.6

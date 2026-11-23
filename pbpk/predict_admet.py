@@ -27,29 +27,17 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 import numpy as np
-from rdkit import Chem
 from sklearn.ensemble import RandomForestRegressor
 
 from src.config import SEEDS, TASKS
 from src.data import load_task, xy
 from src.features import featurize
+from src.stereo import skeleton_key
 from src.utils import set_seed
 
 # 1주차 격자에서 세 과제 모두 가장 좋았던 조합
 BEST_MODEL = "rf"
 BEST_FEATURES = "desc+fp"
-
-
-def skeleton_key(smiles: str) -> str | None:
-    """입체화학을 무시한 분자 식별자.
-
-    InChIKey의 첫 블록은 원자 연결만 반영하고 입체는 두 번째 블록에
-    들어간다. 그래서 첫 블록만 비교하면 거울상끼리 같게 잡힌다.
-    """
-    mol = Chem.MolFromSmiles(smiles)
-    if mol is None:
-        return None
-    return Chem.MolToInchiKey(mol).split("-")[0]
 
 
 @dataclass
