@@ -172,7 +172,11 @@ def elasticity(admet: dict, which: str, dose_mg: float, t_end_h: float,
     }
 
 
-def observed_cmax(path: Path) -> dict:
+# 관측과 대조할 때 쓸 투여 조건. 여기 시뮬레이션은 단회 80 mg 경구다.
+OBSERVED_DATASET = "po_single_80mg"
+
+
+def observed_cmax(path: Path, dataset: str = OBSERVED_DATASET) -> dict:
     """3주차 비교 결과에서 관측 Cmax 분포를 읽는다.
 
     AUC는 연구마다 마지막 채혈 시각이 8~32시간으로 달라 고정 창
@@ -183,7 +187,15 @@ def observed_cmax(path: Path) -> dict:
     if not path.exists():
         return {}
     df = pd.read_csv(path)
-    d = df[df["mode"] == "a_priori"]["cmax_obs"].dropna()
+    d = df[df["mode"] == "a_priori"]
+    if "dataset" in d.columns:
+        # **투여 조건이 같은 곡선만 골라야 한다.** 2026-11-24 관측 세트
+        # 정정으로 dataset 열이 생겼다(단회 80 mg / 다른 용량 / 정상상태 /
+        # IV). 전부 섞으면 용량이 다른 곡선과 정상상태 축적분이 함께 들어가
+        # 기준선이 틀어진다. 섞으면 25곡선 65.9, 단회 80 mg만 보면
+        # 7곡선 71.1 ug/L로 갈린다.
+        d = d[d["dataset"] == dataset]
+    d = d["cmax_obs"].dropna()
     if not len(d):
         return {}
     return {
@@ -397,7 +409,7 @@ def main() -> None:
     obs = observed_cmax(out.with_name("pk_comparison.csv"))
     if obs:
         need = obs["median"] / base["cmax_ug_L"]
-        print(f"\n  관측 Cmax (연구 {obs['n']}개): 중앙값 {obs['median']:.1f},"
+        print(f"\n  관측 Cmax ({OBSERVED_DATASET}, 곡선 {obs['n']}개): 중앙값 {obs['median']:.1f},"
               f" 범위 {obs['min']:.1f}-{obs['max']:.1f} ug/L")
         print(f"  a priori Cmax {base['cmax_ug_L']:.1f} -> 중앙값까지 {need:.1f}배 필요")
         in_slope = df_s["cmax_ug_L"].max() / base["cmax_ug_L"] >= need

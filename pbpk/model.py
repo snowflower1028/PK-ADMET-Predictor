@@ -334,35 +334,114 @@ def simulate(
     돌려주는 농도 단위는 ug/L(= ng/mL)로, 관측 데이터와 같다.
     """
     route = route.upper()
+    t_eval = np.linspace(0.0, t_end_h, n_points)
+
+    def solve(rhs, t0, t1, y0, at):
+        sol = solve_ivp(
+            rhs, (t0, t1), y0, t_eval=at,
+            args=(params, phys),
+            # 흡수는 빠르고 소실은 느려서 시간 척도가 섞인다(stiff).
+            method="LSODA", rtol=1e-8, atol=1e-10,
+        )
+        if not sol.success:
+            raise RuntimeError(f"ODE 적분 실패: {sol.message}")
+        return sol
+
     if route == "PO":
-        y0 = [dose_mg, 0.0, 0.0, 0.0]
+        y = solve(_rhs, 0.0, t_end_h, [dose_mg, 0.0, 0.0, 0.0], t_eval).y
+    elif route == "IV" and infusion_h > 0:
+        # 정속 주입. 주입이 끝나는 순간 입력이 끊기므로 그 시점에서 구간을
+        # 나눠 푼다. 한 번에 풀면 적분기가 불연속을 넘다가 오차를 낸다.
+        #
+        # 순간 주입으로 대신하면 안 되는 이유: 중앙 구획이 5 L라 10 mg를
+        # 한 번에 넣으면 시작 농도가 2000 ug/L가 되고, 이 뾰족한 구간이
+        # 관측에는 없는 면적을 AUC에 더한다.
+        rate = dose_mg / infusion_h
+
+        def rhs_infusion(t, state, p, ph):
+            d = _rhs(t, state, p, ph)
+            d[2] += rate / ph.v_central_L
+            return d
+
+        t_stop = min(infusion_h, t_end_h)
+        during = t_eval <= t_stop
+        at = t_eval[during]
+        if at[-1] < t_stop:
+            at = np.append(at, t_stop)  # 주입 종료 시점의 상태가 필요하다
+        first = solve(rhs_infusion, 0.0, t_stop, [0.0, 0.0, 0.0, 0.0], at)
+        y = first.y[:, : int(during.sum())]
+        if not during.all():
+            rest = solve(_rhs, t_stop, t_end_h, first.y[:, -1], t_eval[~during])
+            y = np.hstack([y, rest.y])
     elif route == "IV":
-        # 순간 주입으로 본다. 중앙 구획에 바로 넣는다.
-        y0 = [0.0, 0.0, dose_mg / phys.v_central_L, 0.0]
+        # 순간 주입. 중앙 구획에 바로 넣는다.
+        y = solve(_rhs, 0.0, t_end_h,
+                  [0.0, 0.0, dose_mg / phys.v_central_L, 0.0], t_eval).y
     else:
         raise ValueError(f"알 수 없는 투여 경로: {route}")
 
-    t_eval = np.linspace(0.0, t_end_h, n_points)
-    sol = solve_ivp(
-        _rhs, (0.0, t_end_h), y0, t_eval=t_eval,
-        args=(params, phys),
-        # 흡수는 빠르고 소실은 느려서 시간 척도가 섞인다(stiff).
-        method="LSODA", rtol=1e-8, atol=1e-10,
-    )
-    if not sol.success:
-        raise RuntimeError(f"ODE 적분 실패: {sol.message}")
-
     # mg/L -> ug/L
-    conc_ug_L = sol.y[2] * 1000.0
+    conc_ug_L = y[2] * 1000.0
     return {
-        "time_h": sol.t,
+        "time_h": t_eval,
         "conc_ug_L": conc_ug_L,
         "cmax_ug_L": float(np.max(conc_ug_L)),
-        "tmax_h": float(sol.t[int(np.argmax(conc_ug_L))]),
+        "tmax_h": float(t_eval[int(np.argmax(conc_ug_L))]),
         # numpy 1.26에는 trapezoid가 없다(2.0에서 추가). rdkit 2023.09 상한
         # 때문에 numpy는 1.x에 묶여 있으므로 trapz를 쓴다.
-        "auc_ug_h_L": float(np.trapz(conc_ug_L, sol.t)),
+        "auc_ug_h_L": float(np.trapz(conc_ug_L, t_eval)),
         "bioavailability": params.bioavailability(phys),
         "hepatic_extraction": params.hepatic_extraction(phys),
         "clearance_L_h": params.clearance_L_h(phys),
+    }
+
+
+def simulate_steady_state(
+    params: DrugParams,
+    dose_mg: float,
+    tau_h: float,
+    t_end_h: float | None = None,
+    n_points: int = 600,
+    phys: Physiology = PHYS,
+) -> dict:
+    """경구 반복투여 정상상태에서 **마지막 투여 뒤**의 곡선.
+
+    중첩 원리로 계산한다. 이 모델은 선형이라(포화되는 과정이 없다) 단회
+    곡선을 투여 간격만큼 밀어 더한 것이 반복투여 곡선과 정확히 같다.
+
+        C_ss(t) = sum_k C_single(t + k·tau),   k = 0, 1, 2, …
+
+    t가 tau를 넘어가면 다음 투여 없이 계속 떨어지는 구간이 된다. 정상상태
+    연구는 마지막 투여 뒤 12~24시간을 관측하는 경우가 있어서 그 구간이
+    필요하다. t_end_h를 주지 않으면 한 투여 간격만 계산한다.
+
+    **한계**: 실제 프로프라놀롤은 반복투여에서 초회통과가 줄어 선형
+    예측보다 더 쌓인다(문헌의 축적비 1.4~1.7). 이 함수는 그 비선형을
+    담지 못한다. 관측이 예측보다 높게 나오면 이쪽을 먼저 의심한다.
+    """
+    t_end = float(tau_h if t_end_h is None else t_end_h)
+    step = 0.01  # 단회 곡선의 격자 간격(h). 봉우리를 보간으로 뭉개지 않을 만큼.
+    horizon = max(240.0, 20.0 * tau_h)
+    while True:
+        total = t_end + horizon
+        single = simulate(params, dose_mg, "PO", t_end_h=total,
+                          n_points=int(round(total / step)) + 1, phys=phys)
+        # 꼬리가 충분히 죽었는지 본다. 남아 있으면 더 길게 다시 푼다.
+        if single["conc_ug_L"][-1] <= 1e-6 * single["cmax_ug_L"]:
+            break
+        if horizon > 5000.0:
+            raise RuntimeError("정상상태에 도달하지 않는다 (소실이 거의 없다)")
+        horizon *= 2.0
+
+    t = np.linspace(0.0, t_end, n_points)
+    conc = np.zeros_like(t)
+    for k in range(int(horizon // tau_h) + 1):
+        conc += np.interp(t + k * tau_h, single["time_h"], single["conc_ug_L"])
+    return {
+        "time_h": t,
+        "conc_ug_L": conc,
+        "cmax_ug_L": float(np.max(conc)),
+        "tmax_h": float(t[int(np.argmax(conc))]),
+        "auc_ug_h_L": float(np.trapz(conc, t)),
+        "accumulation_cmax": float(np.max(conc) / single["cmax_ug_L"]),
     }

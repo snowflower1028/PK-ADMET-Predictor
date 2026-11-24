@@ -3,15 +3,14 @@
 SMILES 구조에서 ADMET 물성을 예측하고, 그 예측값을 PBPK 모델에 넣어
 혈중 농도까지 이어 보는 프로젝트다.
 
-아론티어 AI Researcher Scientist(전문연구요원) 지원용 포트폴리오로 만들지만,
-내용 자체는 내 석사 연구(PBPK·ODE 모델링, 마이크로솜 대사안정성, Caco-2
+내용은 내 석사 연구(PBPK·ODE 모델링, 마이크로솜 대사안정성, Caco-2
 투과도)의 연장선에 있다.
 
 ## 왜 이 세 과제인가
 
 TDC ADMET Benchmark Group의 22개 과제 중, **내가 벤치에서 직접 측정해 본
 물성** 세 가지를 골랐다. 데이터가 어떻게 만들어지는지 아는 상태에서
-예측 모델을 만든다는 점이 이 포트폴리오의 차별점이다.
+예측 모델을 만든다는 점이 이 프로젝트의 출발점이다.
 
 | 과제 | 물성 | 공식 지표 | 내 실험 경험 |
 | --- | --- | --- | --- |
@@ -23,9 +22,9 @@ TDC ADMET Benchmark Group의 22개 과제 중, **내가 벤치에서 직접 측�
 분자가 들어가므로 무작위 분할보다 어렵고, 처음 보는 골격을 예측해야 하는
 실제 신약개발 상황에 가깝다.
 
-## 지금 상태 (2026-11-06)
+## 지금 상태 (2026-11-24)
 
-1주차 완료. 세 과제 베이스라인 숫자가 나왔다.
+4주차까지 실행 완료. 3주차 관측 세트는 11/24에 다시 만들어 전부 다시 돌렸다.
 
 | 항목 | 상태 |
 | --- | --- |
@@ -37,6 +36,9 @@ TDC ADMET Benchmark Group의 22개 과제 중, **내가 벤치에서 직접 측�
 | 2주차 PyTorch 모델 (MLP, GIN, GIN+desc) | **실행 완료** → `results/models.csv` |
 | 2주차 DDP (`scripts/train_ddp.py`) | 작성 완료, **GPU 1장이라 미검증** |
 | 3주차 PBPK 연계 (`pbpk/`) | **실행 완료** → `results/pk_comparison.csv` |
+| 4주차 카이랄 재실험 | **실행 완료** → `results/chirality*.csv` |
+| 4주차 민감도 분석 | **실행 완료** → `results/sensitivity*` |
+| 알려진 약물 sanity check | **실행 완료** → `results/sanity_check.csv` |
 
 환경은 **WSL2 Ubuntu-24.04(권장)와 Windows 네이티브 두 가지**를 다
 만들어 돌렸다. 둘 다 `cuda available : True`. 막혔던 지점과 해결은
@@ -107,22 +109,25 @@ epoch을 남겨 그 근거를 볼 수 있게 했다.
 ### 3주차: 예측값을 PBPK에 넣어 혈중 농도까지
 
 세 ADMET 예측값을 간·장 포함 축소 PBPK에 넣고, 출판된 프로프라놀롤
-human PK(건강 성인 경구 80 mg, 12개 연구 288점)와 비교했다.
+human PK와 비교했다. 주 세트는 건강 성인 경구 **단회** 80 mg의 총 농도
+곡선 7개(연구 6개, 74점)다. 관측 세트는 2026-11-24에 다시 만들었다.
 
-| | Cmax 기하평균 배수오차 | 2배 안쪽 | AUC 배수오차 | 2배 안쪽 |
+| 주 세트 | Cmax 기하평균 배수오차 | 2배 안쪽 | AUC 배수오차 | 2배 안쪽 |
 | --- | --- | --- | --- | --- |
-| a priori (ADMET 예측값만) | 4.97 | **0%** | 2.26 | 42% |
-| 파라미터 1개 보정 (검증 11개 연구) | 1.48 | 82% | 1.51 | 91% |
+| a priori (ADMET 예측값만) | 4.51 | **0%** | 1.97 | 57% |
+| 파라미터 1개 보정 (검증 곡선 6개) | 1.51 | 83% | 1.41 | 100% |
 
 **a priori로는 Cmax를 하나도 맞히지 못했다.** 보정은 Caco-2 → Peff
-상관식의 절편 하나만 연구 1개에 맞추고 나머지 11개로 검증한 것이다.
+상관식의 절편 하나만 곡선 1개에 맞추고 나머지 6개로 검증한 것이다.
 
-관측 데이터에 IV가 있어 **흡수와 소실을 분리**할 수 있었다. IV는
-a priori 그대로 배수오차 1.21로 들어온다. 즉 소실 쪽(fu, CLint)은
-대체로 맞고 **틀린 것은 흡수 쪽**이다. 보정할 파라미터로 Caco-2 절편을
-고른 것은 이 진단의 결과다.
+관측 데이터에 IV가 있어 **흡수와 소실을 분리**해 볼 수 있다. 정맥 곡선
+5개에서 부분 AUC는 배수오차 1.22로 맞지만, **말단 반감기가 3~4배 길고
+(관측 3.3~5.3 h, 모델 13.9 h) 청소율이 2.5배 낮다**(관측 중앙값 61 L/h,
+모델 24.6 L/h). 즉 틀린 것은 흡수만이 아니다. 흡수 쪽 절편만 보정한
+모델은 단회 80 mg에서는 맞지만, 약물이 쌓이는 조건(정상상태, 다른 용량)에서
+AUC를 약 2배 과대예측한다.
 
-아직 못 맞추는 것은 Tmax다(관측 1.5~3.0 h, a priori 4.0, 보정 후 0.75).
+아직 못 맞추는 것은 Tmax다(관측 1.5~3.0 h, a priori 4.0, 보정 후 0.78).
 Cmax를 맞추면 Tmax가 어긋난다. 흡수를 1차 속도상수 하나로만 써서
 봉우리 모양을 만들 자유도가 없는 구조적 한계다.
 
@@ -148,12 +153,12 @@ split이고 거울상은 골격이 같아, **입체이성질체 짝이 train과 
 → 결론은 "입체화학이 중요하지 않다"가 아니라 **"이 벤치마크로는 그 질문에
 답할 수 없다"**이다.
 
-**2. 민감도 분석** (`scripts/run_sensitivity.py`) — a priori Cmax가 5배
+**2. 민감도 분석** (`scripts/run_sensitivity.py`) — a priori Cmax가 4.5배
 틀린 원인이 어느 가정인지 찾았다. **Caco-2 → Peff 상관식의 기울기가
 지배한다.** 문헌 범위에서 MPPGL은 AUC를 2.0배 움직이는 데 그치지만
 기울기는 25.3배 움직인다(창 무관 기준). 기울기는 `10^(기울기 × logPapp)`의
 **지수**로 들어가고 MPPGL은 CLint에 **선형**으로 들어가기 때문이다.
-관측 Cmax 중앙값에 닿는 데 필요한 4.3배는 기울기 범위 안에서는 도달
+관측 Cmax 중앙값에 닿는 데 필요한 4.0배는 기울기 범위 안에서는 도달
 가능하고 MPPGL 범위 안에서는 불가능하다.
 
 ![민감도 분석](results/sensitivity.png)
@@ -192,33 +197,9 @@ scripts/           check_env, smoke_test, run_baseline, run_models,
                    train_ddp, run_pbpk, run_chirality, run_sensitivity,
                    run_sanity
 notebooks/         01_rdkit_intro — RDKit 기초 + 데이터 탐색
-docs/              환경 구성, 주차별 체크리스트
-pbpk/              3주차 PBPK 연계 (예정)
+docs/              환경 구성, 막혔던 것들, 주차별 기록
 data/ results/     TDC 캐시와 결과 (저장소에는 요약만 올린다)
 ```
-
-## 일정
-
-| 주차 | 내용 | 산출물 |
-| --- | --- | --- |
-| 1주차 11/5~11/11 | 환경, RDKit 학습, 베이스라인 | `results/baseline.csv` |
-| 2주차 11/12~11/18 | PyTorch Dataset/DataLoader, MLP·GNN, DDP | `results/models.csv` |
-| 3주차 11/19~11/23 | 예측값을 PBPK에 입력, 관측 PK와 비교 | `results/pk_comparison.csv` |
-| 11/23 | 카이랄 재실험, PBPK 민감도 분석 | `results/chirality*.csv`, `results/sensitivity*` |
-| 11/24~11/25 | README 정리, 이력서·자기소개서 | 지원 서류 |
-| 11/26 | 지원 (마감 11/27) | — |
-
-## 공고 요건과의 대응
-
-| 공고 필수요건 | 이 프로젝트에서 증명하는 것 |
-| --- | --- |
-| Linux·Python 능숙 | WSL2 환경 구성, 패키지 구조화 |
-| 딥러닝 프레임워크 능숙 | 2주차 PyTorch MLP·GNN 학습 |
-| 최신 모델 분석·적용·개선 | 공개 GNN 구현을 가져와 이 데이터에 맞춤 |
-| Data loader 구현 | 분자 그래프용 `Dataset`·`collate_fn` 직접 작성 |
-| multi-GPU 활용 | DDP 학습 코드 (검증은 Kaggle T4 x2, 자세한 사정은 계획 문서 참고) |
-| ADMET 모델링 경험(우대) | 세 과제 자체가 ADMET 예측 |
-| RDKit·descriptor(우대) | `src/features.py` |
 
 ## 규칙
 
@@ -226,11 +207,10 @@ data/ results/     TDC 캐시와 결과 (저장소에는 요약만 올린다)
   평가는 `group.evaluate()` / `group.evaluate_many()`로만 한다.
   test 점수를 보고 하이퍼파라미터를 바꾸면 리더보드와 비교할 수 없는 숫자가 된다.
 - seed 5개의 평균±표준편차로 보고한다. 한 번 잘 나온 숫자는 쓰지 않는다.
-- 연구실 미공개 데이터·코드는 넣지 않는다. 공개 데이터와 이미 발표된 논문만 쓴다.
-- 면접에서 코드를 설명해야 한다. 이해되지 않는 줄은 남겨 두지 않는다.
+- 미공개 실험 데이터는 넣지 않는다. 공개 데이터와 이미 발표된 논문만 쓴다.
+- 남이 읽고 한 줄씩 설명할 수 있는 코드로 쓴다. 이해되지 않는 줄은
+  남겨 두지 않는다.
 
 ## 출처
 
 - [TDC ADMET Benchmark Group](https://tdcommons.ai/benchmark/admet_group/overview/)
-- [아론티어 채용 공고 (사람인)](https://www.saramin.co.kr/zf_user/jobs/relay/view?rec_idx=55427749)
-- [지원 준비 계획 문서](https://claude.ai/artifact/P5FXPZJBfHG6UP1UKVHcwc)
