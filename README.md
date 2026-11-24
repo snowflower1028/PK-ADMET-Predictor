@@ -189,7 +189,8 @@ pbpk/model.py      간·장 축소 PBPK (ODE 4개), ADMET -> 파라미터 변환
 pbpk/predict_admet.py  대상 분자 물성 예측 (누출 분자는 제외 재학습)
 pbpk/observed.py   출판된 human PK 엑셀 파싱
 scripts/           check_env, smoke_test, run_baseline, run_models,
-                   train_ddp, run_pbpk, run_chirality, run_sensitivity
+                   train_ddp, run_pbpk, run_chirality, run_sensitivity,
+                   run_sanity
 notebooks/         01_rdkit_intro — RDKit 기초 + 데이터 탐색
 docs/              환경 구성, 주차별 체크리스트
 pbpk/              3주차 PBPK 연계 (예정)

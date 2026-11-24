@@ -1,0 +1,25 @@
+﻿task,molecule,source,smiles,located_in,reference_from_dataset,n_dataset_rows,prediction,prediction_std,abs_error,error_in_dataset_sd,pred_percentile_in_dataset,dataset_mean,dataset_std,verdict,n_seeds,excluded_rows
+Caco2_Wang,Atenolol,CHEMBL24,CC(C)NCC(O)COc1ccc(CC(N)=O)cc1,없음,,0,-5.4453,0.0185,,,32.8,-5.2173,0.7963,참조 없음,5,5
+Caco2_Wang,Metoprolol,CHEMBL13,COCCc1ccc(OCC(O)CNC(C)C)cc1,train_valid,-4.3493,1,-4.6535,0.0082,0.3042,0.382,72.9,-5.2173,0.7963,합당,5,5
+Caco2_Wang,Propranolol,CHEMBL27,CC(C)NCC(O)COc1cccc2ccccc12,없음,,0,-4.5665,0.0085,,,77.5,-5.2173,0.7963,참조 없음,5,5
+Caco2_Wang,Theophylline,CHEMBL190,Cn1c(=O)c2[nH]cnc2n(C)c1=O,train_valid,-4.35,1,-4.76,0.0144,0.41,0.515,65.7,-5.2173,0.7963,합당,5,5
+Caco2_Wang,Caffeine,CHEMBL113,Cn1c(=O)c2c(ncn2C)n(C)c1=O,train_valid,-4.34,1,-4.6093,0.0047,0.2693,0.338,75.1,-5.2173,0.7963,합당,5,5
+Caco2_Wang,Diazepam,CHEMBL12,CN1C(=O)CN=C(c2ccccc2)c2cc(Cl)ccc21,없음,,0,-4.468,0.0135,,,84.1,-5.2173,0.7963,참조 없음,5,5
+Caco2_Wang,Warfarin,CHEMBL1464,CC(=O)CC(c1ccccc1)c1c(O)c2ccccc2oc1=O,없음,,0,-4.5912,0.0131,,,75.8,-5.2173,0.7963,참조 없음,5,5
+Caco2_Wang,Verapamil,CHEMBL6966,COc1ccc(CCN(C)CCCC(C#N)(c2ccc(OC)c(OC)c2)C(C)C)cc1OC,train_valid(2),-4.7706,2,-4.812,0.0148,0.0413,0.052,63.7,-5.2173,0.7963,합당,5,5
+PPBR_AZ,Atenolol,CHEMBL24,CC(C)NCC(O)COc1ccc(CC(N)=O)cc1,없음,,0,36.518,0.3558,,,3.9,86.3549,18.7807,참조 없음,5,16
+PPBR_AZ,Metoprolol,CHEMBL13,COCCc1ccc(OCC(O)CNC(C)C)cc1,없음,,0,37.1264,0.3994,,,4.1,86.3549,18.7807,참조 없음,5,16
+PPBR_AZ,Propranolol,CHEMBL27,CC(C)NCC(O)COc1cccc2ccccc12,train_valid(4),82.51,4,78.9635,1.2687,3.5465,0.189,21.0,86.3549,18.7807,합당,5,16
+PPBR_AZ,Theophylline,CHEMBL190,Cn1c(=O)c2[nH]cnc2n(C)c1=O,train_valid(3),33.8833,3,73.9861,0.55,40.1027,2.135,17.5,86.3549,18.7807,확인 필요,5,16
+PPBR_AZ,Caffeine,CHEMBL113,Cn1c(=O)c2c(ncn2C)n(C)c1=O,train_valid(3),17.55,3,74.6765,0.4676,57.1265,3.042,17.8,86.3549,18.7807,확인 필요,5,16
+PPBR_AZ,Diazepam,CHEMBL12,CN1C(=O)CN=C(c2ccccc2)c2cc(Cl)ccc21,train_valid(2),93.115,2,85.5191,1.2694,7.5959,0.404,28.8,86.3549,18.7807,합당,5,16
+PPBR_AZ,Warfarin,CHEMBL1464,CC(=O)CC(c1ccccc1)c1c(O)c2ccccc2oc1=O,train_valid(4),98.045,4,94.2541,0.5148,3.7909,0.202,48.0,86.3549,18.7807,합당,5,16
+PPBR_AZ,Verapamil,CHEMBL6966,COc1ccc(CCN(C)CCCC(C#N)(c2ccc(OC)c(OC)c2)C(C)C)cc1OC,test(3),88.41,3,92.3763,0.331,3.9663,0.211,42.4,86.3549,18.7807,합당,5,16
+Clearance_Microsome_AZ,Atenolol,CHEMBL24,CC(C)NCC(O)COc1ccc(CC(N)=O)cc1,없음,,0,9.8124,0.5459,,,42.0,35.5696,45.1024,참조 없음,5,3
+Clearance_Microsome_AZ,Metoprolol,CHEMBL13,COCCc1ccc(OCC(O)CNC(C)C)cc1,없음,,0,16.1076,1.3667,,,53.3,35.5696,45.1024,참조 없음,5,3
+Clearance_Microsome_AZ,Propranolol,CHEMBL27,CC(C)NCC(O)COc1cccc2ccccc12,없음,,0,33.7441,1.2079,,,68.3,35.5696,45.1024,참조 없음,5,3
+Clearance_Microsome_AZ,Theophylline,CHEMBL190,Cn1c(=O)c2[nH]cnc2n(C)c1=O,train_valid,4.79,1,13.5189,0.6021,8.7289,0.194,48.5,35.5696,45.1024,합당,5,3
+Clearance_Microsome_AZ,Caffeine,CHEMBL113,Cn1c(=O)c2c(ncn2C)n(C)c1=O,없음,,0,35.3636,0.7597,,,70.1,35.5696,45.1024,참조 없음,5,3
+Clearance_Microsome_AZ,Diazepam,CHEMBL12,CN1C(=O)CN=C(c2ccccc2)c2cc(Cl)ccc21,train_valid,5.75,1,33.5939,0.6513,27.8439,0.617,68.3,35.5696,45.1024,합당,5,3
+Clearance_Microsome_AZ,Warfarin,CHEMBL1464,CC(=O)CC(c1ccccc1)c1c(O)c2ccccc2oc1=O,train_valid,5.25,1,22.9024,2.7846,17.6524,0.391,60.3,35.5696,45.1024,합당,5,3
+Clearance_Microsome_AZ,Verapamil,CHEMBL6966,COc1ccc(CCN(C)CCCC(C#N)(c2ccc(OC)c(OC)c2)C(C)C)cc1OC,test,127.7,1,57.8657,2.5581,69.8343,1.548,78.4,35.5696,45.1024,경계,5,3
