@@ -2,11 +2,15 @@
 
   python scripts/run_sensitivity.py
 
-**왜 이 두 개인가.** 3주차 결과에서 a priori 예측은 Cmax를 5배 가까이
-틀렸고(GMFE 4.97, 2배 안쪽 0%), IV 데이터로 소실 쪽은 대체로 맞다는 것이
-확인됐다. 그러면 남는 질문은 "흡수 쪽 가정 중 **어느 것**이 그 오차를
-만들고 있는가"다. 모델에서 사람이 문헌값으로 정한 수(= 예측값이 아닌 수)
-중 결과를 크게 움직일 수 있는 후보가 둘이다.
+**왜 이 두 개인가.** 3주차 결과에서 a priori 예측은 단회 80 mg Cmax를
+4.5배 틀렸다(GMFE 4.51, 2배 안쪽 0%). 모델에서 사람이 문헌값으로 정한
+수(= 예측값이 아닌 수) 중 그 오차를 만들 수 있는 후보가 둘이다.
+
+(2026-11-24 정정: 예전에는 "IV로 소실 쪽은 대체로 맞다고 확인됐으니
+남는 건 흡수뿐"이라고 적었다. 그 해석은 철회했다. IV의 부분 AUC는
+맞지만 말단 반감기와 청소율은 맞지 않는다. 그래도 이 분석의 대상은
+그대로다. 아래 두 가정은 각각 흡수와 소실 경로에 하나씩 들어가므로,
+둘 중 무엇이 지배하는지는 여전히 답할 수 있는 질문이다.)
 
   MPPGL (간 1g당 미세소체 단백질)   기준 45 mg/g, 문헌 범위 30~60
   Caco-2 -> Peff 상관식 기울기       기준 0.6
@@ -242,25 +246,34 @@ def plot(df_m: pd.DataFrame, df_s: pd.DataFrame, base: dict,
 
     # 토네이도: 각 파라미터의 문헌 범위가 만드는 변동폭
     ax = axes[2]
-    labels, cmax_folds, auc_folds = [], [], []
+    labels, cmax_folds, auc_folds, inf_folds = [], [], [], []
     for _, r in summary.iterrows():
         labels.append(r["parameter"])
         cmax_folds.append(r["cmax_fold_range"])
         auc_folds.append(r["auc_fold_range"])
+        inf_folds.append(r["auc_inf_fold_range"])
     y = np.arange(len(labels))
-    h = 0.36
+    h = 0.26
     # 변동폭은 정의상 1배 이상이므로 막대를 1에서 시작시키고 x축을 로그로
     # 둔다. 선형축이면 1.5배 막대가 563배 옆에서 보이지 않는다.
-    ax.barh(y + h / 2, np.array(cmax_folds) - 1, left=1, height=h, label="Cmax")
-    ax.barh(y - h / 2, np.array(auc_folds) - 1, left=1, height=h, label="AUC 0-24h")
-    for i, (c, a) in enumerate(zip(cmax_folds, auc_folds)):
-        ax.text(c, i + h / 2, f"  {c:.1f}x", va="center", fontsize=9)
-        ax.text(a, i - h / 2, f"  {a:.1f}x", va="center", fontsize=9)
+    #
+    # AUC는 두 기준을 같이 그린다. 0-24h 창은 느린 흡수 쪽을 과장하므로
+    # 기울기 막대가 130배까지 늘어난다. 창 무관 해석해
+    # AUC(0-inf) = Dose x Fa / (fu x CLint)로 보면 25.3배다. README가
+    # 인용하는 수는 창 무관 쪽이므로 그림에도 같이 있어야 한다.
+    ax.barh(y + h, np.array(cmax_folds) - 1, left=1, height=h, label="Cmax")
+    ax.barh(y, np.array(auc_folds) - 1, left=1, height=h, label="AUC 0-24h")
+    ax.barh(y - h, np.array(inf_folds) - 1, left=1, height=h,
+            label="AUC 0-inf (window-free)")
+    for i, (c, a, f) in enumerate(zip(cmax_folds, auc_folds, inf_folds)):
+        ax.text(c, i + h, f"  {c:.1f}x", va="center", fontsize=8)
+        ax.text(a, i, f"  {a:.1f}x", va="center", fontsize=8)
+        ax.text(f, i - h, f"  {f:.1f}x", va="center", fontsize=8)
     ax.set_yticks(y)
     ax.set_yticklabels(labels)
     ax.set_xscale("log")
-    ax.set_xlim(1, max(max(cmax_folds), max(auc_folds)) * 3)
-    ax.set_xlabel("fold range across the parameter's literature range (max/min)")
+    ax.set_xlim(1, max(max(cmax_folds), max(auc_folds)) * 4)
+    ax.set_xlabel("fold range across the literature range (max/min)")
     ax.set_title("Which assumption dominates")
     ax.grid(alpha=0.25, axis="x")
     ax.legend(fontsize=9, loc="lower right")

@@ -272,8 +272,16 @@ def iv_check(par, df_iv: pd.DataFrame, n_tail: int = 4) -> pd.DataFrame:
 
 
 def plot_curves(par, par_cal, obs: pd.DataFrame, calib_id: str,
-                dose_mg: float, path: Path) -> None:
-    """관측 점 위에 a priori와 보정 곡선을 겹쳐 그린다."""
+                dose_mg: float, path: Path,
+                df_iv: pd.DataFrame | None = None) -> None:
+    """관측 점 위에 a priori와 보정 곡선을 겹쳐 그린다.
+
+    경구 두 패널만으로는 2026-11-24 정정의 결론이 보이지 않는다. 단회
+    80 mg에서 보정 곡선은 점 위를 지나가지만, 그 보정은 흡수 쪽 절편
+    하나만 올린 것이라 소실이 맞다는 뜻이 아니다. 그래서 흡수 가정이
+    들어가지 않는 IV 패널을 같이 그린다. 세 번째 패널에서 **관측 점의
+    기울기가 모델 곡선보다 가파른 것**이 소실이 느리다는 증거다.
+    """
     import matplotlib
     matplotlib.use("Agg")  # 화면 없는 환경에서 그린다
     import matplotlib.pyplot as plt
@@ -283,8 +291,10 @@ def plot_curves(par, par_cal, obs: pd.DataFrame, calib_id: str,
     sim_a = simulate(par, dose_mg, "PO", t_end, n_points=800)
     sim_c = simulate(par_cal, dose_mg, "PO", t_end, n_points=800)
 
-    fig, axes = plt.subplots(1, 2, figsize=(12, 4.6))
-    for ax, logy in zip(axes, (False, True)):
+    has_iv = df_iv is not None and len(df_iv) > 0
+    n_panel = 3 if has_iv else 2
+    fig, axes = plt.subplots(1, n_panel, figsize=(5.6 * n_panel, 4.8))
+    for ax, logy in zip(axes[:2], (False, True)):
         rest = obs[obs["curve_id"] != calib_id]
         cal = obs[obs["curve_id"] == calib_id]
         ax.scatter(rest["time_h"], rest["conc_ug_L"], s=14, alpha=0.45,
@@ -301,14 +311,52 @@ def plot_curves(par, par_cal, obs: pd.DataFrame, calib_id: str,
         if logy:
             ax.set_yscale("log")
             ax.set_ylim(1, None)
-            ax.set_title("log scale")
+            ax.set_title("same data, log scale\n"
+                         "the calibrated tail runs above the points")
         else:
-            ax.set_title(f"Propranolol {dose_mg:.0f} mg PO single dose, healthy adults "
+            ax.set_title(f"{dose_mg:.0f} mg PO single dose, healthy adults\n"
                          f"({obs['curve_id'].nunique()} curves, "
                          f"{obs['study'].nunique()} studies)")
         ax.legend(loc="upper right", fontsize=8)
         ax.grid(alpha=0.25)
-    fig.tight_layout()
+
+    if has_iv:
+        # IV는 곡선마다 용량(1~10 mg)과 주입 시간이 다르다. 모델이 선형이라
+        # 농도를 용량으로 나누면 전부 한 축에 겹쳐 놓고 볼 수 있다. 기울기만
+        # 보는 패널이므로 이 정규화가 비교를 왜곡하지 않는다.
+        ax = axes[2]
+        colors = plt.rcParams["axes.prop_cycle"].by_key()["color"]
+        lo = np.inf
+        for i, (_, d) in enumerate(df_iv.groupby("curve_id", sort=False)):
+            meta = curve_meta(d)
+            q = quantifiable(d)
+            if not len(q):
+                continue
+            dose = float(meta["dose_mg"])
+            c_obs = np.asarray(q["conc_ug_L"], dtype=float) / dose
+            lo = min(lo, c_obs.min())
+            c = colors[i % len(colors)]
+            ax.scatter(q["time_h"], c_obs, s=22, color=c, alpha=0.85, zorder=3,
+                       label=f"{meta['study']} ({dose:.0f} mg)")
+            sim = simulate_curve(par, meta, float(q["time_h"].max()),
+                                 n_points=1200)
+            ax.plot(sim["time_h"], np.asarray(sim["conc_ug_L"]) / dose,
+                    lw=1.4, color="0.35", alpha=0.7, zorder=2,
+                    label="model (a priori)" if i == 0 else None)
+        ax.set_yscale("log")
+        # 주입 직후의 뾰족한 봉우리는 채혈 시점에 따라 들쭉날쭉해서 비교
+        # 대상이 아니다. 축을 소실상에 맞춰 잘라야 **관측이 모델보다
+        # 가파르게 떨어지는 것**이 보인다.
+        ax.set_ylim(lo / 2, 30)
+        ax.set_xlabel("Time (h)")
+        ax.set_ylabel("Plasma concentration / dose (ug/L per mg)")
+        ax.set_title("IV, dose-normalised (a priori)\n"
+                     "observed falls faster than the model")
+        ax.legend(loc="upper right", fontsize=7)
+        ax.grid(alpha=0.25, which="both")
+
+    fig.suptitle("Propranolol — reduced liver+gut PBPK vs observed", fontsize=12)
+    fig.tight_layout(rect=(0, 0, 1, 0.95))
     path.parent.mkdir(parents=True, exist_ok=True)
     fig.savefig(path, dpi=150)
     plt.close(fig)
@@ -485,7 +533,7 @@ def main() -> None:
 
     # --- 8. 그림 -----------------------------------------------------------
     fig_path = Path(args.out).with_name("pk_propranolol_po.png")
-    plot_curves(par, par_cal, obs, calib_id, args.dose_mg, fig_path)
+    plot_curves(par, par_cal, obs, calib_id, args.dose_mg, fig_path, df_iv=iv)
     print(f"\n그림 저장: {fig_path}")
 
     # --- 9. 저장 -----------------------------------------------------------
