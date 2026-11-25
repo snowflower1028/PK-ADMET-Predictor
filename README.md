@@ -2,22 +2,23 @@
 
 **화학 구조 기반의 ADMET 예측값만으로 사람의 혈중 약물 농도-시간 곡선(PK profile)을 예측할 수 있는지 검증하고, 예측 오차가 발생하는 단계를 분리해 진단한 프로젝트임.**
 
-약물의 SMILES 구조로부터 세 가지 ADMET 물성(`Caco2_Wang`, `PPBR_AZ`, `Clearance_Microsome_AZ`)을 머신러닝으로 예측한 뒤, 이를 4-compartment **minimal PBPK (mPBPK)** 모델에 입력해 Propranolol의 실제 human clinical PK 데이터와 비교했다.
+약물의 SMILES 구조로부터 세 가지 ADMET 물성(`Caco2_Wang`, `PPBR_AZ`, `Clearance_Microsome_AZ`)을 머신러닝으로 예측한 뒤, 이를 4-compartment **minimal PBPK (mPBPK)** 모델에 입력해 Propranolol의 실제 human clinical PK 데이터와 비교했다. 이어 5주차에서는 tree-based model(1단)의 예측을 graph neural network(2단)에 결합하는 2-stage OOF stacking 실험을 수행해 구조적 한계와 설계 조건을 검증했다.
 
 ---
 
 ## 전체 분석 흐름 (Pipeline)
 
 ```text
-[1. Molecular Input]     [2. ADMET Prediction]        [3. mPBPK Simulation]          [4. Clinical PK Validation]
+[1. Molecular Input]     [2. ADMET Prediction]        [3. mPBPK Simulation]          [4. Clinical PK & Stacking]
   SMILES string    ──▶    Caco-2 permeability   ──▶   Gut → Liver → Central ↔ Peri   ──▶  PO (80 mg) · IV (5 curves)
-  Descriptors / Graph     PPBR / Hepatic CLint        4-compartment ODE                   Fold error · Sensitivity · Chirality
+  Descriptors / Graph     PPBR / Hepatic CLint        4-compartment ODE                   Sensitivity · Chirality · 2-stage Stacking
 ```
 
 1. **Featurization (`src/features.py`, `src/graph.py`, `src/stereo.py`)**: SMILES 문자열을 27개 physicochemical **descriptor**, 2048-bit **Morgan fingerprint**, 또는 atom-bond **molecular graph**로 변환한다.
-2. **ADMET Model Training (`src/baseline.py`, `src/models.py`, `src/train.py`, `src/stacking.py`)**: TDC benchmark 데이터셋으로 tree-based model과 neural network를 동일한 split 기준으로 비교하고, 둘을 직렬로 연결한 2단 스태킹까지 검증한다.
+2. **ADMET Model Training (`src/baseline.py`, `src/models.py`, `src/train.py`)**: TDC benchmark 데이터셋으로 tree-based model과 neural network를 동일한 split 기준으로 비교한다.
 3. **mPBPK Simulation (`pbpk/predict_admet.py`, `pbpk/model.py`)**: 예측된 ADMET 값을 70 kg 성인 기준 physiological constants와 결합해 시간별 plasma concentration을 계산한다.
 4. **Clinical Validation & Verification (`pbpk/observed.py`, `scripts/run_pbpk.py`, `scripts/run_chirality.py`, `scripts/run_sensitivity.py`, `scripts/run_sanity.py`)**: 문헌에서 수집한 healthy adult clinical PK 데이터와 비교하고, chiral fingerprint 재실험 및 parameter sensitivity analysis로 결론의 근거를 검증한다.
+5. **2-Stage OOF Stacking (`src/stacking.py`, `src/stack_predict.py`, `scripts/run_stack.py`)**: `desc+fp` 기반 1단 tree model의 5-fold OOF 예측값을 2단 `GIN+desc`에 meta feature로 결합해 성능 개선 여부와 정보 중복 구조를 검증한다.
 
 ---
 
@@ -39,7 +40,7 @@ Propranolol **single-dose PO 80 mg** 투여 시(healthy adults, total concentrat
 1. **Absorption과 Elimination의 분리 진단 (IV Cross-Check)**
    IV 투여(5 curves)는 gut absorption을 거치지 않고 central compartment로 직접 들어간다. IV 데이터에서 부분 AUC는 **1.22-fold**로 맞지만, **terminal half-life는 약 3.8배 길고**(관측 3.3–5.3 h vs. 모델 13.9 h, 곡선별 2.6–4.2배), **clearance는 2.5배 낮게**(관측 중앙값 61 L/h vs. 모델 24.6 L/h) 예측되었다. 즉 틀린 것은 absorption만이 아니며, absorption intercept만 보정한 모델은 single-dose 80 mg에서는 맞지만 steady-state나 다회 투여처럼 약물이 축적되는 조건에서는 AUC를 약 2배 과대예측한다.
 2. **겉보기 Bioavailability (`F`) 일치 이면의 Error Cancellation**
-   Oral bioavailability는 `F = Fa × (1 − E_h)`로 계산된다. a priori 예측에서 `F = 0.185`로 문헌값(`~0.26`)과 비슷해 보였으나, 실제로는 `Fa`(예측 0.26 vs. 거의 완전 흡수)와 hepatic extraction ratio `E_h`(예측 0.27 vs. 문헌 `~0.6–0.75`)를 모두 과소평가해 두 오차가 반대 방향으로 상쇄된 결과였음. 숫자는 맞지만 기전은 틀린 경우다.
+   Oral bioavailability는 `F = Fa × (1 − E_h)`로 계산된다. a priori 예측에서 `F = 0.185`로 문헌값(`~0.26`)과 비슷해 보였으나, 실제로는 `Fa`와 hepatic extraction ratio `E_h`를 모두 과소평가해 두 오차가 반대 방향으로 상쇄된 결과였음.
 3. **Achiral Features의 구조적 한계와 Data Leakage 방지**
    Propranolol은 R/S **enantiomer**에 따라 실제 protein binding과 metabolism 속도가 다르다. 하지만 기본 입력(`Morgan fingerprint` with `includeChirality=False`, 27 achiral descriptors)은 **chirality**를 구분하지 못해 R체·S체·racemate를 동일한 입력으로 인식한다. 또한 `PPBR_AZ` train set에 Propranolol 4건(R·S체 각 2건)이 포함되어 있음을 확인해, mPBPK 입력 예측 시 해당 분자를 제외하고 재학습했다.
 
@@ -77,52 +78,6 @@ Tree-based baseline (`RandomForest`, `LightGBM`)과 neural network (`MLP`, `GIN`
 * **Task 특성에 따른 모델 적합성**: 분자 전체의 physicochemical properties가 지배적인 `Caco2_Wang`에서는 descriptor를 활용하는 tree model이 가장 뛰어났다. 반면 특정 metabolic soft spot이 중요한 `Clearance_Microsome_AZ`에서는 원자 연결 구조를 직접 보는 `GIN+desc`가 가장 높은 성능을 보였다.
 * **Descriptor 결합 효과**: Graph만 입력받는 `GIN`에 27개 descriptor를 결합(`GIN+desc`)하면 세 task 모두 평균값이 향상되었다(단 `PPBR_AZ`는 seed 간 std가 커 구간이 겹친다).
 * **엄격한 평가 및 Reproducibility**: **test set**은 최종 평가에만 사용하며, **feature/target normalization** 통계량과 **early stopping** 기준은 `train`/`valid`에서만 계산한다. 또한 PyTorch GPU 연산(`index_add_`)의 비결정성을 해결하기 위해 **deterministic kernel**을 강제해 재현성을 확보했다([docs/03_week2_notes.md](docs/03_week2_notes.md)).
-
-### 2단 스태킹 실험 (Stacking: tree model 예측값을 GNN 입력으로)
-
-Tree model과 GNN이 서로 다른 task에서 이겼으므로, 둘을 **직렬로 연결**하면 각자의 강점을 합칠 수 있는지 검증했다. 1단에서 `RandomForest`/`LightGBM`이 낸 예측값 2개를 2차 feature로 만들어, 원자 그래프·descriptor와 함께 GIN에 넣고 최종 예측하는 구조다([docs/06_week5_stacking.md](docs/06_week5_stacking.md)).
-
-```text
-          ┌─ desc + Morgan FP ─┬─► RandomForest ─► y_rf  ─┐
-SMILES ───┤                    └─► LightGBM     ─► y_lgbm ┤
-          └─ 원자/결합 그래프 ─► GIN ─► readout(128) ─────┤
-                                      desc(27) ───────────┤
-                                                          ▼
-                                       concat(128+27+2) → head → 최종 예측
-```
-
-| Task | Metric | 기존 최고 | 1단 RF (train only) | `gin+stack` (residual head) | `gin+stack-plain` (plain head) |
-| --- | --- | --- | --- | --- | --- |
-| `Caco2_Wang` | MAE ↓ | **0.279** (RF, wk1) | 0.300 ± 0.006 | 0.302 ± 0.013 | 0.393 ± 0.075 |
-| `PPBR_AZ` | MAE ↓ | **7.982** (GIN+desc) | 8.745 ± 0.108 | 8.312 ± 0.234 | 7.818 ± 0.333 |
-| `Clearance_Microsome_AZ` | Spearman ↑ | **0.562** (GIN+desc) | 0.485 ± 0.017 | 0.478 ± 0.024 | 0.559 ± 0.023 |
-
-**결론부터: 세 task 모두 기존 최고 기록을 유의하게 넘지 못했다.** `PPBR_AZ`의 7.818은 프로젝트 전체 최저값이지만 `GIN+desc`(7.982)와의 차이가 각자의 std(0.333, 0.350)보다 작아 유의하지 않고, `Clearance`는 0.559로 사실상 동일하며, `Caco2`는 2단이 1단 tree model을 재현하는 데 그쳤다.
-
-`Caco2`의 `0.279 → 0.302` 격차를 구조 탓으로만 읽으면 안 된다. 1주차 RF는 `train+valid`에 학습했지만 2단 GIN이 valid로 early stopping을 하므로 1단은 **train만** 쓸 수 있고, 같은 train-only 조건에서 RF는 `0.279 → 0.300`으로 떨어진다. 0.023의 격차 중 0.021이 여기서 나온다. 즉 격차의 대부분은 **구조가 아니라 valid 몫(train_val의 12.5%)만큼의 학습 데이터**다. 이 실험에서 구조를 바꿔 얻은 것보다 데이터를 늘려 얻는 것이 컸다.
-
-그 대신 얻은 것이 세 가지다.
-
-1. **개선이 없는 이유가 구조적으로 설명된다.** 1단은 `descriptor + Morgan fingerprint`를, 2단은 `그래프 + descriptor`를 본다. Morgan fingerprint(radius 2)는 국소 부분구조의 해시이고 GIN 3층은 3-bond 이웃까지를 학습해 요약하므로, 1단이 넘겨주는 2개 열에는 **2단이 자기 입력에서 이미 유도할 수 있는 정보밖에 없다.** 스태킹이 이득을 내려면 기반모델이 2단이 볼 수 없는 정보(다른 assay, 3D conformer 등)를 봐야 한다.
-2. **`residual head`의 효과가 task 성격에 따라 부호가 뒤집힌다 (세 task 모두 일치).** head의 마지막 층을 0으로 초기화해 "기반모델 평균에서 출발해 오차를 보정"하게 만들면, tree model이 최강자인 `Caco2`에서는 맞는 사전지식이고(0.302 vs plain 0.393), graph 쪽이 더 세야 하는 `PPBR`·`Clearance`에서는 함정이다(8.312 vs 7.818, 0.478 vs 0.559). `valid_at_init`(학습 전 valid 점수)을 기록해 기전을 확인했다 — residual을 켜면 출발점이 이미 좋아 학습이 valid를 거의 못 움직이고, best epoch가 1~4에서 멈추는 seed가 나온다. 다만 task가 3개뿐이라 아직 '규칙'이라 부르기는 이르다.
-3. **Data leakage 대조 실험.** 2차 feature를 train 전체 학습 후 자기 예측으로 만들면(in-fold) train 구간 오차가 데이터 SD의 0.046배(LightGBM, `Clearance`)까지 떨어진다 — 사실상 정답을 들고 있다. 이를 막기 위해 train 구간은 **5-fold out-of-fold**로 생성했고, 누출 버전도 같은 조건으로 돌려 2×2 설계로 비교했다. 흥미롭게도 **test 점수 차이는 6개 칸 모두 std 안**이었다. residual 쪽에서는 누출이 유도하는 행동("meta를 베껴라")이 곧 "기반모델을 출력하라"라서 붕괴가 아니라 퇴화를 일으키고, plain 쪽에서는 157개 입력 중 2개뿐인 meta 열을 모델이 거의 쓰지 않기 때문이다. 다만 이는 **사후에 OOF 버전과 비교했기 때문에 알게 된 사실**이며, 누출 설정에서는 train 쪽 진단이 완전히 오도하므로 OOF가 기본값이어야 한다는 결론은 바뀌지 않는다.
-
-![스태킹 ablation](results/stack_ablation.png)
-
-#### 예시 분자 추론 (`scripts/run_stack_demo.py`)
-
-평균 지표만으로는 "2단이 1단 예측을 실제로 고쳤는가, 그냥 베꼈는가"를 알 수 없다. 알려진 약물 8개를 **train/valid에서 모두 제외하고 재학습**한 뒤 `RF / LightGBM / 둘의 평균 / 최종 예측`을 나란히 비교했다(정답은 데이터셋 자신의 라벨). 정답이 있는 14건 중 **13건 합당·1건 경계**, 오차 중앙값은 데이터셋 SD 기준 **0.55 → 0.40 SD**, 2단이 정답 쪽으로 움직인 분자는 **11/14**다.
-
-| 분자 / Task | 정답 | 1단 평균 | 2단 최종 | 오차 (SD) |
-| --- | --- | --- | --- | --- |
-| Caffeine / `PPBR_AZ` (%) | 17.6 | 64.9 | **33.0** | 2.52 → **0.82** |
-| Verapamil / `Clearance` | 127.7 | 65.1 | **105.9** | 1.42 → **0.49** |
-| Diazepam / `PPBR_AZ` (%) | 93.1 | 80.3 | **93.9** | 0.68 → **0.04** |
-| **Propranolol / `PPBR_AZ` (%)** | 82.5 | 73.3 | **62.5** | 0.49 → **1.07** |
-
-2단이 보태는 지점은 **1단이 데이터셋 평균으로 회귀하는 구간**이다. Caffeine·Theophylline은 PPBR 데이터셋(평균 86.4%)에서 극단적으로 낮은 쪽의 xanthine이라 tree model이 60~70%로 평균 회귀하는데, GNN이 이를 33%/48%로 끌어내렸다. Verapamil은 반대로 고청소율 약물을 65 → 106으로 올렸다. **이 분자는 TDC test split에 있어, 위의 제외 절차와 무관하게 처음부터 학습에 쓰인 적이 없다.**
-
-반대로 **Propranolol의 `PPBR_AZ`는 2단이 더 나쁘게 만들었다**(0.49 → 1.07 SD). 하필 3단계 PBPK의 대상 분자이고, `fu = 1 − PPB/100`이므로 82.5% 대신 62.5%를 쓰면 `fu`가 2배 이상 커져 `E_h`·clearance 추정이 통째로 틀어진다. 따라서 **`pbpk/predict_admet.py`의 입력 모델은 바꾸지 않았다** — 리더보드 평균이 비슷하다고 해서 특정 분자에서 더 나은 것은 아니며, PBPK는 분자 하나에 전적으로 의존하기 때문이다.
 
 ---
 
@@ -171,19 +126,66 @@ PO dose ──ka──▶ Gut Lumen ──ka·Fa──▶ Liver ──Qh──�
 
 ---
 
+## 4단계: 2단 OOF 스태킹 실험 (`week5-stacking`)
+
+1단 tree model(`RandomForest`, `LightGBM`)이 `desc+fp`로 만든 예측값을 2차 meta feature로 삼아, 2단 `GIN+desc`가 graph 및 descriptor 정보와 함께 결합해 오차를 줄일 수 있는지 검증했다([docs/06_week5_stacking.md](docs/06_week5_stacking.md), `src/stacking.py`).
+
+### 모델 구조 및 핵심 설계 결정
+
+```text
+          ┌─ desc(27) + Morgan FP(2048) ─┬─► RandomForest ─► y_rf   ─┐
+SMILES ───┤                              └─► LightGBM     ─► y_lgbm ─┤ 2nd-stage meta features
+          └─ atom/bond graph ─► GIN (3-layer) ─► sum readout(128) ───┤
+                                  desc(27, train-normalized) ────────┤
+                                                                     ▼
+                                                concat(128+27+2) → head → final prediction
+```
+
+1. **5-fold OOF (Out-of-Fold) meta feature 생성**: `min_samples_leaf=2`인 RF를 train 전체에 학습시켜 그대로 train을 예측하면 정답을 거의 외운 열이 만들어져 GIN이 해당 열만 베끼고 test에서 분포 불일치가 발생한다. 이를 막기 위해 train 구간의 2차 feature는 5-fold OOF로 생성했다.
+2. **1단은 `train`만 사용**: 1주차 `baseline.csv`는 `train+valid`에 학습했으나, 여기서는 2단 GIN이 `valid`로 early stopping을 수행하므로 1단이 `valid`를 보면 모델 선택이 오염된다. 공정 비교를 위해 동일 `train-only` 조건의 단독 점수(`rf-base`, `lgbm-base`)를 별도로 측정했다.
+3. **Residual head**: head 마지막 층을 0으로 초기화해 0 epoch 시점의 예측이 정확히 RF/LGBM 평균이 되도록 구성했다("오차를 줄여 최종 예측"의 직접 구현). 대조군으로 residual을 끈 `plain concat`(`gin+stack-plain`)과 descriptor를 제외한 `gin+meta`, 그리고 OOF vs. in-fold(누출) 2×2 조합 등 총 7조건(3 tasks × 7 conditions × 5 seeds)을 `group.evaluate_many()`로 평가했다(`results/stack.csv`).
+
+### 핵심 결과: 유의한 개선 없음 (Negative Result)
+
+| Task | 기존 최고 | `gin+stack` (residual) | `gin+stack-plain` |
+| --- | --- | --- | --- |
+| `Caco2_Wang` (MAE ↓) | **0.279** (RF, 1주차) | 0.302 ± 0.013 | 0.393 ± 0.075 |
+| `PPBR_AZ` (MAE ↓) | 7.982 (`GIN+desc`) | 8.312 ± 0.234 | 7.818 ± 0.333 |
+| `Clearance_Microsome_AZ` (Spearman ρ ↑) | **0.562** (`GIN+desc`) | 0.478 ± 0.024 | 0.559 ± 0.023 |
+
+세 과제 모두 `max(기반모델, GIN+desc)`를 유의하게 넘지 못했다. `PPBR_AZ`의 `7.818`이 프로젝트 최저 평균이나 `GIN+desc` (`7.982`)와의 차이 `0.164`는 각자의 표준편차(`0.333`, `0.350`)보다 작다. `Clearance`는 기존과 동일하고, `Caco2`는 2단이 1단 트리 모델을 재현한 수준에 머물렀다.
+
+* **원인 규명 (정보 중복)**: 1단은 `desc+fp`를, 2단은 `graph+desc`를 입력받는다. Morgan fingerprint(radius 2)가 담는 국소 부분구조는 3-layer GIN이 이미 학습해 유도할 수 있으므로, 1단이 넘기는 2개 열에는 2단이 자기 입력에서 끌어낼 수 없는 새로운 정보가 없다.
+
+![스태킹 ablation 및 2×2 interaction](results/stack_ablation.png)
+
+*윗줄: 1–5주차 전체 모델 사다리. 아랫줄: 2×2 interaction (x축 라벨에 1단 train feature 정확도 표기).*
+
+### 부수 발견 및 검증
+
+1. **Residual head 효과의 부호 뒤집힘 (3/3 일치)**: 강한 모델이 어느 쪽인지에 따라 승자가 갈렸다. 트리가 강한 `Caco2` (`0.298` vs `GIN+desc 0.343`)에서는 `residual` (`0.302` vs `0.393`)이 우세했으나, `GIN+desc`가 강한 `PPBR` (`7.982` vs `8.700`)과 `Clearance` (`0.562` vs `0.485`)에서는 `plain` (`7.818` vs `8.312`, `0.559` vs `0.478`)이 우세했다. `stack.csv`의 `valid_at_init`이 보여주듯 `residual`은 초기 출발점이 이미 좋아 학습이 valid를 거의 움직이지 못하고 best epoch 1–4에서 조기 정지하는 seed가 발생하기 때문임(예: PPBR 누출 버전 `[1, 15, 1, 9, 6]`).
+2. **In-fold 누출 대조 실험 (`results/stack_meta_diagnostics.csv`)**: train feature 정확도(데이터 SD 단위)는 OOF 대비 in-fold가 2–13배 높았으나(`Caco2` `0.412/0.405` vs `0.169/0.047`, `PPBR` `0.394/0.386` vs `0.205/0.145`, `Clearance` `0.591/0.603` vs `0.262/0.046` for RF/LGBM), test 점수 차이는 6칸 모두 std 이내였다(`residual`: `0.302→0.290`, `8.312→8.493`, `0.478→0.500`; `plain`: `0.393→0.385`, `7.818→7.642`, `0.559→0.573`). `residual`에서는 누출이 유도하는 행동("meta를 베껴라")이 곧 기반모델 출력이라 붕괴 대신 퇴화가 일어나고, `plain`에서는 meta가 157개 입력 중 2개뿐이라 거의 쓰이지 않았기 때문임. 다만 누출 설정은 train 진단을 완전히 오도하므로(LightGBM `0.046 SD`) OOF가 기본값이어야 함.
+3. **예시 분자 추론 (`scripts/run_stack_demo.py`, `results/stack_demo.csv`)**: 알려진 약물 8개를 train/valid에서 제외하고 재학습한 결과, 라벨이 있는 14건 중 13건 합당 / 1건 경계, 오차 중앙값 `0.55 → 0.40 SD`, 2단이 정답 쪽으로 움직인 분자 `11/14`를 기록했다.
+   * **보완 구간**: Caffeine PPBR (`17.6%`: 1단 `64.9%` → 2단 `33.0%`, `2.52 → 0.82 SD`), Verapamil Clearance (`127.7`: `65.1 → 105.9`, `1.42 → 0.49 SD`, test split 미학습 분자), Diazepam PPBR (`93.1%`: `80.3% → 93.9%`, `0.68 → 0.04 SD`)처럼 1단이 데이터셋 평균으로 회귀하는 구간에서 2단이 예측을 보완했다.
+   * **PBPK 입력 모델 유지 판단**: 반면 **Propranolol PPBR만 2단이 악화되었다**(`82.5%`: 1단 `73.3%` → 2단 `62.5%`, `0.49 → 1.07 SD`). `fu = 1 − PPB/100`이므로 `62.5%`를 쓰면 `fu`가 2배 이상 커져 `E_h`와 clearance 추정이 통째로 틀어진다. 따라서 `pbpk/predict_admet.py`의 입력 모델은 교체하지 않았다. 리더보드 평균이 비슷해도 특정 분자에서 더 낫다는 뜻은 아니며, PBPK는 대상 분자 하나에 전적으로 의존하기 때문임.
+4. **리팩터 재현성 검증**: `n_meta=0`일 때 새 모듈을 생성하지 않아 난수 소비 순서가 유지됨을 확인했다. `Caco2` 기준 `gin` (`0.4340 ± 0.0330`, epochs `19|40|94|26|60`), `gin+desc` (`0.3430 ± 0.0260`, `39|76|32|29|109`), `mlp` (`0.2880 ± 0.0120`, `40|29|65|32|64`) 모두 `models.csv`와 best epoch 목록까지 일치했다.
+5. **방법론적 이식성**: 본 OOF stacking 구조는 강한 tabular baseline이 존재하는 물성 예측 문제에 이식 가능하며, message passing 기구는 protein–ligand binding affinity 예측과 같은 계열에 속한다(단, 저분자 ADMET 회귀 문제이므로 MSA·공진화·residue 기하를 다루는 단백질 구조 예측과는 별개임).
+
+---
+
 ## 한계 및 향후 과제
 
 * **단일 약물·단일 용량 검증**: 주 검증 세트가 Propranolol PO 80 mg single-dose 조건이므로, 보정된 `Caco-2 → Peff` intercept의 다른 약물/용량에 대한 external validity는 검증되지 않았다.
 * **`Tmax` 예측 오차**: 흡수를 단일 1차 속도상수 `ka` 하나로만 모델링해 관측 `Tmax` (1.5–3.0 h) 대비 시뮬레이션 `Tmax` (a priori 4.0 h, calibrated 0.78 h)가 어긋난다. **Transit compartment**를 추가하면 해결할 수 있는 구조적 한계임.
 * **Clearance 과소평가 및 다회 투여 한계**: IV 검증에서 모델의 clearance(24.6 L/h)가 관측 중앙값(61 L/h)보다 약 2.5배 낮게 나타나, steady-state 등 약물 축적 조건에서는 추가 보정 없이는 AUC가 과대예측된다.
-* **Neural Network 분산 및 환경 제약**: Neural network는 tree model 대비 seed 간 std가 크며(`0.012–0.527` vs `0.002–0.051`), multi-GPU DDP(`scripts/train_ddp.py`)는 단일 GPU 환경 제약으로 미검증 상태임. 플랫폼 간 차이를 막기 위해 `lightgbm=4.7.0`, `scikit-learn=1.9.1`로 고정했다.
+* **동일 정보 기반 스태킹의 한계**: 1단(`desc+fp`)과 2단(`graph+desc`)이 사실상 같은 국소 구조 정보를 공유해 유의한 성능 이득이 없었다.
+* **Neural Network 분산 및 환경 제약**: Neural network는 tree model 대비 seed 간 std가 크며(`0.012–0.527` vs `0.002–0.062`), multi-GPU DDP(`scripts/train_ddp.py`)는 단일 GPU 환경 제약으로 미검증 상태임. 플랫폼 간 차이를 막기 위해 `lightgbm==4.7.0`, `scikit-learn==1.9.1`로 고정했다.
 
 **향후 개선 방향**
 
-1. Gut **transit compartment** 도입을 통한 `Tmax` 예측 개선
-2. Stereoisomer pair가 train/test에 분리되지 않는 scaffold split 한계를 고려한 **chiral benchmark** 재설계
-3. 보정된 상관식의 타 약물군 적용 및 특수군(cirrhosis, infant, pregnancy) physiological parameter 확장
-4. 스태킹 1단에 **2단이 볼 수 없는 정보**를 넣기 — 다른 assay에 학습한 모델의 출력(TDC ADMET group의 `Lipophilicity`, `CYP` 등)이나 conformer 기반 3D descriptor. 현재 구조는 1·2단이 같은 정보를 보고 있어 이득이 나올 여지가 없다([docs/06_week5_stacking.md](docs/06_week5_stacking.md) 4.4절)
+1. **1단에 2단이 볼 수 없는 정보 주입**: 다른 assay(TDC ADMET group의 Lipophilicity, CYP 등)에 학습한 모델 출력이나 **conformer 기반 3D descriptor**를 1단 입력으로 추가 (동일 정보 재투입 변형은 이미 음성으로 확인됨)
+2. Gut **transit compartment** 도입을 통한 `Tmax` 예측 개선
+3. Stereoisomer pair가 train/test에 분리되지 않는 scaffold split 한계를 고려한 **chiral benchmark** 재설계 및 특수군(cirrhosis, infant, pregnancy) physiological parameter 확장
 
 ---
 
@@ -203,12 +205,12 @@ python scripts/run_pbpk.py         # ADMET prediction → mPBPK simulation → c
 python scripts/run_chirality.py    # Chiral fingerprint 재실험
 python scripts/run_sensitivity.py  # Parameter sensitivity analysis
 python scripts/run_sanity.py       # Known drugs sanity check
-python scripts/run_stack.py        # 2단 스태킹 (3 tasks × 7 조건 × 5 seeds)
-python scripts/plot_stack.py       # 스태킹 ablation 그래프
-python scripts/run_stack_demo.py   # 예시 분자를 2단 파이프라인에 넣어 점검
+python scripts/run_stack.py        # 2단 스태킹 실험 (3 tasks × 7 conditions × 5 seeds; 첫 실행 약 50분, meta_cache 사용 시 약 15분)
+python scripts/plot_stack.py       # 스태킹 ablation 및 2×2 interaction 그림 생성
+python scripts/run_stack_demo.py   # 예시 약물 8종 추론 점검
 ```
 
-> `run_stack.py`의 1단 feature는 `results/meta_cache/`에 캐시된다. 캐시 키에 입력 SMILES와 target의 해시가 들어가 있어, 데이터가 바뀌면 캐시가 빗나가 다시 계산한다. 첫 실행은 OOF 생성 때문에 약 50분, 캐시가 있으면 약 15분이다.
+> 1단 OOF feature는 `results/meta_cache/`에 캐시되며, 캐시 키에는 입력 SMILES와 타깃 해시가 포함된다.
 
 ### Repository Structure
 
@@ -220,24 +222,25 @@ src/
   stereo.py          Achiral skeleton identification & stereoisomer group counting
   baseline.py        RandomForest / LightGBM training & TDC evaluation
   graph.py           SMILES → atom/bond graph conversion
-  torch_data.py      Dataset, graph batch collate_fn, train-only normalization
-  models.py          MLP & GIN implementation (without torch_geometric)
-  train.py           Training loop & valid-based early stopping
-  stacking.py        Stage-1 RF/LightGBM out-of-fold meta-feature generation
-  stack_predict.py   2-stage pipeline applied to arbitrary SMILES
+  torch_data.py      Dataset, graph batch collate_fn, train-only normalization, meta column transport
+  models.py          MLP & GIN implementation (n_meta block + residual head)
+  train.py           Training loop (build_loaders / build_model / fit_model), valid-based early stopping
+  stacking.py        Stage-1 5-fold OOF meta feature generation & caching
+  stack_predict.py   Inference for arbitrary SMILES via 2-stage stacking
   utils.py           Seed fixing, deterministic execution, result saving
 pbpk/
   model.py           4-compartment mPBPK ODE & ADMET parameter conversion
   predict_admet.py   Target ADMET prediction (retraining excluding leaked molecules)
   observed.py        Published human PK Excel parsing (explicit curve manifest)
 scripts/             check_env, smoke_test, run_baseline, run_models, train_ddp,
-                     run_pbpk, run_chirality, run_sensitivity, run_sanity
+                     run_pbpk, run_chirality, run_sensitivity, run_sanity,
+                     run_stack, run_stack_demo, plot_stack
 notebooks/           01_rdkit_intro.ipynb
-docs/                Setup guides & weekly experiment notes (00~05)
-data/ results/       Observed PK data, benchmark tables & simulation plots
+docs/                Setup guides & weekly experiment notes (00~06)
+data/ results/       Observed PK data, benchmark tables, meta_cache & simulation/ablation plots
 ```
 
-> **참고 (`pbpk/observed.py`)**: 원본 엑셀(`data/propranolol_human.xlsx`)은 헤더를 찾아 자동으로 긁지 않는다. 처음에는 `Time (` 헤더 아래를 스캔했는데 이 워크북에서 네 가지 방식으로 조용히 틀렸다 — 한 열에 세로로 쌓인 투여군을 한 곡선으로 병합(남·녀, 단회·정상상태, 대조·비만), 이성질체별 열과 `SUM` 열이 나란한 시트에서 첫 열만 읽음, `DATA`/`RAW DATA` 블록의 중복 제거가 디지타이즈 시간(23.97)과 명목 시간(24)이 다를 때 실패, 용량 칸이 `GROUP1`처럼 문자열인 시트는 통째로 누락. 그래서 곡선마다 **시트·헤더 행·농도 열을 엑셀 좌표 그대로** 적은 `CURVES` 목록과 제외 사유를 적은 `EXCLUDED` 목록을 두고, 시간 단위(`h`/`min`)·투여 경로·용량·단회/정상상태·대상군도 함께 선언한다. 읽은 점 개수가 선언과 다르면 중단한다.
+> **참고 (`pbpk/observed.py`)**: 원본 엑셀(`data/propranolol_human.xlsx`)은 헤더를 찾아 자동으로 긁지 않는다. 처음에는 `Time (` 헤더 아래를 스캔했는데 이 워크북에서 네 가지 방식으로 조용히 틀렸다 — 한 열에 세로로 쌓인 투여군을 한 곡선으로 병합, 이성질체별 열과 `SUM` 열이 나란한 시트에서 첫 열만 읽음, `DATA`/`RAW DATA` 블록의 중복 제거가 디지타이즈 시간(23.97)과 명목 시간(24)이 다를 때 실패, 용량 칸이 `GROUP1`처럼 문자열인 시트는 통째로 누락. 그래서 곡선마다 **시트·헤더 행·농도 열을 엑셀 좌표 그대로** 적은 `CURVES` 목록과 제외 사유를 적은 `EXCLUDED` 목록을 두고, 시간 단위(`h`/`min`)·투여 경로·용량·단회/정상상태·대상군도 함께 선언한다. 읽은 점 개수가 선언과 다르면 중단한다.
 
 ## 출처
 
