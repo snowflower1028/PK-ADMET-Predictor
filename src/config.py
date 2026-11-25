@@ -5,7 +5,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 RESULTS_DIR = ROOT / "results"
 
-# TDC ADMET Benchmark Group 중 민수가 직접 실험해 본 세 물성.
+# TDC ADMET Benchmark Group 중 직접 실험해 본 세 물성.
 # metric은 TDC가 각 과제에 지정한 공식 지표이며, 우리가 고른 것이 아니다.
 TASKS = {
     "Caco2_Wang": {

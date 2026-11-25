@@ -65,11 +65,11 @@ python scripts/check_env.py
 
 - **권장: WSL 리눅스 홈(`~/PK-ADMET-Predictor`)**. `/mnt/c/...`는 파일
   입출력이 몇 배 느려서, RDKit 특징 추출과 데이터 캐싱에서 체감된다.
-- Windows의 `C:\Users\flyop\source\PK-ADMET-Predictor`는 전달용 원본이다.
+- Windows의 `C:\Users\<user>\source\PK-ADMET-Predictor`는 전달용 원본이다.
   WSL에서 한 번 복사해 쓰면 된다.
 
   ```bash
-  cp -r /mnt/c/Users/flyop/source/PK-ADMET-Predictor ~/
+  cp -r /mnt/c/Users/<user>/source/PK-ADMET-Predictor ~/
   cd ~/PK-ADMET-Predictor
   ```
 

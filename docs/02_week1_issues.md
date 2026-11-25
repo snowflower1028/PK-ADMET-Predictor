@@ -147,7 +147,7 @@ conda install -n pk-admet "libblas=*=*openblas"
 
 ## 6. Miniforge를 공백 있는 경로에 설치하면 조용히 실패한다
 
-`C:\Users\Minsoo Lee\miniforge3`로 설치하면 설치 프로그램이 종료 코드도
+`C:\Users\<공백 있는 사용자명>\miniforge3`로 설치하면 설치 프로그램이 종료 코드도
 안 남기고 아무것도 만들지 않는다. 경로의 공백 때문이다.
 `D:\miniforge3`처럼 공백 없는 경로를 쓴다.
 
@@ -184,7 +184,7 @@ RandomForest 9조합은 세 환경 전부 완전 일치한다(sklearn 1.9.1 동�
   프롬프트를 건너뛰었고 root만 있다. conda를 `/opt/miniforge3`에 깔아
   두었으므로 어떤 계정을 만들어도 바로 쓸 수 있다.
   ```bash
-  wsl -d Ubuntu-24.04 -u root -- bash -c "adduser minsoo && usermod -aG sudo minsoo"
+  wsl -d Ubuntu-24.04 -u root -- bash -c "adduser <user> && usermod -aG sudo <user>"
   ```
 - **DDP는 이 PC에서 검증할 수 없다.** GPU가 한 장이다. 계획대로
   Kaggle T4 x2에서 확인한다.
