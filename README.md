@@ -93,17 +93,19 @@ SMILES ───┤                    └─► LightGBM     ─► y_lgbm ┤
 
 | Task | Metric | 기존 최고 | 1단 RF (train only) | `gin+stack` (residual head) | `gin+stack-plain` (plain head) |
 | --- | --- | --- | --- | --- | --- |
-| `Caco2_Wang` | MAE ↓ | **0.279** (RF, wk1) | 0.300 ± 0.006 | **0.302 ± 0.013** | 0.393 ± 0.075 |
-| `PPBR_AZ` | MAE ↓ | **7.982** (GIN+desc) | 8.745 ± 0.108 | 8.312 ± 0.234 | **7.818 ± 0.333** |
-| `Clearance_Microsome_AZ` | Spearman ↑ | **0.562** (GIN+desc) | 0.485 ± 0.017 | 0.478 ± 0.024 | **0.559 ± 0.023** |
+| `Caco2_Wang` | MAE ↓ | **0.279** (RF, wk1) | 0.300 ± 0.006 | 0.302 ± 0.013 | 0.393 ± 0.075 |
+| `PPBR_AZ` | MAE ↓ | **7.982** (GIN+desc) | 8.745 ± 0.108 | 8.312 ± 0.234 | 7.818 ± 0.333 |
+| `Clearance_Microsome_AZ` | Spearman ↑ | **0.562** (GIN+desc) | 0.485 ± 0.017 | 0.478 ± 0.024 | 0.559 ± 0.023 |
 
-**결론부터: 세 task 모두 기존 최고 기록을 유의하게 넘지 못했다.** `PPBR_AZ`의 7.818은 프로젝트 전체 최저값이지만 `GIN+desc`(7.982)와의 차이가 각자의 std(0.333, 0.350)보다 작아 유의하지 않고, `Clearance`는 동일하며, `Caco2`는 2단이 1단 tree model을 재현하는 데 그쳤다.
+**결론부터: 세 task 모두 기존 최고 기록을 유의하게 넘지 못했다.** `PPBR_AZ`의 7.818은 프로젝트 전체 최저값이지만 `GIN+desc`(7.982)와의 차이가 각자의 std(0.333, 0.350)보다 작아 유의하지 않고, `Clearance`는 0.559로 사실상 동일하며, `Caco2`는 2단이 1단 tree model을 재현하는 데 그쳤다.
+
+`Caco2`의 `0.279 → 0.302` 격차를 구조 탓으로만 읽으면 안 된다. 1주차 RF는 `train+valid`에 학습했지만 2단 GIN이 valid로 early stopping을 하므로 1단은 **train만** 쓸 수 있고, 같은 train-only 조건에서 RF는 `0.279 → 0.300`으로 떨어진다. 0.023의 격차 중 0.021이 여기서 나온다. 즉 격차의 대부분은 **구조가 아니라 valid 몫(train_val의 12.5%)만큼의 학습 데이터**다. 이 실험에서 구조를 바꿔 얻은 것보다 데이터를 늘려 얻는 것이 컸다.
 
 그 대신 얻은 것이 세 가지다.
 
 1. **개선이 없는 이유가 구조적으로 설명된다.** 1단은 `descriptor + Morgan fingerprint`를, 2단은 `그래프 + descriptor`를 본다. Morgan fingerprint(radius 2)는 국소 부분구조의 해시이고 GIN 3층은 3-bond 이웃까지를 학습해 요약하므로, 1단이 넘겨주는 2개 열에는 **2단이 자기 입력에서 이미 유도할 수 있는 정보밖에 없다.** 스태킹이 이득을 내려면 기반모델이 2단이 볼 수 없는 정보(다른 assay, 3D conformer 등)를 봐야 한다.
-2. **`residual head`의 효과가 task 성격에 따라 부호가 뒤집힌다 (3/3 일치).** head의 마지막 층을 0으로 초기화해 "기반모델 평균에서 출발해 오차를 보정"하게 만들면, tree model이 최강자인 `Caco2`에서는 맞는 사전지식이고(0.302 vs plain 0.393), graph 쪽이 더 세야 하는 `PPBR`·`Clearance`에서는 함정이다(8.312 vs 7.818, 0.478 vs 0.559). `valid_at_init`(학습 전 valid 점수)을 기록해 기전을 확인했다 — residual을 켜면 출발점이 이미 좋아 학습이 valid를 거의 못 움직이고, best epoch가 1~4에서 멈추는 seed가 나온다.
-3. **Data leakage 대조 실험.** 2차 feature를 train 전체 학습 후 자기 예측으로 만들면(in-fold) train 구간 오차가 데이터 SD의 0.046배까지 떨어진다 — 사실상 정답을 들고 있다. 이를 막기 위해 train 구간은 **5-fold out-of-fold**로 생성했고, 누출 버전도 같은 조건으로 돌려 2×2 설계로 비교했다. 흥미롭게도 **test 점수 차이는 6개 칸 모두 std 안**이었다. residual 쪽에서는 누출이 유도하는 행동("meta를 베껴라")이 곧 "기반모델을 출력하라"라서 붕괴가 아니라 퇴화를 일으키고, plain 쪽에서는 157개 입력 중 2개뿐인 meta 열을 모델이 거의 쓰지 않기 때문이다. 다만 이는 **사후에 OOF 버전과 비교했기 때문에 알게 된 사실**이며, 누출 설정에서는 train 쪽 진단(0.046 SD)이 완전히 오도하므로 OOF가 기본값이어야 한다는 결론은 바뀌지 않는다.
+2. **`residual head`의 효과가 task 성격에 따라 부호가 뒤집힌다 (세 task 모두 일치).** head의 마지막 층을 0으로 초기화해 "기반모델 평균에서 출발해 오차를 보정"하게 만들면, tree model이 최강자인 `Caco2`에서는 맞는 사전지식이고(0.302 vs plain 0.393), graph 쪽이 더 세야 하는 `PPBR`·`Clearance`에서는 함정이다(8.312 vs 7.818, 0.478 vs 0.559). `valid_at_init`(학습 전 valid 점수)을 기록해 기전을 확인했다 — residual을 켜면 출발점이 이미 좋아 학습이 valid를 거의 못 움직이고, best epoch가 1~4에서 멈추는 seed가 나온다. 다만 task가 3개뿐이라 아직 '규칙'이라 부르기는 이르다.
+3. **Data leakage 대조 실험.** 2차 feature를 train 전체 학습 후 자기 예측으로 만들면(in-fold) train 구간 오차가 데이터 SD의 0.046배(LightGBM, `Clearance`)까지 떨어진다 — 사실상 정답을 들고 있다. 이를 막기 위해 train 구간은 **5-fold out-of-fold**로 생성했고, 누출 버전도 같은 조건으로 돌려 2×2 설계로 비교했다. 흥미롭게도 **test 점수 차이는 6개 칸 모두 std 안**이었다. residual 쪽에서는 누출이 유도하는 행동("meta를 베껴라")이 곧 "기반모델을 출력하라"라서 붕괴가 아니라 퇴화를 일으키고, plain 쪽에서는 157개 입력 중 2개뿐인 meta 열을 모델이 거의 쓰지 않기 때문이다. 다만 이는 **사후에 OOF 버전과 비교했기 때문에 알게 된 사실**이며, 누출 설정에서는 train 쪽 진단이 완전히 오도하므로 OOF가 기본값이어야 한다는 결론은 바뀌지 않는다.
 
 ![스태킹 ablation](results/stack_ablation.png)
 
@@ -118,7 +120,7 @@ SMILES ───┤                    └─► LightGBM     ─► y_lgbm ┤
 | Diazepam / `PPBR_AZ` (%) | 93.1 | 80.3 | **93.9** | 0.68 → **0.04** |
 | **Propranolol / `PPBR_AZ` (%)** | 82.5 | 73.3 | **62.5** | 0.49 → **1.07** |
 
-2단이 보태는 지점은 **1단이 데이터셋 평균으로 회귀하는 구간**이다. Caffeine·Theophylline은 PPBR 데이터셋(평균 86.4%)에서 극단적으로 낮은 쪽의 xanthine이라 tree model이 60~70%로 평균 회귀하는데, GNN이 이를 33%/48%로 끌어내렸다. Verapamil은 반대로 고청소율 약물을 65 → 106으로 올렸고 **이 분자는 test split에 있어 애초에 학습되지 않았다.**
+2단이 보태는 지점은 **1단이 데이터셋 평균으로 회귀하는 구간**이다. Caffeine·Theophylline은 PPBR 데이터셋(평균 86.4%)에서 극단적으로 낮은 쪽의 xanthine이라 tree model이 60~70%로 평균 회귀하는데, GNN이 이를 33%/48%로 끌어내렸다. Verapamil은 반대로 고청소율 약물을 65 → 106으로 올렸다. **이 분자는 TDC test split에 있어, 위의 제외 절차와 무관하게 처음부터 학습에 쓰인 적이 없다.**
 
 반대로 **Propranolol의 `PPBR_AZ`는 2단이 더 나쁘게 만들었다**(0.49 → 1.07 SD). 하필 3단계 PBPK의 대상 분자이고, `fu = 1 − PPB/100`이므로 82.5% 대신 62.5%를 쓰면 `fu`가 2배 이상 커져 `E_h`·clearance 추정이 통째로 틀어진다. 따라서 **`pbpk/predict_admet.py`의 입력 모델은 바꾸지 않았다** — 리더보드 평균이 비슷하다고 해서 특정 분자에서 더 나은 것은 아니며, PBPK는 분자 하나에 전적으로 의존하기 때문이다.
 
