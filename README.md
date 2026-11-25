@@ -1,227 +1,190 @@
 # PK-ADMET-Predictor
 
-SMILES 구조에서 ADMET 물성을 예측하고, 그 예측값을 PBPK 모델에 넣어
-혈중 농도까지 이어 보는 프로젝트다.
+**화학 구조 기반의 ADMET 예측값만으로 사람의 혈중 약물 농도-시간 곡선(PK profile)을 예측할 수 있는지 검증하고, 예측 오차가 발생하는 단계를 분리해 진단한 프로젝트임.**
 
-내용은 내 석사 연구(PBPK·ODE 모델링, 마이크로솜 대사안정성, Caco-2
-투과도)의 연장선에 있다.
+약물의 SMILES 구조로부터 세 가지 ADMET 물성(`Caco2_Wang`, `PPBR_AZ`, `Clearance_Microsome_AZ`)을 머신러닝으로 예측한 뒤, 이를 4-compartment **minimal PBPK (mPBPK)** 모델에 입력해 Propranolol의 실제 human clinical PK 데이터와 비교했다.
 
-## 왜 이 세 과제인가
+---
 
-TDC ADMET Benchmark Group의 22개 과제 중, **내가 벤치에서 직접 측정해 본
-물성** 세 가지를 골랐다. 데이터가 어떻게 만들어지는지 아는 상태에서
-예측 모델을 만든다는 점이 이 프로젝트의 출발점이다.
+## 전체 분석 흐름 (Pipeline)
 
-| 과제 | 물성 | 공식 지표 | 내 실험 경험 |
-| --- | --- | --- | --- |
-| `Clearance_Microsome_AZ` | 간 마이크로솜 고유 청소율 | Spearman | 프로테아좀 과제에서 대사안정성 LC-MS/MS(QQQ) 측정 |
-| `PPBR_AZ` | 혈장단백결합률 | MAE | 랫드 혈장단백결합·입체선택적 대사 연구 |
-| `Caco2_Wang` | Caco-2 투과도 | MAE | 백색지방 과제에서 Caco-2 투과도 평가·모델링 |
+```text
+[1. Molecular Input]     [2. ADMET Prediction]        [3. mPBPK Simulation]          [4. Clinical PK Validation]
+  SMILES string    ──▶    Caco-2 permeability   ──▶   Gut → Liver → Central ↔ Peri   ──▶  PO (80 mg) · IV (5 curves)
+  Descriptors / Graph     PPBR / Hepatic CLint        4-compartment ODE                   Fold error · Sensitivity · Chirality
+```
 
-세 과제 모두 TDC가 **scaffold split**을 쓴다. train과 test에 구조적으로 다른
-분자가 들어가므로 무작위 분할보다 어렵고, 처음 보는 골격을 예측해야 하는
-실제 신약개발 상황에 가깝다.
+1. **Featurization (`src/features.py`, `src/graph.py`, `src/stereo.py`)**: SMILES 문자열을 27개 physicochemical **descriptor**, 2048-bit **Morgan fingerprint**, 또는 atom-bond **molecular graph**로 변환한다.
+2. **ADMET Model Training (`src/baseline.py`, `src/models.py`, `src/train.py`)**: TDC benchmark 데이터셋으로 tree-based model과 neural network를 동일한 split 기준으로 비교한다.
+3. **mPBPK Simulation (`pbpk/predict_admet.py`, `pbpk/model.py`)**: 예측된 ADMET 값을 70 kg 성인 기준 physiological constants와 결합해 시간별 plasma concentration을 계산한다.
+4. **Clinical Validation & Verification (`pbpk/observed.py`, `scripts/run_pbpk.py`, `scripts/run_chirality.py`, `scripts/run_sensitivity.py`, `scripts/run_sanity.py`)**: 문헌에서 수집한 healthy adult clinical PK 데이터와 비교하고, chiral fingerprint 재실험 및 parameter sensitivity analysis로 결론의 근거를 검증한다.
 
-## 지금 상태 (2026-11-24)
+---
 
-4주차까지 실행 완료. 3주차 관측 세트는 11/24에 다시 만들어 전부 다시 돌렸다.
+## 핵심 결과 요약
 
-| 항목 | 상태 |
-| --- | --- |
-| 저장소 구조, 환경 파일, 문서 | 준비 완료 |
-| RDKit 특징 추출 (`src/features.py`) | 작성·동작 확인 |
-| 베이스라인 (RandomForest, LightGBM) | **실행 완료** → `results/baseline.csv` |
-| TDC 데이터 로드 (`src/data.py`) | **실행 확인** |
-| RDKit 입문 노트북 | **전체 실행 확인** (에러 셀 0개) |
-| 2주차 PyTorch 모델 (MLP, GIN, GIN+desc) | **실행 완료** → `results/models.csv` |
-| 2주차 DDP (`scripts/train_ddp.py`) | 작성 완료, **GPU 1장이라 미검증** |
-| 3주차 PBPK 연계 (`pbpk/`) | **실행 완료** → `results/pk_comparison.csv` |
-| 4주차 카이랄 재실험 | **실행 완료** → `results/chirality*.csv` |
-| 4주차 민감도 분석 | **실행 완료** → `results/sensitivity*` |
-| 알려진 약물 sanity check | **실행 완료** → `results/sanity_check.csv` |
+Propranolol **single-dose PO 80 mg** 투여 시(healthy adults, total concentration 7 curves from 6 studies, 73 data points) 실제 관측값과 시뮬레이션 결과를 비교했다.
 
-환경은 **WSL2 Ubuntu-24.04(권장)와 Windows 네이티브 두 가지**를 다
-만들어 돌렸다. 둘 다 `cuda available : True`. 막혔던 지점과 해결은
-[`docs/02_week1_issues.md`](docs/02_week1_issues.md)에 남겼다.
+* **a priori prediction**: clinical PK 데이터를 전혀 보지 않고 ADMET 예측값만으로 계산한 결과임.
+* **1-parameter calibration**: `Caco-2 → Peff` 경험식의 intercept(`-1.9`) 하나만 1개 curve에 맞춰 보정하고, 나머지 6개 holdout curves로 검증한 결과임.
+* **GMFE (Geometric Mean Fold Error)**: 예측값과 관측값의 비율 차이를 나타내는 지표로, `1.0`에 가까울수록 정확하며 PK에서는 보통 2-fold 이내(0.5–2.0)를 허용 범위로 본다.
 
-### 1주차 베이스라인 결과
-
-세 과제 모두 RandomForest에 descriptor+fingerprint를 넣은 것이 가장 좋았다.
-2주차 모델은 이 숫자를 기준으로 판단한다.
-
-| 과제 | 지표 | 최고 | 2위 |
-| --- | --- | --- | --- |
-| `Caco2_Wang` | MAE ↓ | **0.279 ± 0.003** | lgbm desc+fp 0.281 ± 0.002 |
-| `PPBR_AZ` | MAE ↓ | **8.657 ± 0.020** | lgbm desc+fp 8.747 ± 0.051 |
-| `Clearance_Microsome_AZ` | Spearman ↑ | **0.506 ± 0.002** | lgbm fp 0.492 ± 0.014 |
-
-세 환경(클라우드 Linux, WSL2, Windows)에서 독립적으로 돌려 위 세 숫자가
-소수점 3자리까지 같았다. 전체 18조합 중 Windows만 LightGBM 2개가
-표준편차 안쪽에서 달랐다(`docs/02_week1_issues.md` 7번).
-
-특징 하나. fingerprint만 쓴 쪽이 descriptor만 쓴 쪽보다 좋은 과제는
-Clearance 뿐이다(0.445 vs 0.425). 투과도·단백결합은 분자 전체의
-물리화학적 성질이 지배하는데, 대사 청소율은 특정 대사 취약부위가
-결정하기 때문으로 읽는다. 2주차 GNN이 구조를 직접 보는 모델이므로
-Clearance에서 가장 많이 오를 것이라는 가설을 여기서 세웠다.
-
-### 2주차 모델 결과
-
-위 가설대로 됐다. 네 모델 모두 **입력이 과제의 물리에 맞을 때만 이긴다.**
-
-| 과제 | 지표 | 1주차 rf desc+fp | MLP | GIN | GIN+desc |
-| --- | --- | --- | --- | --- | --- |
-| `Caco2_Wang` | MAE ↓ | **0.279 ± 0.003** | 0.288 ± 0.012 | 0.434 ± 0.033 | 0.343 ± 0.026 |
-| `PPBR_AZ` | MAE ↓ | 8.657 ± 0.020 | 8.283 ± 0.245 | 8.240 ± 0.527 | **7.982 ± 0.350** |
-| `Clearance_Microsome_AZ` | Spearman ↑ | 0.506 ± 0.002 | 0.508 ± 0.025 | 0.524 ± 0.040 | **0.562 ± 0.027** |
-
-- **PPBR**: `gin+desc`가 7.982로 RandomForest(8.657)보다 0.675 낫다.
-  표준편차 0.350 대비 약 1.9배.
-- **Clearance**: `gin+desc`가 0.562로 RandomForest(0.506)보다 0.056 높다.
-  표준편차 0.027 대비 약 2배.
-- **Caco2**: 여전히 RandomForest가 가장 좋다. descriptor를 넣어 0.434에서
-  0.343으로 크게 좁혔지만 못 넘었다.
-
-**descriptor를 넣으면 세 과제 모두 GIN이 좋아진다**(0.434→0.343,
-8.240→7.982, 0.524→0.562). 예외가 없고, **개선 폭이 가장 큰 것이
-Caco2**다. 그 과제가 물리화학적 성질을 가장 많이 필요로 하기 때문이다.
-1주차에서 fingerprint가 descriptor를 이긴 과제가 Clearance 뿐이었던 것과
-같은 이야기의 뒷면이다.
-
-같이 적어 둘 것 두 가지.
-
-**(1) 표준편차가 트리 모델보다 한 자릿수 크다**(0.026~0.527 대
-0.002~0.020). GNN은 seed에 민감하고 PPBR의 한 seed는 epoch 8에서 멈췄다.
-seed 5개의 표준편차 대비 2배는 일관된 방향이라고는 말할 수 있어도
-엄밀한 유의성 주장은 아니다.
-
-**(2) seed 고정만으로는 재현되지 않았다.** `index_add_`의 병렬 덧셈
-순서 때문에 같은 seed로도 GIN 결과가 달라졌다. 결정적 커널을 강제해서
-고쳤고, 전체 격자를 다시 돌린 뒤 두 번 실행해 평균·표준편차·멈춘
-epoch이 모두 같은 것을 확인했다. 위 표는 그 결정적 실행의 숫자다.
-자세한 추적 과정은 [`docs/03_week2_notes.md`](docs/03_week2_notes.md).
-
-하이퍼파라미터는 test를 보고 고르지 않았다. 데이터 크기만 보고 미리
-정했고(batch 64, AdamW lr 1e-3, Huber loss, patience 40), epoch 선택은
-전부 valid로 했다. `results/models.csv`에 seed별 valid 점수와 멈춘
-epoch을 남겨 그 근거를 볼 수 있게 했다.
-
-### 3주차: 예측값을 PBPK에 넣어 혈중 농도까지
-
-세 ADMET 예측값을 간·장 포함 축소 PBPK에 넣고, 출판된 프로프라놀롤
-human PK와 비교했다. 주 세트는 건강 성인 경구 **단회** 80 mg의 총 농도
-곡선 7개(연구 6개, 74점)다. 관측 세트는 2026-11-24에 다시 만들었다.
-
-| 주 세트 | Cmax 기하평균 배수오차 | 2배 안쪽 | AUC 배수오차 | 2배 안쪽 |
+| Mode (PO 80 mg single-dose) | Cmax GMFE | Within 2-fold (Cmax) | AUC GMFE | Within 2-fold (AUC) |
 | --- | --- | --- | --- | --- |
-| a priori (ADMET 예측값만) | 4.51 | **0%** | 1.97 | 57% |
-| 파라미터 1개 보정 (검증 곡선 6개) | 1.51 | 83% | 1.41 | 100% |
+| **a priori** (ADMET 예측값만 사용) | 4.51 | 0.0% | 1.97 | 57% |
+| **1-parameter calibrated** (6 holdout curves) | 1.51 | 83% | 1.41 | 100% |
 
-**a priori로는 Cmax를 하나도 맞히지 못했다.** 보정은 Caco-2 → Peff
-상관식의 절편 하나만 곡선 1개에 맞추고 나머지 6개로 검증한 것이다.
+### 주요 진단 결과
 
-관측 데이터에 IV가 있어 **흡수와 소실을 분리**해 볼 수 있다. 정맥 곡선
-5개에서 부분 AUC는 배수오차 1.22로 맞지만, **말단 반감기가 3~4배 길고
-(관측 3.3~5.3 h, 모델 13.9 h) 청소율이 2.5배 낮다**(관측 중앙값 61 L/h,
-모델 24.6 L/h). 즉 틀린 것은 흡수만이 아니다. 흡수 쪽 절편만 보정한
-모델은 단회 80 mg에서는 맞지만, 약물이 쌓이는 조건(정상상태, 다른 용량)에서
-AUC를 약 2배 과대예측한다.
+1. **Absorption과 Elimination의 분리 진단 (IV Cross-Check)**
+   IV 투여(5 curves)는 gut absorption을 거치지 않고 central compartment로 직접 들어간다. IV 데이터에서 부분 AUC는 **1.22-fold**로 맞지만, **terminal half-life는 약 3.8배 길고**(관측 3.3–5.3 h vs. 모델 13.9 h, 곡선별 2.6–4.2배), **clearance는 2.5배 낮게**(관측 중앙값 61 L/h vs. 모델 24.6 L/h) 예측되었다. 즉 틀린 것은 absorption만이 아니며, absorption intercept만 보정한 모델은 single-dose 80 mg에서는 맞지만 steady-state나 다회 투여처럼 약물이 축적되는 조건에서는 AUC를 약 2배 과대예측한다.
+2. **겉보기 Bioavailability (`F`) 일치 이면의 Error Cancellation**
+   Oral bioavailability는 `F = Fa × (1 − E_h)`로 계산된다. a priori 예측에서 `F = 0.185`로 문헌값(`~0.26`)과 비슷해 보였으나, 실제로는 `Fa`(예측 0.26 vs. 거의 완전 흡수)와 hepatic extraction ratio `E_h`(예측 0.27 vs. 문헌 `~0.6–0.75`)를 모두 과소평가해 두 오차가 반대 방향으로 상쇄된 결과였음. 숫자는 맞지만 기전은 틀린 경우다.
+3. **Achiral Features의 구조적 한계와 Data Leakage 방지**
+   Propranolol은 R/S **enantiomer**에 따라 실제 protein binding과 metabolism 속도가 다르다. 하지만 기본 입력(`Morgan fingerprint` with `includeChirality=False`, 27 achiral descriptors)은 **chirality**를 구분하지 못해 R체·S체·racemate를 동일한 입력으로 인식한다. 또한 `PPBR_AZ` train set에 Propranolol 4건(R·S체 각 2건)이 포함되어 있음을 확인해, mPBPK 입력 예측 시 해당 분자를 제외하고 재학습했다.
 
-아직 못 맞추는 것은 Tmax다(관측 1.5~3.0 h, a priori 4.0, 보정 후 0.78).
-Cmax를 맞추면 Tmax가 어긋난다. 흡수를 1차 속도상수 하나로만 써서
-봉우리 모양을 만들 자유도가 없는 구조적 한계다.
+### PO vs. IV 비교 그래프
 
-누출 검사도 했다. 프로프라놀롤은 `PPBR_AZ` train에만 4건 있었고(R체·S체),
-Morgan fingerprint가 `includeChirality=False`라 **모델에게 거울상은 같은
-입력**이다. 그래서 PPBR만 해당 분자를 빼고 재학습해 예측했다.
+![Propranolol PO 80 mg single-dose와 dose-normalized IV](results/pk_propranolol_po.png)
 
-자세한 내용은 [`docs/04_week3_pbpk.md`](docs/04_week3_pbpk.md).
+* **왼쪽 두 패널 (PO 80 mg single-dose)**: 보정 곡선이 관측 점 위를 지나가지만, log scale에서는 말단 꼬리(tail)가 관측 점들 위로 떠 있음.
+* **오른쪽 패널 (Dose-normalized IV, 5 curves)**: Absorption 가정이 들어가지 않는 IV 곡선으로, 4시간 이후부터 관측 점이 모델 선 아래로 내려가고 14시간에는 약 5배 벌어진다. 이는 보정이 교정한 대상이 absorption뿐임을 뒷받침한다.
 
-![프로프라놀롤 경구 80mg와 IV](results/pk_propranolol_po.png)
+자세한 시뮬레이션 기록은 [docs/04_week3_pbpk.md](docs/04_week3_pbpk.md)에서 확인할 수 있다.
 
-왼쪽 두 패널은 경구 80 mg 단회다. 보정 곡선이 점 위를 지나가지만 로그
-축에서는 꼬리가 점들 위로 떠 있다. 오른쪽은 흡수 가정이 들어가지 않는
-IV를 용량으로 나눠 겹친 것이다(모델이 선형이라 정규화가 정확하다).
-**4시간 이후로 관측 점이 모델 선 아래로 내려가고 14시간에는 5배쯤
-벌어진다.** 보정이 고친 것은 흡수뿐이라는 근거다.
+---
 
-## 4주차: 두 가지 확인 실험
+## 1단계: ADMET 예측 모델
 
-3주차가 남긴 두 질문을 각각 실험 하나로 닫았다. 둘 다 기능 추가가 아니라
-**이미 내린 결론의 근거를 확인하는** 작업이다.
-자세한 내용은 [`docs/05_week4_experiments.md`](docs/05_week4_experiments.md).
+[TDC ADMET Benchmark Group](https://tdcommons.ai/benchmark/admet_group/overview/)에서 mPBPK 입력에 직접 필요한 3가지 task를 선정했다. 모든 데이터는 구조적으로 다른 분자를 예측하는 실제 상황에 가깝도록 **scaffold split**을 적용해 평가했다.
 
-**1. 카이랄 fingerprint** (`scripts/run_chirality.py`) — `includeChirality`를
-켜면 6개 조합 중 5개가 나빠졌다. 유일한 개선(PPBR_AZ `desc+fp`,
-8.657 → 8.578 MAE)도 입체 학습의 증거로 보지 않는다. TDC는 scaffold
-split이고 거울상은 골격이 같아, **입체이성질체 짝이 train과 test로 갈라지는
-경우가 세 과제 모두 0건**이기 때문이다. 배울 경로 자체가 없다.
-→ 결론은 "입체화학이 중요하지 않다"가 아니라 **"이 벤치마크로는 그 질문에
-답할 수 없다"**이다.
+| Task | Property (Unit) | Official Metric | Role in mPBPK |
+| --- | --- | --- | --- |
+| `Caco2_Wang` | Intestinal permeability (`log Papp`, cm/s) | MAE ↓ | `Peff`, `ka`, `Fa` 추정 |
+| `PPBR_AZ` | Plasma protein binding rate (`%`) | MAE ↓ | Plasma unbound fraction (`fu`) 계산 |
+| `Clearance_Microsome_AZ` | Hepatic microsome intrinsic clearance (`uL/min/mg`) | Spearman ↑ | Hepatic `CLint` 및 `E_h` 계산 |
 
-**2. 민감도 분석** (`scripts/run_sensitivity.py`) — a priori Cmax가 4.5배
-틀린 원인이 어느 가정인지 찾았다. **Caco-2 → Peff 상관식의 기울기가
-지배한다.** 문헌 범위에서 MPPGL은 AUC를 2.0배 움직이는 데 그치지만
-기울기는 25.3배 움직인다(창 무관 기준). 기울기는 `10^(기울기 × logPapp)`의
-**지수**로 들어가고 MPPGL은 CLint에 **선형**으로 들어가기 때문이다.
-관측 Cmax 중앙값에 닿는 데 필요한 4.0배는 기울기 범위 안에서는 도달
-가능하고 MPPGL 범위 안에서는 불가능하다.
+### 모델 비교 결과 (5 seeds, mean ± std)
 
-![민감도 분석](results/sensitivity.png)
+Tree-based baseline (`RandomForest`, `LightGBM`)과 neural network (`MLP`, `GIN`, `GIN+desc`)를 동일한 split 기준으로 비교했다.
 
-오른쪽 토네이도의 초록 막대(2.0배 / 25.3배)가 본문에서 인용한 창 무관
-기준이다. 주황(0-24h 창)이 기울기 쪽에서 130배까지 늘어나는 것은 창을
-끊으면 느린 흡수가 과장되기 때문이고, 어느 기준으로 봐도 지배 관계는
-같다.
+| Task | Metric | RF (`desc+fp`) | LightGBM (`desc+fp`) | MLP | GIN (graph only) | GIN+desc (graph+desc) |
+| --- | --- | --- | --- | --- | --- | --- |
+| `Caco2_Wang` | MAE ↓ | **0.279 ± 0.003** | 0.281 ± 0.002 | 0.288 ± 0.012 | 0.434 ± 0.033 | 0.343 ± 0.026 |
+| `PPBR_AZ` | MAE ↓ | 8.657 ± 0.020 | 8.747 ± 0.051 | 8.283 ± 0.245 | 8.240 ± 0.527 | **7.982 ± 0.350** |
+| `Clearance_Microsome_AZ` | Spearman ↑ | 0.506 ± 0.002 | 0.486 ± 0.008 | 0.508 ± 0.025 | 0.524 ± 0.040 | **0.562 ± 0.027** |
 
-## 빠른 시작
+* **Task 특성에 따른 모델 적합성**: 분자 전체의 physicochemical properties가 지배적인 `Caco2_Wang`에서는 descriptor를 활용하는 tree model이 가장 뛰어났다. 반면 특정 metabolic soft spot이 중요한 `Clearance_Microsome_AZ`에서는 원자 연결 구조를 직접 보는 `GIN+desc`가 가장 높은 성능을 보였다.
+* **Descriptor 결합 효과**: Graph만 입력받는 `GIN`에 27개 descriptor를 결합(`GIN+desc`)하면 세 task 모두 평균값이 향상되었다(단 `PPBR_AZ`는 seed 간 std가 커 구간이 겹친다).
+* **엄격한 평가 및 Reproducibility**: **test set**은 최종 평가에만 사용하며, **feature/target normalization** 통계량과 **early stopping** 기준은 `train`/`valid`에서만 계산한다. 또한 PyTorch GPU 연산(`index_add_`)의 비결정성을 해결하기 위해 **deterministic kernel**을 강제해 재현성을 확보했다([docs/03_week2_notes.md](docs/03_week2_notes.md)).
 
-환경 구성은 [`docs/00_setup_wsl2_cuda.md`](docs/00_setup_wsl2_cuda.md)를 따른다.
+---
+
+## 2단계: mPBPK (Minimal PBPK) 모델 구조
+
+세 가지 ADMET 예측값만으로 뒷받침할 수 있는 최소한의 생리학 구조를 설계하기 위해, 전신 장기 구획을 모두 나누는 대신 **4-compartment mPBPK** 구조를 사용했다. 경구 흡수된 약물이 central compartment가 아니라 **portal circulation**을 통해 **Liver**로 먼저 유입되므로 **first-pass metabolism**이 구조적으로 자연스럽게 반영된다.
+
+```text
+PO dose ──ka──▶ Gut Lumen ──ka·Fa──▶ Liver ──Qh──▶ Central (Blood) ◀──Qp──▶ Peripheral
+                                       │                  ▲
+                                   CLint·fu               │
+                                       ▼               IV dose
+                                   Elimination
+```
+
+* **Physiological Constants (70 kg adult)**: `liver_weight = 1800 g`, `V_liver = 1.8 L`, `Q_h = 90.0 L/h`, `MPPGL = 45.0 mg/g`, `V_central = 5.0 L`, `V_peripheral = 60.0 L`, `Q_p = 60.0 L/h`, `gut_radius = 1.75 cm`, `blood/plasma ratio = 1.0`.
+* **Well-stirred Liver Model**: `E_h = (fu · CLint) / (Q_h + fu · CLint)`
+
+| Input Source | mPBPK Parameter | Conversion | Assumption Level |
+| --- | --- | --- | --- |
+| `PPBR_AZ` | `fu` | `fu = 1 − PPB/100` | None (definition) |
+| `Clearance_Microsome_AZ` | `CLint` (L/h) | `CLint (uL/min/mg) × MPPGL (45 mg/g) × liver_weight (1800 g)` | Low (standard IVIVE) |
+| `Caco2_Wang` | `ka`, `Fa` | `log10 Peff = 0.6 · log10 Papp − 1.9` → `ka = Peff · (2/R)` | **High (empirical correlation)** |
+| RDKit `MolLogP` | `Kp` (partition coeff.) | Tissue composition model (`MolLogP`, `fu`) | Calculated from structure |
+
+---
+
+## 3단계: 검증 실험 (Chirality · Sensitivity · Sanity Check)
+
+결론의 근거를 확인하기 위해 추가 검증 실험을 수행했다([docs/05_week4_experiments.md](docs/05_week4_experiments.md)).
+
+### 1. Chiral Fingerprint 실험 (`scripts/run_chirality.py`)
+* `includeChirality=True` 옵션을 켜면 6개 조합 중 5개에서 성능이 하락했다(`results/chirality_comparison.csv`).
+* 유일하게 개선된 `PPBR_AZ desc+fp` (`8.657 → 8.578 MAE`) 역시 입체 학습의 증거로 볼 수 없다. TDC가 **scaffold split**을 사용하고 enantiomer끼리는 scaffold가 같아, **stereoisomer pair가 train과 test로 갈라지는 경우가 세 task 모두 0건**이기 때문임.
+* 결론은 "chirality가 중요하지 않다"가 아니라 **"현재 benchmark 분할 구조로는 해당 질문에 답할 수 없다"**임.
+
+### 2. Parameter Sensitivity Analysis (`scripts/run_sensitivity.py`)
+* `a priori` Cmax가 4.5배 틀린 주원인을 정량적으로 확인하기 위해 `MPPGL (30–60 mg/g)`과 `Caco-2 → Peff slope (0.40–0.80)`의 민감도를 비교했다(`results/sensitivity_summary.csv`).
+* 문헌 범위 내에서 `MPPGL`은 `AUC_inf`를 **2.0-fold** 움직이는 데 그치지만, `Caco-2 → Peff slope`는 **25.3-fold** (`0–24h` 창 기준 **130.3-fold**, Cmax **563.3-fold**) 움직인다.
+* `slope`는 `10^(slope × logPapp)`의 **exponent**로 작용하는 반면 `MPPGL`은 `CLint`에 **linear**하게 들어가기 때문이며, 관측 Cmax 중앙값 도달에 필요한 4.0-fold 변화는 `slope` 범위에서만 도달 가능하다.
+
+![파라미터 민감도 분석 (MPPGL vs. Caco-2 → Peff slope)](results/sensitivity.png)
+
+### 3. Known Drugs Sanity Check (`scripts/run_sanity.py`)
+* 8개 알려진 약물(Atenolol, Metoprolol, Propranolol, Theophylline, Caffeine, Diazepam, Warfarin, Verapamil)에 대해 세 ADMET 모델의 예측 합당성을 점검했다(`results/sanity_check.csv`).
+
+---
+
+## 한계 및 향후 과제
+
+* **단일 약물·단일 용량 검증**: 주 검증 세트가 Propranolol PO 80 mg single-dose 조건이므로, 보정된 `Caco-2 → Peff` intercept의 다른 약물/용량에 대한 external validity는 검증되지 않았다.
+* **`Tmax` 예측 오차**: 흡수를 단일 1차 속도상수 `ka` 하나로만 모델링해 관측 `Tmax` (1.5–3.0 h) 대비 시뮬레이션 `Tmax` (a priori 4.0 h, calibrated 0.78 h)가 어긋난다. **Transit compartment**를 추가하면 해결할 수 있는 구조적 한계임.
+* **Clearance 과소평가 및 다회 투여 한계**: IV 검증에서 모델의 clearance(24.6 L/h)가 관측 중앙값(61 L/h)보다 약 2.5배 낮게 나타나, steady-state 등 약물 축적 조건에서는 추가 보정 없이는 AUC가 과대예측된다.
+* **Neural Network 분산 및 환경 제약**: Neural network는 tree model 대비 seed 간 std가 크며(`0.012–0.527` vs `0.002–0.051`), multi-GPU DDP(`scripts/train_ddp.py`)는 단일 GPU 환경 제약으로 미검증 상태임. 플랫폼 간 차이를 막기 위해 `lightgbm=4.7.0`, `scikit-learn=1.9.1`로 고정했다.
+
+**향후 개선 방향**
+
+1. Gut **transit compartment** 도입을 통한 `Tmax` 예측 개선
+2. Stereoisomer pair가 train/test에 분리되지 않는 scaffold split 한계를 고려한 **chiral benchmark** 재설계
+3. 보정된 상관식의 타 약물군 적용 및 특수군(cirrhosis, infant, pregnancy) physiological parameter 확장
+
+---
+
+## 재현 방법 및 저장소 구조
+
+환경은 WSL2 Ubuntu-24.04를 기준으로 한다(`cuda available : True`, RTX 3070). Windows 네이티브는 `conda env create`가 `tiledbsoma`에서 실패하고 `Clearance_Microsome_AZ` task에서 MKL 관련 crash가 있어 권장하지 않는다. 플랫폼별 이슈와 우회 방법은 [docs/00_setup_wsl2_cuda.md](docs/00_setup_wsl2_cuda.md)와 [docs/02_week1_issues.md](docs/02_week1_issues.md)에 정리되어 있다.
 
 ```bash
 conda env create -f environment.yml && conda activate pk-admet
 pip install torch --index-url https://download.pytorch.org/whl/cu124
 
-python scripts/check_env.py     # 패키지·CUDA 확인
-python scripts/smoke_test.py    # 네트워크 없이 RDKit·모델 확인
-python scripts/run_baseline.py --tasks Caco2_Wang --models rf --features desc --seeds 1
-python scripts/run_baseline.py  # 전체: 3과제 x 2모델 x 3특징 x 5seed
+python scripts/check_env.py        # 패키지 및 CUDA 확인
+python scripts/smoke_test.py       # 오프라인 환경에서 RDKit 및 모델 점검
+python scripts/run_baseline.py     # Tree baseline 학습 (3 tasks × 2 models × 3 features × 5 seeds)
+python scripts/run_models.py       # Neural network 학습 (MLP, GIN, GIN+desc)
+python scripts/run_pbpk.py         # ADMET prediction → mPBPK simulation → clinical PK 비교
+python scripts/run_chirality.py    # Chiral fingerprint 재실험
+python scripts/run_sensitivity.py  # Parameter sensitivity analysis
+python scripts/run_sanity.py       # Known drugs sanity check
 ```
 
-## 저장소 구조
+### Repository Structure
 
+```text
+src/
+  config.py          Target tasks, metrics, seeds
+  data.py            TDC data loading & train/valid/test split
+  features.py        RDKit descriptors (27) + Morgan fingerprint (2048 bits)
+  stereo.py          Achiral skeleton identification & stereoisomer group counting
+  baseline.py        RandomForest / LightGBM training & TDC evaluation
+  graph.py           SMILES → atom/bond graph conversion
+  torch_data.py      Dataset, graph batch collate_fn, train-only normalization
+  models.py          MLP & GIN implementation (without torch_geometric)
+  train.py           Training loop & valid-based early stopping
+  utils.py           Seed fixing, deterministic execution, result saving
+pbpk/
+  model.py           4-compartment mPBPK ODE & ADMET parameter conversion
+  predict_admet.py   Target ADMET prediction (retraining excluding leaked molecules)
+  observed.py        Published human PK Excel parsing (explicit curve manifest)
+scripts/             check_env, smoke_test, run_baseline, run_models, train_ddp,
+                     run_pbpk, run_chirality, run_sensitivity, run_sanity
+notebooks/           01_rdkit_intro.ipynb
+docs/                Setup guides & weekly experiment notes (00~05)
+data/ results/       Observed PK data, benchmark tables & simulation plots
 ```
-src/config.py      대상 과제, 지표, seed 정의
-src/data.py        TDC 로드와 train/valid/test 분할
-src/features.py    RDKit descriptor(27개) + Morgan fingerprint(2048비트)
-src/stereo.py      입체 무시 골격 식별, 입체이성질체 그룹 세기
-src/baseline.py    RandomForest / LightGBM, TDC 공식 평가 호출
-src/graph.py       SMILES -> 원자/결합 그래프 (GNN 입력)
-src/torch_data.py  Dataset 2종 + collate_fn 직접 작성, 타깃 정규화
-src/models.py      MLP, GIN (torch_geometric 없이 직접 구현)
-src/train.py       학습 루프, valid 기반 early stopping
-src/utils.py       난수 고정, 결정적 실행, 결과 저장
-pbpk/model.py      간·장 축소 PBPK (ODE 4개), ADMET -> 파라미터 변환
-pbpk/predict_admet.py  대상 분자 물성 예측 (누출 분자는 제외 재학습)
-pbpk/observed.py   출판된 human PK 엑셀 파싱
-scripts/           check_env, smoke_test, run_baseline, run_models,
-                   train_ddp, run_pbpk, run_chirality, run_sensitivity,
-                   run_sanity
-notebooks/         01_rdkit_intro — RDKit 기초 + 데이터 탐색
-docs/              환경 구성, 막혔던 것들, 주차별 기록
-data/ results/     TDC 캐시와 결과 (저장소에는 요약만 올린다)
-```
 
-## 규칙
-
-- **test set으로 모델을 고르지 않는다.** TDC가 준 train/valid만 쓰고,
-  평가는 `group.evaluate()` / `group.evaluate_many()`로만 한다.
-  test 점수를 보고 하이퍼파라미터를 바꾸면 리더보드와 비교할 수 없는 숫자가 된다.
-- seed 5개의 평균±표준편차로 보고한다. 한 번 잘 나온 숫자는 쓰지 않는다.
-- 미공개 실험 데이터는 넣지 않는다. 공개 데이터와 이미 발표된 논문만 쓴다.
-- 남이 읽고 한 줄씩 설명할 수 있는 코드로 쓴다. 이해되지 않는 줄은
-  남겨 두지 않는다.
+> **참고 (`pbpk/observed.py`)**: 원본 엑셀(`data/propranolol_human.xlsx`)은 헤더를 찾아 자동으로 긁지 않는다. 처음에는 `Time (` 헤더 아래를 스캔했는데 이 워크북에서 네 가지 방식으로 조용히 틀렸다 — 한 열에 세로로 쌓인 투여군을 한 곡선으로 병합(남·녀, 단회·정상상태, 대조·비만), 이성질체별 열과 `SUM` 열이 나란한 시트에서 첫 열만 읽음, `DATA`/`RAW DATA` 블록의 중복 제거가 디지타이즈 시간(23.97)과 명목 시간(24)이 다를 때 실패, 용량 칸이 `GROUP1`처럼 문자열인 시트는 통째로 누락. 그래서 곡선마다 **시트·헤더 행·농도 열을 엑셀 좌표 그대로** 적은 `CURVES` 목록과 제외 사유를 적은 `EXCLUDED` 목록을 두고, 시간 단위(`h`/`min`)·투여 경로·용량·단회/정상상태·대상군도 함께 선언한다. 읽은 점 개수가 선언과 다르면 중단한다.
 
 ## 출처
 
-- [TDC ADMET Benchmark Group](https://tdcommons.ai/benchmark/admet_group/overview/)
+* [TDC ADMET Benchmark Group](https://tdcommons.ai/benchmark/admet_group/overview/)
