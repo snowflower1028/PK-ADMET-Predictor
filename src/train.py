@@ -24,6 +24,7 @@ from torch.utils.data import DataLoader
 from .config import TASKS
 from .data import load_task, xy
 from .models import make_model
+from .stacking import build_meta
 from .torch_data import (
     FeatureScaler,
     GraphDataset,
@@ -32,6 +33,11 @@ from .torch_data import (
     collate_graphs,
 )
 from .utils import seeded_generator, set_seed
+
+# 모델 종류를 세 축으로 가른다. 조합이 늘어도 분기가 늘지 않게.
+GRAPH_KINDS = ("gin", "gin+desc", "gin+meta", "gin+stack")  # 그래프를 받는다
+DESC_KINDS = ("gin+desc", "gin+stack")                      # descriptor를 받는다
+META_KINDS = ("gin+meta", "gin+stack")                      # 1단 예측값을 받는다
 
 
 @dataclass
@@ -54,6 +60,15 @@ class TrainConfig:
     n_layers: int = 3  # GIN
     dropout: float = 0.3
 
+    # --- 4주차 스태킹 (gin+meta, gin+stack에서만 쓴다) --------------------
+    # meta_mode="oof"가 올바른 방식이고 기본값이다. "infold"는 누출
+    # 대조군으로만 쓴다. 자세한 이유는 src/stacking.py 머리말 참고.
+    meta_mode: str = "oof"
+    n_folds: int = 5
+    # 최종 출력을 "기반모델 평균 + 보정량"으로 쓸지. 끄면 그냥 concat 후
+    # head가 전부 처음부터 학습한다(대조군).
+    residual_meta: bool = True
+
 
 def _valid_score(y_true: np.ndarray, y_pred: np.ndarray, metric: str) -> float:
     """valid에서 모델을 고르기 위한 점수. 클수록 좋게 부호를 맞춘다."""
@@ -68,29 +83,61 @@ def _valid_score(y_true: np.ndarray, y_pred: np.ndarray, metric: str) -> float:
     raise ValueError(f"알 수 없는 지표: {metric}")
 
 
-def _make_loaders(task_name, model_kind, seed, group, cfg):
-    """TDC split을 Dataset/DataLoader로 바꾼다. scaler는 train만 보고 만든다."""
-    split = load_task(group, task_name, seed)
-    tr_smiles, tr_y = xy(split["train"])
-    va_smiles, va_y = xy(split["valid"])
-    te_smiles, _ = xy(split["test"])
+def build_loaders(
+    task_name,
+    model_kind,
+    seed,
+    cfg,
+    tr_smiles,
+    tr_y,
+    va_smiles,
+    va_y,
+    te_smiles,
+    verbose=False,
+):
+    """주어진 split을 Dataset/DataLoader로 바꾼다. scaler는 train만 보고 만든다.
 
-    tr_y = tr_y.to_numpy()
-    va_y = va_y.to_numpy()
+    te_smiles는 "마지막에 예측할 분자들"이다. 리더보드 실행에서는 TDC test
+    set이고, scripts/run_stack_demo.py에서는 사용자가 넣은 예시 분자다.
+    타깃이 필요 없으므로 라벨 자리에는 0을 채운다.
+
+    반환: (loaders, scaler, n_features, meta)
+    """
+    tr_y = np.asarray(tr_y)
+    va_y = np.asarray(va_y)
 
     # 타깃 정규화 통계는 train에서만 구한다. valid/test를 보면 정보 누출이다.
     scaler = TargetScaler(tr_y)
 
+    meta = None
     if model_kind == "mlp":
         train_ds = VectorDataset(tr_smiles, scaler.transform(tr_y))
         valid_ds = VectorDataset(va_smiles, scaler.transform(va_y))
         test_ds = VectorDataset(te_smiles, np.zeros(len(te_smiles)))
         collate = None
         n_features = train_ds.n_features
-    elif model_kind in ("gin", "gin+desc"):
-        train_ds = GraphDataset(tr_smiles, scaler.transform(tr_y))
-        valid_ds = GraphDataset(va_smiles, scaler.transform(va_y))
-        test_ds = GraphDataset(te_smiles, np.zeros(len(te_smiles)))
+    elif model_kind in GRAPH_KINDS:
+        if model_kind in META_KINDS:
+            # 1단: RF/LightGBM을 돌려 예측값을 받아 온다. train 구간은 OOF로
+            # 만든다(mode="oof"). 1단은 train만 쓴다 — valid는 아래 early
+            # stopping이 쓰므로 1단에 넣으면 모델 선택이 오염된다.
+            meta = build_meta(
+                task_name, seed, tr_smiles, tr_y, va_smiles, te_smiles,
+                mode=cfg.meta_mode, n_folds=cfg.n_folds, verbose=verbose,
+            )
+            # 기반모델 예측값을 **타깃과 같은 스케일러로** 정규화한다.
+            # 같은 공간에 두면 residual 연결(기반모델 평균 + 보정량)이
+            # 그대로 성립하고, 세 과제의 단위 차이(log, %, uL/min/mg)도
+            # 타깃과 똑같이 흡수된다.
+            tr_meta = scaler.transform(meta.train)
+            va_meta = scaler.transform(meta.valid)
+            te_meta = scaler.transform(meta.test)
+        else:
+            tr_meta = va_meta = te_meta = None
+
+        train_ds = GraphDataset(tr_smiles, scaler.transform(tr_y), tr_meta)
+        valid_ds = GraphDataset(va_smiles, scaler.transform(va_y), va_meta)
+        test_ds = GraphDataset(te_smiles, np.zeros(len(te_smiles)), te_meta)
         for name, ds in (("train", train_ds), ("valid", valid_ds), ("test", test_ds)):
             if ds.n_failed:
                 # 1주차에 0건을 확인했다. 생기면 데이터가 바뀐 것이므로 알린다.
@@ -100,12 +147,12 @@ def _make_loaders(task_name, model_kind, seed, group, cfg):
                 )
         # descriptor 정규화 통계도 train에서만 구해 세 split에 같이 적용한다
         desc_scaler = (
-            FeatureScaler(train_ds.desc_raw) if model_kind == "gin+desc" else None
+            FeatureScaler(train_ds.desc_raw) if model_kind in DESC_KINDS else None
         )
         for ds in (train_ds, valid_ds, test_ds):
             ds.set_desc_scaler(desc_scaler)
         collate = collate_graphs
-        n_features = train_ds.n_desc if model_kind == "gin+desc" else None
+        n_features = train_ds.n_desc if model_kind in DESC_KINDS else None
     else:
         raise ValueError(f"알 수 없는 모델: {model_kind}")
 
@@ -124,7 +171,24 @@ def _make_loaders(task_name, model_kind, seed, group, cfg):
             test_ds, batch_size=256, shuffle=False, collate_fn=collate
         ),
     }
-    return split, loaders, scaler, va_y, n_features
+    return loaders, scaler, n_features, meta
+
+
+def _make_loaders(task_name, model_kind, seed, group, cfg, verbose=False):
+    """TDC 공식 split을 받아 build_loaders에 넘긴다."""
+    split = load_task(group, task_name, seed)
+    tr_smiles, tr_y = xy(split["train"])
+    va_smiles, va_y = xy(split["valid"])
+    te_smiles, _ = xy(split["test"])
+
+    tr_y = tr_y.to_numpy()
+    va_y = va_y.to_numpy()
+
+    loaders, scaler, n_features, meta = build_loaders(
+        task_name, model_kind, seed, cfg,
+        tr_smiles, tr_y, va_smiles, va_y, te_smiles, verbose,
+    )
+    return split, loaders, scaler, va_y, n_features, meta
 
 
 def _forward(model, batch, model_kind, device):
@@ -132,57 +196,67 @@ def _forward(model, batch, model_kind, device):
     if model_kind == "mlp":
         x, y = batch
         return model(x.to(device)), y.to(device)
-    atom_x, edge_index, edge_attr, batch_idx, y, desc = batch
+    atom_x, edge_index, edge_attr, batch_idx, y, desc, meta = batch
     pred = model(
         atom_x.to(device), edge_index.to(device),
         edge_attr.to(device), batch_idx.to(device),
         desc.to(device) if desc.shape[1] > 0 else None,
+        meta.to(device) if meta.shape[1] > 0 else None,
     )
     return pred, y.to(device)
 
 
-@torch.no_grad()
-def _predict(model, loader, model_kind, device) -> np.ndarray:
-    model.eval()
-    out = []
-    for batch in loader:
-        pred, _ = _forward(model, batch, model_kind, device)
-        out.append(pred.detach().cpu().numpy())
-    return np.concatenate(out) if out else np.zeros(0)
+def build_model(model_kind: str, cfg: "TrainConfig", n_features, meta, device: str):
+    """TrainConfig와 1단 특징 정보로 모델을 만든다.
 
-
-def train_one_seed(
-    group,
-    task_name: str,
-    model_kind: str,
-    seed: int,
-    cfg: TrainConfig | None = None,
-    device: str | None = None,
-    verbose: bool = False,
-):
-    """한 seed를 학습하고 test 예측을 돌려준다.
-
-    반환: (TDC 과제명, test 예측 ndarray, 최선 valid 점수, 멈춘 epoch)
+    hyperparameter를 한 군데서만 읽게 하려고 떼어 둔 함수다. train_one_seed와
+    stack_predict가 서로 다른 dropout으로 학습하면 비교가 성립하지 않는다.
     """
-    cfg = cfg or TrainConfig()
-    device = device or ("cuda" if torch.cuda.is_available() else "cpu")
-    set_seed(seed)
-
-    metric = TASKS[task_name]["metric"]
-    split, loaders, scaler, va_y_raw, n_features = _make_loaders(
-        task_name, model_kind, seed, group, cfg
-    )
-
     if model_kind == "mlp":
         model = make_model("mlp", n_features=n_features,
                            hidden=cfg.hidden, dropout=cfg.dropout)
     else:
-        # gin과 gin+desc는 n_features(descriptor 개수)로만 갈린다
-        model = make_model(model_kind, n_features=n_features,
-                           dim=cfg.dim, n_layers=cfg.n_layers,
-                           dropout=min(cfg.dropout, 0.2))
-    model = model.to(device)
+        # 그래프 계열은 n_features(descriptor 개수)와 n_meta(기반모델 개수)로
+        # 갈린다. 둘 다 0이면 순수 GIN이다.
+        kwargs = dict(dim=cfg.dim, n_layers=cfg.n_layers,
+                      dropout=min(cfg.dropout, 0.2))
+        if model_kind in META_KINDS:
+            kwargs["n_meta"] = meta.n_meta
+            kwargs["residual_meta"] = cfg.residual_meta
+        model = make_model(model_kind, n_features=n_features, **kwargs)
+    return model.to(device)
 
+
+def fit_model(
+    model,
+    model_kind: str,
+    loaders: dict,
+    scaler: TargetScaler,
+    va_y_raw: np.ndarray,
+    metric: str,
+    cfg: "TrainConfig",
+    device: str,
+    verbose: bool = False,
+):
+    """epoch 루프를 돌고 **최선 valid 가중치를 model에 되돌려 놓는다.**
+
+    반환: (최선 valid 점수, 그 epoch, 학습 전 valid 점수)
+
+    세 번째 값은 **진단용으로만** 쓴다(모델 선택에 쓰지 않는다). residual
+    연결을 켠 스태킹 모델은 마지막 층이 0으로 초기화돼 있어서 학습 전
+    예측이 정확히 "기반모델 평균"이다. 그 점수를 적어 두면 학습이 기반모델
+    대비 실제로 무엇을 보탰는지 바로 보인다 — 최선 valid가 학습 전과
+    같으면 2단은 아무것도 보태지 못한 것이다.
+
+    일반 모델에서는 학습 전 가중치가 무작위라 이 값이 아주 나쁘게 나오고,
+    최선으로 뽑힐 일이 없다. 그래서 2주차 숫자는 영향받지 않는다.
+
+    train_one_seed와 stack_predict가 같은 루프를 쓰도록 떼어 둔 함수다.
+    학습 루프가 두 벌이 되면 한쪽만 고치는 사고가 난다.
+
+    규칙은 그대로다: **epoch 선택은 valid로만 한다.** test는 이 함수가
+    아예 보지 않는다(loaders["test"]를 쓰지 않는다).
+    """
     optimizer = torch.optim.AdamW(
         model.parameters(), lr=cfg.lr, weight_decay=cfg.weight_decay
     )
@@ -191,6 +265,11 @@ def train_one_seed(
     )
     # Huber는 이상치에 덜 끌린다. Clearance는 3~150으로 꼬리가 길다.
     loss_fn = nn.HuberLoss(delta=1.0)
+
+    # 학습 전 valid 점수. eval 모드 forward는 난수를 뽑지도, BatchNorm의
+    # running 통계를 바꾸지도 않으므로 학습 경로에 영향이 없다.
+    init_pred = scaler.inverse(_predict(model, loaders["valid"], model_kind, device))
+    init_score = _valid_score(va_y_raw, init_pred, metric)
 
     best_score = -np.inf
     best_state = copy.deepcopy(model.state_dict())
@@ -225,11 +304,53 @@ def train_one_seed(
             print(f"    epoch {epoch:3d}  valid {metric}={score:+.4f} "
                   f"(best {best_score:+.4f} @ {best_epoch})", flush=True)
 
-    # 최선 가중치로 되돌린 뒤에야 test를 본다
     model.load_state_dict(best_state)
+    return float(best_score), best_epoch, float(init_score)
+
+
+@torch.no_grad()
+def _predict(model, loader, model_kind, device) -> np.ndarray:
+    model.eval()
+    out = []
+    for batch in loader:
+        pred, _ = _forward(model, batch, model_kind, device)
+        out.append(pred.detach().cpu().numpy())
+    return np.concatenate(out) if out else np.zeros(0)
+
+
+def train_one_seed(
+    group,
+    task_name: str,
+    model_kind: str,
+    seed: int,
+    cfg: TrainConfig | None = None,
+    device: str | None = None,
+    verbose: bool = False,
+):
+    """한 seed를 학습하고 test 예측을 돌려준다.
+
+    반환: (TDC 과제명, test 예측 ndarray, 최선 valid 점수, 멈춘 epoch,
+          1단 특징 정보 또는 None, 학습 전 valid 점수)
+    """
+    cfg = cfg or TrainConfig()
+    device = device or ("cuda" if torch.cuda.is_available() else "cpu")
+    set_seed(seed)
+
+    metric = TASKS[task_name]["metric"]
+    split, loaders, scaler, va_y_raw, n_features, meta = _make_loaders(
+        task_name, model_kind, seed, group, cfg, verbose
+    )
+
+    model = build_model(model_kind, cfg, n_features, meta, device)
+
+    best_score, best_epoch, init_score = fit_model(
+        model, model_kind, loaders, scaler, va_y_raw, metric, cfg, device, verbose
+    )
+
+    # 최선 가중치로 되돌린 뒤에야 test를 본다(fit_model이 되돌려 놓는다)
     test_pred = scaler.inverse(_predict(model, loaders["test"], model_kind, device))
 
-    return split["name"], test_pred, float(best_score), best_epoch
+    return split["name"], test_pred, float(best_score), best_epoch, meta, init_score
 
 
 def train_task(
@@ -251,7 +372,7 @@ def train_task(
 
     predictions, valid_scores, epochs = [], [], []
     for seed in seeds:
-        name, pred, va, ep = train_one_seed(
+        name, pred, va, ep, _meta, _init = train_one_seed(
             group, task_name, model_kind, seed, cfg, device, verbose
         )
         predictions.append({name: pred})

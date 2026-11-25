@@ -56,13 +56,35 @@ class GraphDataset(Dataset):
     독차지한다.
     """
 
-    def __init__(self, smiles: list[str], y: np.ndarray):
+    def __init__(
+        self,
+        smiles: list[str],
+        y: np.ndarray,
+        meta: np.ndarray | None = None,
+    ):
+        """meta는 1단 기반모델(RF/LightGBM)의 예측값 행렬이다(4주차).
+
+        **반드시 이미 정규화된 값을 넘긴다** — 타깃과 같은 스케일러로
+        변환한 값. 여기서 정규화하지 않는 이유는, 통계를 train에서만 뽑아야
+        하는데 Dataset은 자기가 train인지 valid인지 모르기 때문이다.
+        스케일러를 들고 있는 train.py가 변환까지 해서 넘긴다.
+
+        meta는 행 순서가 smiles와 같아야 한다. SMILES 파싱에 실패한 행이
+        있으면 그래프와 함께 같은 자리를 빼서 정렬을 유지한다.
+        """
         y = np.asarray(y, dtype=np.float32)
+        if meta is not None:
+            meta = np.asarray(meta, dtype=np.float32)
+            if meta.shape[0] != len(smiles):
+                raise ValueError(
+                    f"meta 행 수({meta.shape[0]})가 분자 수({len(smiles)})와 다르다"
+                )
         graphs: list[MolGraph] = []
         targets: list[float] = []
         kept_smiles: list[str] = []
+        kept_idx: list[int] = []
         self.n_failed = 0
-        for smi, target in zip(smiles, y):
+        for i, (smi, target) in enumerate(zip(smiles, y)):
             g = smiles_to_graph(smi)
             if g is None:
                 # 1주차 점검에서 세 데이터셋 모두 0건이었다. 그래도 세어 둔다.
@@ -71,11 +93,17 @@ class GraphDataset(Dataset):
             graphs.append(g)
             targets.append(float(target))
             kept_smiles.append(smi)
+            kept_idx.append(i)
         self.graphs = graphs
         self.y = np.asarray(targets, dtype=np.float32)
         # 파싱에 성공한 분자만 가지고 계산해야 그래프와 행이 어긋나지 않는다
         self.desc_raw = descriptors(kept_smiles).astype(np.float32)
         self.desc = np.zeros((len(graphs), 0), dtype=np.float32)
+        self.meta = (
+            np.zeros((len(graphs), 0), dtype=np.float32)
+            if meta is None
+            else meta[kept_idx]
+        )
 
     def set_desc_scaler(self, scaler: "FeatureScaler | None") -> None:
         """descriptor를 정규화해 모델에 넘길 형태로 만든다.
@@ -92,11 +120,15 @@ class GraphDataset(Dataset):
     def n_desc(self) -> int:
         return int(self.desc.shape[1])
 
+    @property
+    def n_meta(self) -> int:
+        return int(self.meta.shape[1])
+
     def __len__(self) -> int:
         return len(self.graphs)
 
     def __getitem__(self, i: int):
-        return self.graphs[i], self.y[i], self.desc[i]
+        return self.graphs[i], self.y[i], self.desc[i], self.meta[i]
 
 
 def collate_graphs(batch):
@@ -108,12 +140,13 @@ def collate_graphs(batch):
       edge_attr  : (배치 전체 엣지 수, BOND_DIM)
       batch_idx  : (배치 전체 원자 수,)     — 각 원자가 몇 번째 분자인지
       y          : (분자 수,)
-      desc       : (분자 수, descriptor 수) — 안 쓰면 열이 0개
+      desc       : (분자 수, descriptor 수)    — 안 쓰면 열이 0개
+      meta       : (분자 수, 기반모델 수)      — 안 쓰면 열이 0개
 
     batch_idx가 핵심이다. 마지막에 원자별 벡터를 분자별로 모을 때
     이 인덱스로 scatter 합을 하면 분자 단위 표현이 나온다.
     """
-    graphs, ys, descs = zip(*batch)
+    graphs, ys, descs, metas = zip(*batch)
 
     atom_x = np.concatenate([g.atom_x for g in graphs], axis=0)
 
@@ -141,6 +174,7 @@ def collate_graphs(batch):
         torch.from_numpy(batch_idx),
         torch.tensor(ys, dtype=torch.float32),
         torch.from_numpy(np.stack(descs).astype(np.float32)),
+        torch.from_numpy(np.stack(metas).astype(np.float32)),
     )
 
 

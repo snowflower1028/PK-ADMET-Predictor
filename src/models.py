@@ -101,6 +101,8 @@ class GIN(nn.Module):
         dropout: float = 0.1,
         readout: str = "sum",
         n_desc: int = 0,
+        n_meta: int = 0,
+        residual_meta: bool = True,
     ):
         super().__init__()
         self.embed = nn.Linear(ATOM_DIM, dim)
@@ -118,7 +120,22 @@ class GIN(nn.Module):
         # 뒤에 붙이는 것이 자연스럽다.
         if n_desc > 0:
             self.desc_norm = nn.BatchNorm1d(n_desc)
-        head_in = dim + n_desc
+
+        # --- 4주차: 1단 모델(RF/LightGBM)의 예측값을 받는 자리 --------------
+        #
+        # n_meta > 0이면 기반모델 예측값을 readout 뒤에 이어 붙인다. 들어오는
+        # 값은 **타깃과 같은 스케일러로 정규화된** 예측값이다(train.py 참고).
+        # 그래서 descriptor와 달리 BatchNorm을 걸지 않는다. 걸면 배치마다
+        # 평균·분산이 다시 맞춰져서 "이 열은 타깃 그 자체의 추정값"이라는
+        # 성질이 깨지고, 아래 residual 연결의 의미도 사라진다.
+        #
+        # n_meta == 0이면 아무 모듈도 만들지 않는다. 2주차 gin / gin+desc의
+        # 파라미터 초기화 순서와 난수 소비가 그대로 유지돼야 results/models.csv
+        # 숫자가 재현된다.
+        self.n_meta = n_meta
+        self.residual_meta = bool(residual_meta) and n_meta > 0
+
+        head_in = dim + n_desc + n_meta
         self.head = nn.Sequential(
             nn.Linear(head_in, dim),
             nn.ReLU(),
@@ -126,7 +143,19 @@ class GIN(nn.Module):
             nn.Linear(dim, 1),
         )
 
-    def forward(self, atom_x, edge_index, edge_attr, batch_idx, desc=None):
+        if self.residual_meta:
+            # 최종 출력을 "기반모델 합의값 + 보정량"으로 쓰고, 보정량을 내는
+            # 마지막 층을 0으로 시작한다. 그러면 학습 0 epoch 시점의 예측이
+            # 정확히 RF/LGBM 평균이고, 거기서부터 그래프·descriptor로 **오차를
+            # 깎아 나가는** 문제가 된다.
+            #
+            # 이게 없으면 신경망은 무작위 초기값에서 출발해 기반모델 수준을
+            # 되찾는 데만 상당한 epoch을 쓰고, 데이터가 637~1952개뿐이라
+            # 되찾지 못한 채 early stopping에 걸리는 seed가 생긴다.
+            nn.init.zeros_(self.head[-1].weight)
+            nn.init.zeros_(self.head[-1].bias)
+
+    def forward(self, atom_x, edge_index, edge_attr, batch_idx, desc=None, meta=None):
         h = self.embed(atom_x)
         for layer in self.layers:
             h = layer(h, edge_index, edge_attr)
@@ -149,19 +178,62 @@ class GIN(nn.Module):
                 )
             pooled = torch.cat([pooled, self.desc_norm(desc)], dim=1)
 
-        return self.head(pooled).squeeze(-1)
+        if self.n_meta > 0:
+            if meta is None or meta.shape[1] != self.n_meta:
+                raise ValueError(
+                    f"기반모델 예측 {self.n_meta}열을 기대했는데 "
+                    f"{None if meta is None else meta.shape[1]}열이 들어왔다"
+                )
+            pooled = torch.cat([pooled, meta], dim=1)
+
+        out = self.head(pooled).squeeze(-1)
+
+        if self.residual_meta:
+            # 기반모델 예측의 평균을 출발점으로 삼고 head는 보정량만 낸다.
+            # 평균을 쓰는 이유: 열이 2개(RF, LGBM)뿐이고 둘 다 같은 타깃을
+            # 같은 특징으로 예측한 값이라 가중치를 따로 학습할 근거가 약하다.
+            # 가중치가 필요하다면 head가 meta 열을 직접 보고 보정량에 반영한다.
+            out = out + meta.mean(dim=1)
+
+        return out
 
 
-def make_model(kind: str, n_features: int | None = None, **kwargs) -> nn.Module:
+def make_model(
+    kind: str,
+    n_features: int | None = None,
+    n_meta: int = 0,
+    **kwargs,
+) -> nn.Module:
+    """n_features는 모델 종류에 따라 뜻이 다르다.
+
+      mlp               descriptor+fingerprint 전체 열 수
+      gin+desc/gin+stack  descriptor 열 수
+      gin/gin+meta      쓰지 않는다
+
+    n_meta는 1단 기반모델 개수(RF, LGBM이면 2)다.
+    """
     if kind == "mlp":
         if n_features is None:
             raise ValueError("MLP에는 n_features가 필요하다")
         return MLP(n_features, **kwargs)
     if kind == "gin":
         # 그래프만 본다
-        return GIN(n_desc=0, **kwargs)
+        return GIN(n_desc=0, n_meta=0, **kwargs)
     if kind == "gin+desc":
         if not n_features:
             raise ValueError("gin+desc에는 descriptor 개수(n_features)가 필요하다")
-        return GIN(n_desc=n_features, **kwargs)
+        return GIN(n_desc=n_features, n_meta=0, **kwargs)
+    if kind == "gin+meta":
+        # 그래프 + 기반모델 예측값. descriptor는 빼서, 개선이 descriptor
+        # 때문인지 기반모델 예측 때문인지 가린다.
+        if not n_meta:
+            raise ValueError("gin+meta에는 기반모델 개수(n_meta)가 필요하다")
+        return GIN(n_desc=0, n_meta=n_meta, **kwargs)
+    if kind == "gin+stack":
+        # 요청받은 최종 구조: 그래프 + descriptor + 기반모델 예측값
+        if not n_features:
+            raise ValueError("gin+stack에는 descriptor 개수(n_features)가 필요하다")
+        if not n_meta:
+            raise ValueError("gin+stack에는 기반모델 개수(n_meta)가 필요하다")
+        return GIN(n_desc=n_features, n_meta=n_meta, **kwargs)
     raise ValueError(f"알 수 없는 모델: {kind}")
